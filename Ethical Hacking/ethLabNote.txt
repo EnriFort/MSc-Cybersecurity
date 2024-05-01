@@ -1,0 +1,167 @@
+**** 01 - Vulnerabilities ****
+A vulnerability refers to a weakness or flaw in an IT system that attackers can exploit to compromise its security or functionality, potentially leading to unauthorized access, data breaches, or system malfunctions.
+
+Important references for vulnerabilities:
+- CVE (Common Vulnerabilities and Exposures) is a standardized reference of known vulnerabilities. Each vulnerability has a unique identifier and with a [0.0, 10.0] score (CVSS);
+- CWE (Common Weakness Enumeration) is a community-developed list of software and hardware weakness types;
+- KEV (Known Exploited Vulnerabilities)(?)
+
+How to search for Vulnerabilities?
+-Network-based vulnerability scanners (e.g. Nmap*1);
+- Authenticated/Agent-based vulnerability scanners (e.g. log into the machine using SSH and scan filesystem, memory...)
+- Dependency vulnerability scanners (e.g. OWASP Dependency-Check, is a widely open-source tool that scan project dependencies to identify known vulnerabilities in libraries and frameworks). 
+
+
+*1  NMAP 
+Most used scan types of nmap:
+TCP Scans (-sT)
+SYN "Half-open"/"Sthealt" Scans (-sS) (to bypass firewall)
+UDP Scans (-sU)
+
+with sudo nmap --> default is SYN scan (syn, syn/ack, rst)
+with/ sudo nmap --> default is TCP scan (syn, syn/ack, ack)
+
+ping sweep (-sn), tells nmap not to scan any ports, forcing it to rely primarily on ICMP echo packets 
+
+script that determines the underlying OS of the SMB server: smb-os-discovery.nse
+- to search of lua script: grep "ftp" script.db or ls -l /usr/share/nmap/scripts/*ftp*
+
+Firewall Evasion:
+- SYN, NULL, FIN and Xmas scans or
+- nmap with '-Pn', 
+  which tells nmap to not bother pinging the host before scanning it (tipically the       
+  firewall block all ICMP packets: so because nmap use ping to stabilish the activity  
+  of a target, it will register a host with this firewall configuation as dead and not scanning it at all).
+
+Once vulnerabilities are identified, you can use Metasploit*2 to exploit these vulnerabilities.
+
+*2 METASPLOIT
+Metasploit is a widely-used penetration testing framework used for discovering, exploiting, and validating security vulnerabilities in computer networks and systems.
+
+
+**** 02 - Remote Access ****
+Remote access enables legitimate remote management of computer systems or networks for operational needs, but if not secured, it poses cybersecurity risks, as attackers might exploit vulnerabilities for unauthorized access to sensitive data.
+
+A remote exploit is typically aimed at executing some code that reades or writes some file on the remote system --> the executed code will often give the attacker a shell (RCE - Remote Code Execution, to execute programs on the target system). Here the two main example:
+
+- Upload a WEB SHELL to the target machine; 
+- Inject a REVERSE SHELL in the context of the server. The Reverse Shell connects back to the attacker who can now interact with the OS.
+
+Shell is also used for privilege escalation (LOCALLY). E.g. exploiting a buffer overflow on a setuid binary, spawn a privileged shell. 
+
+Type of shell
+A shell is needed when you want interactivity with the target system. Several types of shells exist:
+- Web Shell: is a script or a program uploaded to a web server to provide a remote access and control over the server via a web-based interface;
+- Reverse Shell: is a shell session initiated by a target system towards an attacker-controlled system;
+- Bind Shell is a shell session initiated by a target system that listen for incoming connections on a specified port. It waits for an attacker to connect to it, providing remote access and control over the target system.
+In practice, you rarely need to write your own shell,but you can use tools like Netcat*3, Socat*4, LotL*5, Metasploit Shell*6.
+
+*3 NETCAT (nc)
+Netcat is a Unix utility which reads and writes data across network connections, using the TCP or UDP protocol. It can performs various network-related tasks, including:
+- Port scanning; File transfer; Reverse shell (server); Bind shell (client).
+
+*4 SOCAT🐈
+Is is a versatile network tool similar to Netcat, but with expanded funcionality and capabilities. It allows for bidirectional data transfer between two endpoints over various types of connections, including TCP, UDP, Unix sockets, SSL/TLS (making it an excellent tool for encryped shells). 
+
+*5 LotL (Living Off the land) - bash
+When you don't have nc or socat on the victim box you can leverage legitimate tools or built-in functionalities of an operating system or software. 
+
+*6 Metasploit shell
+It has two type of payloads (shell are payloads):
+- Inline (stageless): the payload is self-contained in the exploit code, without any need for additional stages or components to be downloaded or executed on the target system (to minimize network activity);
+- Staged: the payload is delivered in multiple staged. For example the payload
+ creates the staging platform --> allocate enough memory to hold the desired payload --> obtain the rest of the payload --> execute the payload.
+
+Web Shells
+They are shelss delivered by exploiting vulnerabilities in web applications and , less commonly, by leveraging vulnerability in web servers. Vulnerabilities allowing Web Shell include:
+- Arbitrary file upload; Various kind of injection (SSTI and SQLi); Remote file inclusion (RFI); Local file inclusion (LFI). 
+
+
+**** 03 - Web Security p1 ****
+Usually a website comes with: HTML (fundation), CSS (aesthetics) and JavaScript (dynamic behaviour). They often utilize additional frameworks and libraries. 
+
+OWASP 
+(Open Worldwide Application Security Project) is an open community dedicated to enabling organizatons to develop, purchase, and mantain applications and APIs that can be trusted. OWASP top ten mantains the list of top 10 web application and top 10 API security issues. 
+
+Web Application Enumeration
+It is the process of systematically identifying and cataloging information (e.g. using Gobuster*7) about a target web application. It is essential in the reconnaissance stage and lateral movement. 
+
+*7 GOBUSTER
+It is a bruteforcer for URLs, vhosts, DNS subdomain, GCP buckets...
+
+*8 BURPSUITE 
+It is a Multiplatform, integrated, suite and graphical tool for performing security testing of web applications: It supports the entire testing process, from initial mapping and analysis of an application's attack surface, through to finding and exploiting security vulnerabilities.
+In essence, Burp Suite is a Java-based framework designed to serve as a comprehensive solution for conducting web application penetration testing. Burp Suite captures and enables manipulation of all the HTTP/HTTPS traffic between a browser and a web server.
+
+Let's explore some of the key features:
+- Proxy: The Burp Proxy is the most renowned aspect of Burp Suite. It enables interception and modification of requests and responses (between the user and the target web server) while interacting with web applications.
+- Repeater: Another well-known feature. Repeater allows for capturing, modifying, and resending the same request multiple times.
+
+BURPSUITE REPEATER
+Repeater is particularly well-suited for tasks requiring repetitive sending of similar requests, typically with minor modifications. 
+- Open firefoz, activate foxy proxy
+- return to burpsuit and select 'intercept is on'
+- go to firefox and put the url
+- open burpsuit to proxy section, right click send to 'repeater'
+- now in the repeater do the modification you want
+- Make sure you leave the two blank lines at the bottom of the request!
+- to get internal server error 500 put an extreme input like negative -1
+
+
+Path Traversal
+It is the process of crafting malicious input to access unauthorized files and directories, by exploiting vulnerabilities in how applications handle user-supplied input. 
+
+File Upload
+It is caused by unchecked uploads: server allows any file type without validation (or validation can be bypassed):
+- Malicious File Types: upload harmful scripts (e.g. PHP, ASP) for RCE;
+- Content Tampering: Uploads can modify website content or user data.
+
+
+**** 04 - Web Security p2 ****
+
+SQL
+Some basic query operation with SQL
+The first query type we'll learn is the SELECT query used to retrieve data from the database:
+- select * from users; the * tells the database we want to receive back all columns from the table.
+- select * from users LIMIT 1; "LIMIT 1" clause forces the database to return only one row of data 
+(LIMIT 1,1 forces the query to skip the first result, 2,1 the first two and so on...)
+- select * from users where username='admin'; This will only return the rows where the username is equal to admin.
+- select * from users where username like 'a%'; This returns any rows with a username beginning with the letter a.
+- select * from users where username like '%mi%'; This returns any rows with a username containing the characters mi within them.
+
+The UNION statement combines the results of two or more SELECT statements to retrieve data from either single or multiple tables;
+
+
+The INSERT statement tells the database we wish to insert a new row of data into the table:
+- insert into users (username,password) values ('bob','password123');
+
+The UPDATE statement tells the database we wish to update one or more rows of data within a table:
+- update users SET username='root',password='pass123' where username='admin';
+
+The DELETE statement tells the database we wish to delete one or more rows of data:
+- delete from users where username='martin';
+- delete from users; delete all the data
+
+SQL Injection (SQLi)
+SQLi is an attack on a web application database server that causes malicious queries to be executed
+
+In-Band SQLi
+- https://website.thm/blog?id=2;-- produce the SQL statement: SELECT * from blog where id=2;-- and private=0 LIMIT 1;
+The semicolon in the URL signifies the end of the SQL statement, and the two dashes cause everything afterwards to be treated as a comment. By doing this, you're just, in fact, running the query:
+
+SELECT * from blog where id=2;-- (in-Band sql injection)
+
+database() = return the name of the databse (0 UNION 1,2,database())
+group_concat() gets the specified column from multiple returned rows and puts it into one string separated by commas.
+information_schema database contains information about all the databases and tables the user has access to
+
+Blind SQLi
+blind SQLi is when we get little to no feedback to confirm whether our injected queries were, in fact, successful or not, this is because the error messages have been disabled, but the injection still works regardless.
+
+A simple way to bypass a form:
+- put ' OR 1=1;-- in the password field Which turns the SQL query into the following:
+- select * from users where username='' and password='' OR 1=1;
+
+Time-Based
+The SLEEP() method will only ever get executed upon a successful UNION SELECT statement. 
+
