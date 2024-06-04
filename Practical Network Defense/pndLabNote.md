@@ -1,13 +1,13 @@
 
-### PND Lab Lesson note
+## PND Lab Lesson note
 ----
-#### Important tips for kathará 
+### Important tips for kathará 
 1. When you create a folder with  pc name, e.g. **pc1**, every time you start kathará, the content inside pc1 folder will be copied inside the root directory of pc1. This is good when for example you don't want to write inside `/etc/network/interfaces` every time at startup;
 2. If you don't want to write every time the commands in the terminal, you just need to put them inside the startup file (e.g. pc1.startup);
 3. Run `kathará --noterminals` to start the device without opening the 'ugly' terminals. Then use `kathará connect pcN` to open a terminal.
 ---
 
-#### Main Kathará commands (aliases)
+### Main Kathará commands (aliases)
 - `lstart/lrestart`: start (restart) a lab;
 - `lclean`: stop a running lab;
 - `kwipe`: wipe the kathará environment;
@@ -16,11 +16,11 @@
 - `ifconfig/ip addr`: show all the IP addresses that we have;
 - `ip route`: show the routes; 
 ----
-#### Labs Lessons
+### Labs Lessons
 
-##### LAB 1 - IPv4 
+#### LAB 1 - IPv4 
 
-###### Ex. 1.1 - Static configuration
+##### Ex. 1.1 - Static configuration
 An host has to receive 4 main pieces of information:
 1. IP address;
 2. The Netmask;
@@ -58,7 +58,7 @@ Pc1 and pc2 are done in startup file:
     - `ip route add default via 192.168.100.30`
     - `echo "nameserver 8.8.8.8" > etc/resolv.conf`.
 
-###### Ex. 1.2 -  DHCP configuration
+##### Ex. 1.2 -  DHCP configuration
 We have to configure DHCP server which is a client server mechanism:
 1. The server has a pull (set) of addresses;
 2. The client/host makes a request for an IP (*dhcp discover*);
@@ -94,14 +94,14 @@ The procedure is the following:
 - Configure **pc2**, it is just more simple:
     - `dhclient eth0` (you can put the command in startup file).
 
-###### Ex. 1.3 -  Static Route
+##### Ex. 1.3 -  Static Route
 ----
-##### LAB 2 - IPv6 I
+#### LAB 2 - IPv6 I
 The exercises are the following:
 - 2.1 - Static manual configuration
 - 2.2 - Stateless autoconfiguration
 
-###### Ex. 2.1 -  Manually configure IPv6 (Static and Static EUI64)
+##### Ex. 2.1 -  Manually configure IPv6 (Static and Static EUI64)
 
 PC1 and PC4 belong to different broadcast domain (you can't ping using link local) but you have to use GUA (Global Unicast Address).
 We have two network, every network host 2 pc. We have to configure PC1 and PC4 with interfaces file, PC2 with IP and PC3 with ifconfig. We are not expected to ping PC1 and PC4 using link local, because by definition links are only in our broadcast domain, so pc1 and pc4 belong to different broadcast domain (we must use GUA).
@@ -150,7 +150,7 @@ Since the link local address space is the same for all interfaces, we must speci
     ```
 From a network we can't ping a link local (only for the links) address of another network. Every time we create a link local address all of them are EUI-64 address (ff:fe in the middle of the address).
 
-###### Ex. 2.2 -  Dynamic configure (SLAAC), without GUI
+##### Ex. 2.2 -  Dynamic configure (SLAAC), without GUI
 
 **Background**
 We have to configure our gateway to start sending **router advertisement**: `pkt = (prefix, prefix-length, default gateway)`. 
@@ -174,13 +174,13 @@ PC2:
 
 ----
 
-##### LAB 3 - IPv6 II
+#### LAB 3 - IPv6 II
 DHCPv6 with prefix delegation and ICMPv6 MTU discovery (We will play with the framgent header). 
 
-###### Ex. 4 -  DHCPv6 with prefix delegation 
+##### Ex. 4 -  DHCPv6 with prefix delegation 
 (Do at home)
 
-###### Ex. 5 -  ICMPv6 MTU discovery 
+##### Ex. 5 -  ICMPv6 MTU discovery 
 We have to configure the addresses of the whole network and to play with the MTU. 
 
 The main idea is the following:
@@ -272,7 +272,7 @@ If we made it even bigger (`-s 2000`), the packet has been fragmented (usually t
     - `ip link set eth0 mtu 1450`
 ----
 
-##### LAB 4 - Network traffic monitoring and Wireshark 
+#### LAB 4 - Network traffic monitoring and Wireshark 
 
 During the exam probably there will be a couple of question like *write a tcp dump filter or evaluating the outcome of tcp dump filter*.
 
