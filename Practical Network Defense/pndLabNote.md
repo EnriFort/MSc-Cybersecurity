@@ -1,4 +1,3 @@
-
 # PND Lab Lesson note
 ----
 ## Important tips for kathará 
