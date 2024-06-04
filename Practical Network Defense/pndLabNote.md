@@ -1,13 +1,13 @@
 
-## PND Lab Lesson note
+# PND Lab Lesson note
 ----
-### Important tips for kathará 
+## Important tips for kathará 
 1. When you create a folder with  pc name, e.g. **pc1**, every time you start kathará, the content inside pc1 folder will be copied inside the root directory of pc1. This is good when for example you don't want to write inside `/etc/network/interfaces` every time at startup;
 2. If you don't want to write every time the commands in the terminal, you just need to put them inside the startup file (e.g. pc1.startup);
 3. Run `kathará --noterminals` to start the device without opening the 'ugly' terminals. Then use `kathará connect pcN` to open a terminal.
 ---
 
-### Main Kathará commands (aliases)
+## Main Kathará commands (aliases)
 - `lstart/lrestart`: start (restart) a lab;
 - `lclean`: stop a running lab;
 - `kwipe`: wipe the kathará environment;
@@ -16,11 +16,11 @@
 - `ifconfig/ip addr`: show all the IP addresses that we have;
 - `ip route`: show the routes; 
 ----
-### Lab Lessons
+## Lab Lessons
 
-#### LAB 1 - IPv4 
+### LAB 1 - IPv4 
 
-##### Ex. 1.1 - Static configuration
+#### Ex. 1.1 - Static configuration
 An host has to receive 4 main pieces of information:
 1. IP address;
 2. The Netmask;
@@ -58,7 +58,7 @@ Pc1 and pc2 are done in startup file:
     - `ip route add default via 192.168.100.30`
     - `echo "nameserver 8.8.8.8" > etc/resolv.conf`.
 
-##### Ex. 1.2 -  DHCP configuration
+#### Ex. 1.2 -  DHCP configuration
 We have to configure DHCP server which is a client server mechanism:
 1. The server has a pull (set) of addresses;
 2. The client/host makes a request for an IP (*dhcp discover*);
@@ -94,14 +94,14 @@ The procedure is the following:
 - Configure **pc2**, it is just more simple:
     - `dhclient eth0` (you can put the command in startup file).
 
-##### Ex. 1.3 -  Static Route
+#### Ex. 1.3 -  Static Route
 ----
-#### LAB 2 - IPv6 I
+### LAB 2 - IPv6 I
 The exercises are the following:
 - 2.1 - Static manual configuration
 - 2.2 - Stateless autoconfiguration
 
-##### Ex. 2.1 -  Manually configure IPv6 (Static and Static EUI64)
+#### Ex. 2.1 -  Manually configure IPv6 (Static and Static EUI64)
 
 PC1 and PC4 belong to different broadcast domain (you can't ping using link local) but you have to use GUA (Global Unicast Address).
 We have two network, every network host 2 pc. We have to configure PC1 and PC4 with interfaces file, PC2 with IP and PC3 with ifconfig. We are not expected to ping PC1 and PC4 using link local, because by definition links are only in our broadcast domain, so pc1 and pc4 belong to different broadcast domain (we must use GUA).
@@ -150,9 +150,9 @@ Since the link local address space is the same for all interfaces, we must speci
     ```
 From a network we can't ping a link local (only for the links) address of another network. Every time we create a link local address all of them are EUI-64 address (ff:fe in the middle of the address).
 
-##### Ex. 2.2 -  Dynamic configure (SLAAC), without GUI
+#### Ex. 2.2 -  Dynamic configure (SLAAC), without GUI
 
-###### Background
+##### Background
 We have to configure our gateway to start sending **router advertisement**: `pkt = (prefix, prefix-length, default gateway)`. 
 As soon as the host receive this packet, it automatically generates its own IP address.
 In Linux `/proc/` folder is a virtual file system (an interface to access some of the details of the running system in our computer):
@@ -174,13 +174,13 @@ PC2:
 
 ----
 
-#### LAB 3 - IPv6 II
+### LAB 3 - IPv6 II
 DHCPv6 with prefix delegation and ICMPv6 MTU discovery (We will play with the framgent header). 
 
-##### Ex. 4 -  DHCPv6 with prefix delegation 
+#### Ex. 4 -  DHCPv6 with prefix delegation 
 (Do at home)
 
-##### Ex. 5 -  ICMPv6 MTU discovery 
+#### Ex. 5 -  ICMPv6 MTU discovery 
 We have to configure the addresses of the whole network and to play with the MTU. 
 
 The main idea is the following:
@@ -188,7 +188,7 @@ The main idea is the following:
 2. We statically configure R2 to be the connection router between R1 and R3;
 3. We will play with the MTU size of the two links in order to see how this can affect the packets moving from one network to the other.
 
-###### 5.1
+##### 5.1
 - R1 has two network, eth0 and eth1, on R1: 
     - `ip addr add 2001:db8:cafe:1::1/64 dev eth0`;
     - `ip addr add 2001:db8:cafe:2::1/64 dev eth1`.
@@ -236,7 +236,7 @@ Now, if everything is done correctly, in pc1 we should have an IP for the SLAAC 
 
 Then we have to configure the intermediate router (R2). 
 
-###### 5.2
+##### 5.2
 - On R2:
     - `ip addr add 2001:db8:cafe:2::2/64 dev eth0`;
     - `ip addr add 2001:db8:cafe:3::1/64 dev eth1`;
@@ -247,7 +247,7 @@ Then we have to configure the intermediate router (R2).
 
 Now we should have the full connectivity.
 
-###### 5.3
+##### 5.3
 The generic size of an ICMP packet (ping request) is 64 bytes. Let's try to capture these packets:
 - `tcpdump -w shared/cap.pcap &` (we are capturing the packets)
 - let's do a ping again
@@ -272,11 +272,11 @@ If we made it even bigger (`-s 2000`), the packet has been fragmented (usually t
     - `ip link set eth0 mtu 1450`
 ----
 
-#### LAB 4 - Network traffic monitoring and Wireshark 
+### LAB 4 - Network traffic monitoring and Wireshark 
 
 During the exam probably there will be a couple of question like *write a tcp dump filter or evaluating the outcome of tcp dump filter*.
 
-##### Network Architecture Recap
+#### Network Architecture Recap
 
 | Layer      | Description | Layer ideal representation      | Description |
 | -----------| ------------| --------------------------------|-------------|
@@ -284,39 +284,39 @@ During the exam probably there will be a couple of question like *write a tcp du
 | **Network** |Is considered at every step, it is responsible for routing details. | Knows that there are network, have to traverse several links. | IP address. |
 | **Datalink** | Is responsible for the single channel that has to be traverse, data can be represented in different ways (optical, electrical and so on). | Has a limited view of a single link. | MAC address. |
 
-##### Port numbers
+#### Port numbers
 Well known ports [0...1023] used by servers for standard internet applications:
 - 25 SMTP
 - 80 HTTP
 - 143 IMAP
 
-##### TCP vs UDP connection vs connection-less  
+#### TCP vs UDP connection vs connection-less  
 | Protocol | Description | Services relying on TCP/UDP |
 |----------|-------------|-----------------------------|
 | **TCP**  | Reliable data exchange and control flow (tcp will slow down if the link is not reliable). TCP has SYN and ACK flag. | **FTP** - 20,21; SSH - 22; **Telnet** - 23; **SMTP** - 25; **HTTP** - 80; **IMAP** - 143; **SSL** - 443. |
 | **UDP**  | No control on data exchange. | **DNS** - 53; **DHCP** - 67,68; **TFTP** - 69; **SNMP** - 161; **RIP** - 520 |
 
-##### DNS
+#### DNS
 Is a mechanism responsible for making possible a way to resolve domain names with IP addresses. It is considered a big huge distributed tables that make association between a domain name and an IP address. This table is not handled by a single host but distributed over many different services. We arrange this huge table of association distributing the table, e.g., all the IP addresses corresponding to a domain name ends with *.net* will be handled by someone, the ones that will end with *.com* will be handled by another one...it is a recursive process. The resolver is a process which supposes to take a name and return an IP address.
 
-##### Capture packets
+#### Capture packets
 If you want to see the real packet you can use some tools called **network traffic dumpers** like:
 - Dumpcap;
 - Wireshark/tshark;
 - Tcpdump (only captures packets, without GUI). 
 They are all based on pcap library.
 
-###### Wireshark: *dissecting packets*
+##### Wireshark: *dissecting packets*
 Is a software that allows you to inspect packets and tries to highlight the encapsulation mechanism. It can dissects a *frame/segment/packet* (you can refer to the single elements in order to recognize the single fields of every specific protocol). It requires promiscuous mode (don't ignore any packet, just send them to me and i will process in my way).
 
-**The logic**
+###### The logic
 Frames collected from the interface are passed between several dissectors, that are responsible for understanding the different layers. Frames pass from bottom layer to upper layer. Protocols can be detected in two ways:
 - **Directly**: if a frame has the field that states which protocol it is encapsulating;
 - **Indirectly**: with tables of protocol/port combinations;
     
 An alternative way to capture the traffic info is when traffic is represented as connections/flow, a collection of packets that belongs to the same transmission (Netflow9, Zeek...).
 
-**How to use Wireshark**
+###### How to use Wireshark
 Pre-requisite:
 - `sudo adduser user wireshark`;
 - reboot pc;
@@ -326,7 +326,7 @@ If on the terminal you type `host www.debian.org`, you are creating a dns reques
 - **ethernet**: only the first packet of the packet.
 You can also explore the single header and see every single element of the original one. In the case of the DNS, if you open the query you have the structure of a DNS request.
 
-###### Activity 1
+##### Activity 1
 On the terminal:
 - `cd pnd-labs/`; 
 - `git pull`;
@@ -346,7 +346,7 @@ We can connect to the host with the internal lan:
 - Now you can capture the traffic also with Wireshark (veth0 and veth1) you are able to capture the exchange of packets;
 - Right click on a `request made to the web server -> right click -> follow http stream`, to see the requests and responses exchanged with the web server.
 
-###### TCPDUMP
+##### TCPDUMP
 
 Instead of doing the capture in Realtime with Wireshark, you can do the capture with tcp dump:
 - Inside an host: `tcpdump` without any option start capturing and every packet will be just display in the terminal:
@@ -358,7 +358,7 @@ Instead of doing the capture in Realtime with Wireshark, you can do the capture 
 
 Tcpdump is like an offline analysis of the packets. The filter used in Wireshark in the capture filter are the same used in tcpdump as options.
 
-#### LAB 5 - Network traffic regulation with iptables
+### LAB 5 - Network traffic regulation with iptables
 
 We are in `lab4/ex1`. We have to connect with our host in the internal network passing 
 through the firewall:
@@ -368,7 +368,7 @@ through the firewall:
 - Now we can ping 192.168.100.80, but since it is a server we can connect to its port:
     - 192.168.100.80 (internal host in the internal network, passing through the firewall).
 
-##### Demo 1
+#### Demo 1
 
 Now we try to configure the network so that we can block any ping to our pc1. We want to ping the internal host (`ping 192.168.100.80`) so let's start capturing the packet in r1:
 - `tcpdump -t` (timestamp are removed);
@@ -383,14 +383,14 @@ Now we try to configure the network so that we can block any ping to our pc1. We
     - With `iptables -L` we list all the routes that we are using so far;
     - `iptables -F`, where `-F` stand for *FLUSH*, will drop all the rules;
 
-##### Demo 2
+#### Demo 2
 We want to exclude any service but allow HTTP. In s1:
 - `iptables -A INPUT -p tcp --destination-port 80 -j ACCEPT` (only packets allowed to pass);
 - `iptables -A INPUT -j REJECT` (very strong reject, everything it will be blocked);
 - With `iptables -D INPUT -j REJECT` we can delete the rule. 
 - Try also `iptables -A INPUT -j DROP`. The difference between reject and drop is that with drop we do not receive any answer. 
 
-##### IPtables fundamentals
+#### IPtables fundamentals
 It is a packet filtering firewall for Linux. For more details: www.frozentux.net/iptables-tutorial/iptables-tutorial.html. 
 - The rules are grouped in tables. For today we focus on FILTER table;
 - Each table has different CHAINS (a sequence) of rules;
@@ -398,12 +398,12 @@ It is a packet filtering firewall for Linux. For more details: www.frozentux.net
 - The fate of a packet depends of the first matching rule.
 - To see chains of rules we use `iptables -L`.
 
-###### FILTER table
+##### FILTER table
 Every packet that reaches the network interface will go under a routing decision. It is taken according to the destination address. If it is one of our addresses, the packet will be process by the rules in the **INPUT** chain. If the IP address is for a different host we go through the **FORWARD** chain. Any packet originated by our host will go through **OUTPUT** chain. In any of these chains, if a packet will reach the end of the chain, we take as the decision the policy associated to the chain. 
 If we want to chain the policy we have to use `iptables -P INPUT DROP`.
 You can save the rules in a script, to run them when you want.
 
-###### Command switches
+##### Command switches
 - `-t table`: specify the table (filter is default);
 - `-j target`: jump to the chain;
 - `-A chain`: append a rule at the end of rule chain;
@@ -412,7 +412,7 @@ You can save the rules in a script, to run them when you want.
 - `-p protocol`: match the protocol type;
 - `-i interface-name`: match input interface (useful if you have a firewall connected to two network).
 
-**-j target**
+###### -j target
 
 We can specify different targets:
 - `ACCEPT`, the packet is accepted;
@@ -426,7 +426,7 @@ This type of packet filtering (iptables) is STATELESS, unless you want to became
 - RELATED
 - INVALID
 
-##### Lab activity
+#### Lab activity
 We are in `pnd-labs/lab4/ex1`. Now the filtering should be happen on r1, so iptables should be configured in r1 (network firewall):
 - `cd lab4/ex1`;
 - `lstart`;
@@ -461,18 +461,18 @@ Why cannot I do a `wget`? We are in the same network...
 With reject rule we are rejecting anything, but ip6 in order to work need neighbour solicitation. So you need to allow icmp6:
 - `ip6tables -I INPUT 1 -p ipv6-icmp -j ACCEPT`.
 
-#### LAB 7 - Attacks related to link-local
+### LAB 7 - Attacks related to link-local
 
-##### Quick introduction about network networking
+#### Quick introduction about network networking
 
-**Network sniffing**
+##### Network sniffing
 It is a way to intercept the traffic that is flowing in a network. We have to use protection against that (encryption).
 To do network sniffing you need a network sniffer like Ettercap, bettercap...This is a passive attack (intercept the packet but not changing anything). It requires the packet to be in the same broadcast domain: 
 - The ideal is a Non-swtiched Lan, a pure broadcast domain; 
 - When we are using a lan with physical switch thing became more complicated. The main idea is that you prevent to be the next hop in every destination of your target (controlla appunti prof)
 - In new wireless lan is impossible because every single host will use a different symmetric key with the access point. When using previous protection mechanism like wep, it use a single key, so is possible to attack it.
 
-##### Switch segmentation mechanism
+#### Switch segmentation mechanism
 - flashback
 - bridges
 - switches: multiport bridges - you make a packet to crsoo just one pot if the destination is on that port
