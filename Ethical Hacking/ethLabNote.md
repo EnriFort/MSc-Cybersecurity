@@ -3,8 +3,6 @@
 ## 00 - DISCLAIMER 
 These notes were taken during the laboratory sessions of Ethical Hacking, therefore the content inside does not entirely come from my own head. However, I try where possible to rework and enhance the quality of the notes themselves, adding material taken from the internet, etc. Furthermore, what follows is nothing but the '*surface*' of an immense world. Happy reading.
 
-----
-
 ## 01 - Vulnerabilities
 
 ### What is a vulnerability
@@ -44,8 +42,6 @@ Once vulnerabilities are identified, you can use **Metasploit** to exploit these
 
 ### METASPLOIT
 Metasploit is a widely-used penetration testing framework used for discovering, exploiting, and validating security vulnerabilities in computer networks and systems.
-
-----
 
 ## 02 - Remote Access
 Remote access enables legitimate remote management of computer systems or networks for operational needs, but if not secured, it poses cybersecurity risks, as attackers might exploit vulnerabilities for unauthorized access to sensitive data.
