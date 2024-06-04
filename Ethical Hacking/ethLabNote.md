@@ -1,35 +1,34 @@
 # ETH Lab Lesson note
 ----
 ## 00 - DISCLAIMER 
-These notes were taken during the laboratory sessions of ethical hacking, therefore the content inside does not entirely come from my own head. However, I try where possible to rework and enhance the quality of the notes themselves, adding material taken from the internet, etc. Furthermore, what follows is nothing but the 'surface' of an immense world. Happy reading.
+These notes were taken during the laboratory sessions of Ethical Hacking, therefore the content inside does not entirely come from my own head. However, I try where possible to rework and enhance the quality of the notes themselves, adding material taken from the internet, etc. Furthermore, what follows is nothing but the '*surface*' of an immense world. Happy reading.
 
 ----
 
 ## 01 - Vulnerabilities
 
 ### What is a vulnerability
-A vulnerability refers to a weakness or flaw in an IT system that attackers can exploit to compromise its security or functionality, 
-potentially leading to unauthorized access, data breaches, or system malfunctions.
+A vulnerability refers to a *weakness* or *flaw* in an IT system that attackers can **exploit** to compromise its security or functionality, potentially leading to unauthorized access, data breaches, or system malfunctions.
 Important references for vulnerabilities are:
-- CVE (Common Vulnerabilities and Exposures) is a standardized reference of known vulnerabilities.  Each vulnerability has a unique identifier and with a [0.0, 10.0] score (CVSS);
-- CWE (Common Weakness Enumeration) is a community-developed list of software and hardware weakness types;
-- KEV (Known Exploited Vulnerabilities) is compilation of identified vulnerabilities with known exploits, aiding in proactive mitigation strategies and defense reinforcement.
+- **CVE** (*Common Vulnerabilities and Exposures*) is a standardized reference of known vulnerabilities.  Each vulnerability has a unique identifier and with a [0.0, 10.0] score (CVSS);
+- **CWE** (*Common Weakness Enumeration*) is a community-developed list of software and hardware weakness types;
+- **KEV** (*Known Exploited Vulnerabilities*) is compilation of identified vulnerabilities with known exploits, aiding in proactive mitigation strategies and defense reinforcement.
 
 ### How to search for Vulnerabilities?
-
-- Network-based vulnerability scanners (e.g. **Nmap**);
-- Authenticated/Agent-based vulnerability scanners (e.g. log into the machine using SSH and scan filesystem, memory...);
-- Dependency vulnerability scanners (e.g. OWASP Dependency-Check, is a widely open-source tool that scan project dependencies to identify known vulnerabilities in libraries and frameworks). 
+There are several ways, the most used:
+- **Network-based** vulnerability scanners (*e.g.* **Nmap**);
+- **Authenticated/Agent-based** vulnerability scanners (*e.g. log into the machine using SSH and scan filesystem, memory...*);
+- **Dependency vulnerability** scanners (*e.g. **OWASP** Dependency-Check, is a widely open-source tool that scan project dependencies to identify known vulnerabilities in libraries and frameworks*). 
 
 #### NMAP - Enumeration
-Nmap is a powerful enumeration tool. Most used scan types of nmap:
-- TCP Scans (`-sT`);
-- SYN Half-open/Stealth Scans (`-sS`) (to bypass firewall);
-- UDP Scans (`-sU`);
+Nmap is a powerful enumeration tool. Most used scan types of nmap are:
+- **TCP** Scans (`-sT`);
+- **SYN** Half-open/Stealth Scans (`-sS`) (to bypass firewall);
+- **UDP** Scans (`-sU`);
 
 Other options:
-- With `sudo nmap` --> default is SYN scan (syn, syn/ack, rst);
-- Without `sudo nmap` --> default is TCP scan (syn, syn/ack, ack);
+- With `sudo nmap` &rarr; default is SYN scan (syn, syn/ack, rst);
+- Without `sudo nmap` &rarr; default is TCP scan (syn, syn/ack, ack);
 - Ping sweep (`-sn`), tells nmap not to scan any ports, forcing it to rely primarily on ICMP echo packets.
 
 Script that determines the underlying OS of the SMB server: 
@@ -51,10 +50,10 @@ Metasploit is a widely-used penetration testing framework used for discovering, 
 ## 02 - Remote Access
 Remote access enables legitimate remote management of computer systems or networks for operational needs, but if not secured, it poses cybersecurity risks, as attackers might exploit vulnerabilities for unauthorized access to sensitive data.
 
-A remote exploit is typically aimed at executing some code that reads or writes some file on the remote system --> the executed code will often give the attacker a shell (RCE - Remote Code Execution, to execute programs on the target system). 
+A **remote exploit** is typically aimed at executing some code that reads or writes some file on the remote system &rarr; the executed code will often give the attacker a shell (RCE - Remote Code Execution, to execute programs on the target system). 
 Here the two main example:
 - Upload a **Web Shell** to the target machine; 
-- Inject a **Reverse Shell** in the context of the server. The Reverse Shell connects back to the attacker who can now interact with the OS. Shell is also used for privilege escalation, LOCALLY (e.g. exploiting a buffer overflow on a setuid binary, spawn a privileged shell).
+- Inject a **Reverse Shell** in the context of the server. The Reverse Shell connects back to the attacker who can now interact with the OS. Shell is also used for privilege escalation, LOCALLY (*e.g. exploiting a buffer overflow on a setuid binary, spawn a privileged shell*).
 
 ### Type of shell
 A shell is needed when you want interactivity with the target system. Several types of shells exist:
@@ -62,7 +61,7 @@ A shell is needed when you want interactivity with the target system. Several ty
 - **Reverse Shell**: is a shell session initiated by a target system towards an attacker-controlled system;
 - **Bind Shell**: is a shell session initiated by a target system that listen for incoming connections on a specified port. It waits for an attacker to connect to it, providing remote access and control over the target system.
 
-In practice, you rarely need to write your own shell, but you can use tools like Netcat, Socat, LotL, Metasploit Shell.
+In practice, you rarely need to write your own shell, but you can use tools like **Netcat**, **Socat**, **LotL**, **Metasploit Shell**. 
 
 ### NETCAT (nc)
 Netcat is a Unix utility which reads and writes data across network connections, using the TCP or UDP protocol. It can performs various network-related tasks, including: Port scanning; File transfer; Reverse shell (server); Bind shell (client).
@@ -71,12 +70,12 @@ Netcat is a Unix utility which reads and writes data across network connections,
 It is a versatile network tool similar to Netcat, but with expanded functionality and capabilities. It allows for bidirectional data transfer between two endpoints over various types of connections, including TCP, UDP, Unix sockets, SSL/TLS (making it an excellent tool for encrypted shells). 
 
 ### LotL (Living Off the land) - bash
-When you don't have nc or socat on the victim box you can leverage legitimate tools or built-in functionalities of an operating system or software. 
+When you don't have `nc` or `socat` on the victim box you can leverage legitimate tools or built-in functionalities of an operating system or software. 
 
 ### Metasploit shell
 It has two type of payloads (shell are payloads):
 - **Inline** (stageless): the payload is self-contained in the exploit code, without any need for additional stages or components to be downloaded or executed on the target system (to minimize network activity);
-- **Staged**: the payload is delivered in multiple staged. For example the payload creates the staging platform --> allocate enough memory to hold the desired payload --> obtain the rest of the payload --> execute the payload.
+- **Staged**: the payload is delivered in multiple staged. For example the payload creates the staging platform &rarr; allocate enough memory to hold the desired payload &rarr; obtain the rest of the payload &rarr; execute the payload.
 
 ### Web Shells
 They are shells delivered by exploiting vulnerabilities in web applications and , less commonly, by leveraging vulnerability in web servers. 
@@ -84,13 +83,13 @@ Vulnerabilities allowing Web Shell include: Arbitrary file upload; Various kind 
 
 
 ## 03 - Web Security p1
-Usually a website comes with: HTML (foundation), CSS (aesthetics) and JavaScript (dynamic behavior). They often utilize additional frameworks and libraries. 
+Usually a website comes with: **HTML** (*foundation*), **CSS** (*aesthetics*) and *JavaScript* (*dynamic behavior*). They often utilize additional frameworks and libraries. 
 
 ### OWASP 
-(Open Worldwide Application Security Project) is an open community dedicated to enabling organizations to develop, purchase, and maintain applications and APIs that can be trusted. OWASP top ten manta ins the list of top 10 web application and top 10 API security issues. 
+**OWASP** - *Open Worldwide Application Security Project* is an open community dedicated to enabling organizations to develop, purchase, and maintain applications and APIs that can be trusted. OWASP top ten manta ins the list of top 10 web application and top 10 API security issues. 
 
 ### Web Application Enumeration
-It is the process of systematically identifying and cataloging information (e.g. using Gobuster*7) about a target web application. It is essential in the reconnaissance stage and lateral movement. 
+It is the process of systematically identifying and cataloging information (e.g. using **Gobuster**) about a target web application. It is essential in the reconnaissance stage and lateral movement. 
 
 #### GOBUSTER
 It is a brute-forcer for URLs, vhosts, DNS subdomain, GCP buckets...
@@ -99,16 +98,18 @@ It is a brute-forcer for URLs, vhosts, DNS subdomain, GCP buckets...
 It is a Multiplatform, integrated, suite and graphical tool for performing security testing of web applications: It supports the entire testing process, from initial mapping and analysis of an application's attack surface, through to finding and exploiting security vulnerabilities. In essence, Burp Suite is a Java-based framework designed to serve as a comprehensive solution for conducting web application penetration testing. Burp Suite captures and enables manipulation of all the HTTP/HTTPS traffic between a browser and a web server.
 
 Let's explore some of the key features:
-- Proxy: The Burp Proxy is the most renowned aspect of Burp Suite. It enables interception and modification of requests and responses (between the user and the target web server) while interacting with web applications.
-- Repeater: Another well-known feature. Repeater allows for capturing, modifying, and resending the same request multiple times.
+- **Proxy**: The Burp Proxy is the most renowned aspect of Burp Suite. It enables interception and modification of requests and responses (between the user and the target web server) while interacting with web applications;
+- **Repeater**: Another well-known feature. Repeater allows for capturing, modifying, and resending the same request multiple times.
 
 ##### BURPSUITE REPEATER
 Repeater is particularly well-suited for tasks requiring repetitive sending of similar requests, typically with minor modifications. 
-- Open firefox, activate foxy proxy;
-- Return to burpsuit and select intercept is on;
+
+How to use it:
+- Open firefox, activate `foxy proxy`;
+- Return to burpsuit and select `intercept is on`;
 - Go to firefox and put the URL;
-- Open burpsuit to proxy section, right click send to repeater;
-- Now in the repeater do the modification you want
+- Open burpsuit to proxy section, right click `send to repeater`;
+- Now in the repeater do the modification you want;
 - Make sure you leave the two blank lines at the bottom of the request!;
 - To get internal server error 500 put an extreme input like negative -1.
 
@@ -118,143 +119,149 @@ It is the process of crafting malicious input to access unauthorized files and d
 
 ### File Upload
 It is caused by unchecked uploads: server allows any file type without validation (or validation can be bypassed):
-- Malicious File Types: upload harmful scripts (e.g. PHP, ASP) for RCE;
-- Content Tampering: Uploads can modify website content or user data.
+- **Malicious File Types**: upload harmful scripts (e.g. PHP, ASP) for RCE;
+- **Content Tampering**: Uploads can modify website content or user data.
 
 
 ## 04 - Web Security p2
 
-Local File Inclusion (LFI)
-LFI is the process to trick the web application to load, render and possibly execute some content from a LOCAL source. Typically it afflicts web services with poor control over user-input variables, particularly PHP's GET and POST variables or also COOKIES. Path traversal is a type of LFI.
+### Local File Inclusion (LFI)
+LFI is the process to trick the web application to load, render and possibly execute some content from a LOCAL source. Typically it afflicts web services with poor control over user-input variables, particularly PHP's `GET` and `POST` variables or also `COOKIES`. Path traversal is a type of LFI.
 
-Remote File Inclusion (RFI)
-In this case we try to trick the application to load some content from a REMOTE source. It is similar to LFI but can be more dangerous. 
-A remote content is included in the page rendered server-side.
+### Remote File Inclusion (RFI)
+In this case we try to trick the application to load some content from a REMOTE source. It is similar to LFI but can be more dangerous. A remote content is included in the page rendered server-side.
 
-Injection
+### Injection
 Briefly, an injection is a manipulation that can be used to make an application perform unintended actions. It happens when:
-	○ The application directly incorporates user-supplied data into dynamic queries or commands;
-	○ The application doesn't perform proper escaping or context-aware handling.
+- The application directly incorporates user-supplied data into dynamic queries or commands;
+- The application doesn't perform proper escaping or context-aware handling.
 
 Common types of injection are:
-	○ XSS;
-	○ SQL / NoSQL injection;
-	○ Server Side Template injection (SSTi);
-	○ OS command injection.
+- **XSS**;
+- **SQL** / **NoSQL** injection;
+- Server Side Template injection (**SSTi**);
+- **OS command injection**.
 
-Cross Site Scripting (XSS)
+#### Cross Site Scripting (XSS)
 In this type of injection an attacker injects malicious code into a vulnerable website. The victim visit the website and the code is executed in their browser. The code can then access the victim's cookies, session data, and other sensitive information or it can "force" not intended actions.
-There are 3 types of XSS: Reflected, Stored and DOM-based.
-	○ Reflected XSS: The attacker send malicious code to the victim in a URL or form. The victim submits the URL or form and the code is reflected back to them and executed in their browser;
-	○ Stored XSS: The attacker store malicious code on a server, such as in a forum post or comment. When the victim views the page, the code is executed in their browser. The code is executed EVERY TIME. The affected page is loaded by any user, regardless of the victim's actions.
-	○ DOM-based XSS: The DOM is manipulated to inject malicious code. Through a variety of techniques, such as JavaScript's event handlers. The code execution is triggered by SPECIFIC USER INTERACTIONS, such as clicking a link, modifying form data, or running JavaScript code within the page.
+There are 3 types of XSS: Reflected, Stored and DOM-based:
+- **Reflected XSS**: The attacker send malicious code to the victim in a URL or form. The victim submits the URL or form and the code is reflected back to them and executed in their browser;
+- **Stored XSS**: The attacker store malicious code on a server, such as in a forum post or comment. When the victim views the page, the code is executed in their browser. The code is executed EVERY TIME. The affected page is loaded by any user, regardless of the victim's actions;
+- **DOM-based XSS**: The DOM is manipulated to inject malicious code. Through a variety of techniques, such as JavaScript's event handlers. The code execution is triggered by SPECIFIC USER INTERACTIONS, such as clicking a link, modifying form data, or running JavaScript code within the page.
 
-XSS Consequences:
-	○ We can steal sensitive information like cookies, session tokens, or other sensitive data stored in the user's browser;
-	○ Session hijacking: impersonate legitimate users and gain unauthorized access to accounts or system;
-	○ Website defacement: malicious code can be injected to alter the website's appearance and content.
+##### XSS Consequences:
+- We can **steal sensitive information** like cookies, session tokens, or other sensitive data stored in the user's browser;
+- **Session hijacking**: impersonate legitimate users and gain unauthorized access to accounts or system;
+- **Website defacement**: malicious code can be injected to alter the website's appearance and content.
 
-XSS Mitigations:
-	○ Input validation on the server-side to sanitize user input before storing it;
-	○ Output encoding is crucial for stored XSS to prevent script execution when displaying untrusted data;
-	○ For DOM-based XSS, secure coding practices and careful handling of user-controlled data within client-side scripts are essential.
+##### XSS Mitigations:
+- **Input validation** on the server-side to sanitize user input before storing it;
+- **Output encoding** is crucial for stored XSS to prevent script execution when displaying untrusted data;
+- For DOM-based XSS, **secure coding practices** and careful handling of user-controlled data within client-side scripts are essential.
 
 
-SQL Injection (SQLi)
+#### SQL Injection (SQLi)
 SQLi is an attack on a web application database server that causes malicious queries to be executed.
 
-In-Band SQLi
-	○ - https://website.thm/blog?id=2;-- produce the SQL statement: SELECT * from blog where id=2;-- and private=0 LIMIT 1; 
-	The semicolon in the URL signifies the end of the SQL statement, and the two dashes cause everything afterwards to be treated as a comment. By doing this, you're just, in fact, running the query:
-		§ SELECT * from blog where id=2;-- (in-Band sql injection)
-	
-	○ database() return the name of the database (0 UNION 1,2,database())
-	○ group_concat() gets the specified column from multiple returned rows and puts it into one string separated by commas.
-	○ information_schema database contains information about all the databases and tables the user has access to
+##### In-Band SQLi
+- `https://website.thm/blog?id=2;--` produce the SQL statement: `SELECT * from blog where id=2;-- and private=0 LIMIT 1;` 
+The semicolon in the URL signifies the end of the SQL statement, and the two dashes cause everything afterwards to be treated as a comment. By doing this, you're just, in fact, running the query:
+	- `SELECT * from blog where id=2;--` (in-Band sql injection)
+- `database()` return the name of the database (`0 UNION 1,2,database()`);
+- `group_concat()` gets the specified column from multiple returned rows and puts it into one string separated by commas;
+- `information_schema database` contains information about all the databases and tables the user has access to.
 
-Blind SQLi
+##### Blind SQLi
 It is when we get little to no feedback to confirm whether our injected queries were, in fact, successful or not, this is because the error messages have been disabled, but the injection still works regardless.
 A simple way to bypass a form:
-	○ put ' OR 1=1;-- in the password field which turns the SQL query into the following:
-		§ select * from users where username='' and password='' OR 1=1;
+- put `' OR 1=1;--` in the password field which turns the SQL query into the following:
+	- `select * from users where username='' and password='' OR 1=1;`
 
-Time-Based
+##### Time-Based
 The SLEEP() method will only ever get executed upon a successful UNION SELECT statement. 
 
 
-Server Side Template Injection (SSTi)
-Web application often use template languages, which help separate structure and presentation of a web page  from the business logic (e.g. Pug, NodeJs, and Jinja, Python). Sometimes web application insecurely render use user as a part of the template...
+#### Server Side Template Injection (SSTi)
+Web application often use template languages, which help separate structure and presentation of a web page  from the business logic (*e.g. Pug, NodeJs, and Jinja, Python*). Sometimes web application insecurely render use user as a part of the template...
 Since templating languages typically allow running native code, SSTi often leads to RCE. If we cannot do RCE, impact can be sever:
-	○ information Disclosure: read sensitive files or exfiltrate user data;
-	○ DoS;
-	○ Defacement.
+- **Information Disclosure**: read sensitive files or exfiltrate user data;
+- **DoS**;
+- **Defacement**.
 
-OS Command Injection
+#### OS Command Injection
 It is the most direct form of RCE. A system is vulnerable to OS Command Injection when it insecurely use user input to build a command line. For instance;
-	○ A Network looking glass on the Internet
-	○ A firewall configuration script of a SOHO router
+- A Network looking glass on the Internet;
+- A firewall configuration script of a SOHO router.
 
-How to detect an OS Command Injection?
+##### How to detect an OS Command Injection?
 Similar in principle to SQLi: we terminate the shell in command and add out own code. If the application code is:
-	○ nmap -sS ${TARGET_IP} -oX
+- `nmap -sS ${TARGET_IP} -oX`;
+
 We could inject something like:
-	○ localhost;cat /etc/shadow; #
+- `localhost;cat /etc/shadow; #`
+
 To get:
-	○ nmap sS localhost;cat /etc/shadow; # -oX
+- `nmap sS localhost;cat /etc/shadow; # -oX`
 	
 
 ## 05 - Hacking Unix p1
 	
-Lateral Movement and Privilege Escalation
+### Lateral Movement and Privilege Escalation
 
-Privilege Escalation (PE) is the act of gaining higher-level access by exploiting:
-	○ Bugs;
-	○ Design flaws;
-	○ Configuration oversights;
-	○ User's mistakes.
-These same principles can be used to gain access to other non-privileged users. Moving from one user to another is called Lateral Movement. The latter is possible thanks to:
-	○ The additional information gathered with the initial access, e.g., passwords found somewhere on the system
-	○ The change in accessible scope, e.g., services, systems, or applications not previously accessible.
+**Privilege Escalation (PE)** is the act of gaining higher-level access by exploiting:
+- Bugs;
+- Design flaws;
+- Configuration oversights;
+- User's mistakes.
 
-The Confused Deputy Problem
-In the context of cybersecurity it is a specific type of Privilege Escalation: computer program tricked by another agent, with fewer privileges, into misusing its authority.  Examples:
-	○ XSS - trick victim's browser into executing arbitrary JavaScript;
-	○ FTP bounce scan (nmap) - trick 3rd party FTP server.
-	○ CSRF - forces user to execute unwanted actions on a web application in which they're currently authenticated;
-	○ Abuse sudo/SetUID applications to do unintended things. 
+These same principles can be used to gain access to other non-privileged users. Moving from one user to another is called **Lateral Movement**. The latter is possible thanks to:
+- The additional information gathered with the initial access, *e.g., passwords found somewhere on the system*;
+- The change in accessible scope, *e.g., services, systems, or applications not previously accessible*.
 
-Exploiting SetUID/SetGID and sudo
-Quick recap on UNIX permissions: SetUID/SetGID
-Linux uses a combination of bits to store the permissions of a file. Using chmod command we essentially change the 'r', 'w'and 'x' characters associated with the file. The ownership of files also depends on the uid (user ID) and the gid (group ID) of the creator. Similarly, when we launch a process, it runs with uid and gid of the user who launched it. 
-The SetUID bit is present for files which have executable permissions. It simply indicates that when running the executable, it will set its permissions to that of the user who created it (owner), instead of setting it to the user who launched it.  The SetGID bit does the same for the gid. To locate the setuid, look for an ‘s’ instead of an ‘x’ in the executable bit of the file permissions.
+#### The Confused Deputy Problem
+In the context of Cybersecurity it is a specific type of Privilege Escalation: computer program tricked by another agent, with fewer privileges, into misusing its authority.  Examples:
+- **XSS** - trick victim's browser into executing arbitrary JavaScript;
+- **FTP bounce scan** (nmap) - trick 3rd party FTP server.
+- **CSRF** - forces user to execute unwanted actions on a web application in which they're currently authenticated;
+- Abuse **sudo/SetUID** applications to do unintended things. 
 
-What we can do with setuid programs?
+### Exploiting SetUID/SetGID and sudo
+
+#### Quick recap on UNIX permissions: SetUID/SetGID
+Linux uses a combination of bits to store the permissions of a file. Using `chmod` command we essentially change the `r`, `w`and `x` characters associated with the file. The ownership of files also depends on the `uid` (user ID) and the `gid` (group ID) of the creator. Similarly, when we launch a process, it runs with `uid` and `gid` of the user who launched it.
+
+The SetUID bit is present for files which have executable permissions. It simply indicates that when running the executable, it will set its permissions to that of the user who created it (owner), instead of setting it to the user who launched it.  The SetGID bit does the same for the gid. To locate the setuid, look for an `s` instead of an `x` in the executable bit of the file permissions.
+
+#### What we can do with setuid programs?
 Abusing setuid/setgid programs may allow PE if:
-	○ Can (be forced to) read/write files → may leak sensitive data
-	○ Can be forced to print errors insecurely → may leak sensitive data
-	○ Can be forced to execute code that we control
-		§ execute other programs that we control
-		§ load shared objects that we control
-		§ vulnerable to some other code injection (e.g., buffer overflow)
+- Can (be forced to) read/write files → may leak sensitive data
+- Can be forced to print errors insecurely → may leak sensitive data;
+- Can be forced to execute code that we control:
+	- execute other programs that we control;
+	- load shared objects that we control;
+	- vulnerable to some other code injection (e.g., buffer overflow).
 	
-Exploiting sudo
-	Quick recap on UNIX permissions: sudo
-	Sudo (SuperUser-DO) allows running programs as root:
-		§ The user invoking sudo must be enabled to do so
-		§ Administrators can grant sudo privileges to specific users or groups using the /etc/sudoers file
-		§ Unless specified otherwise in sudoers, the invoking user must enter their password. Note: often in security testing, you impersonate users w/o knowing their password. 
-	In short, sudo set the UID and GID to those of the superuser. 
+#### Exploiting sudo
+
+##### Quick recap on UNIX permissions: sudo
+Sudo (SuperUser-DO) allows running programs as root:
+- The user invoking sudo must be enabled to do so;
+- Administrators can grant sudo privileges to specific users or groups using the `/etc/sudoers` file;
+- Unless specified otherwise in sudoers, the invoking user must enter their password. *Note: often in security testing, you impersonate users w/o knowing their password*.
+
+In short, **sudo** set the UID and GID to those of the superuser. 
 		
 		
 ## 06 - Hacking Unix p2
-Exploiting cronjobs
-Cron is a task scheduler on Unix-like systems, which allows defining commands to execute periodically. Schedules specified in cron expressions within crontab files. You can use crontab -l to show cronjobs for the current user. Cron jobs often do maintenance for services often running root. If we can tamper with what those cron jobs are executing, we can execute commands as root. 
 
-Password and keys
+### Exploiting cronjobs
+Cron is a task scheduler on Unix-like systems, which allows defining commands to execute periodically. Schedules specified in cron expressions within crontab files. You can use `crontab -l` to show cronjobs for the current user. Cron jobs often do maintenance for services often running root. If we can tamper with what those cron jobs are executing, we can execute commands as root. 
+
+### Password and keys
 Having an initial foothold on a system means that we can gather more details like:
-	○ Configuration files
-	○ Shell History
-	○ Keys
+- Configuration files;
+- Shell History;
+- Keys.
 	
-Configuration files
+### Configuration files
 If we got the foothold by exploiting a server, we should be impersonating the user used by the server. Configuration file or the application (e.g. web application) might contain password, e.g. database password. 
