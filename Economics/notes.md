@@ -22,7 +22,7 @@
 ## Ch.01 - Managerial Accounting and Cost Concepts
 
 - **Financial VS Economics**: The former is about money, the latter is about money and externalities.
-- **3 Problems of Work in Progress**: **Bottleneck**, **Space needed** & **Lack of Money Liquidity** (you must ask money to the banks). You have already sustained the cost but you have not gained anything.
+- **3 Problems of Work in Progress**: *Bottleneck*, *Space needed* & *Lack of Money Liquidity* (you must ask money to the banks). You have already sustained the cost but you have not gained anything.
 - **Balance Sheet**: Necessary for the legal actions, representing the sum of the relevant parts of a specific moment (all activity of a specific moment).
 **Sunk costs**: They have already been incurred and you can't return to the initial point.
 
@@ -43,34 +43,34 @@
 - **Price ceiling**: The highest price at which a good or service can be sold; 
 
 # Oral questions
-## Q: If you have two products, what is the correct organization structure to use?
+### Q: If you have two products, what is the correct organization structure to use?
 A: Divisional Structure.
 
-## Q: Where is better to invest, in the north or in the south of italy? Considering that in the south there is fiscal reduction but bureaucratic issue? 
+### Q: Where is better to invest, in the north or in the south of italy? Considering that in the south there is fiscal reduction but bureaucratic issue? 
 
-## Q: Should you stop or continue an investment in a product that no longer sells, even if you have already tried twice?
+### Q: Should you stop or continue an investment in a product that no longer sells, even if you have already tried twice?
 A: You must stop the production because it is unprofitable. There is no reason to have additional investment. 
 
-## Q: Cost vs Price, what is the difference? 
+### Q: Cost vs Price, what is the difference? 
 A: **Cost** is the expense incurred for making a product or a service that is sold by a company. The **Price** is the amount a customer is willing to pay for a product or a service (e.g. the professor is a cost).
 
-## Q: When the Price (P) is less than the cost (C)?
+### Q: When the Price (P) is less than the cost (C)?
 A: Tipically when the product is near its end of life. You must sell it (P < C is better than P = 0).
 
-## Q: Suppose you have the two following products, which one do you prefer? 
-### 1 - More quality; 2 - More economic opportunities:
+### Q: Suppose you have the two following products, which one do you prefer? 
+#### 1 - More quality; 2 - More economic opportunities:
 It depends from what is for you *economic opportunities* (Is the price near to your needs?). You can use multicriteria decision analysis to identify the weights associated with several criteria. But if you only want good quality you will choose 1. 
-### 1 - High quality; 2 - Low price
-### 1 - Lower cost; 2 - Innovative, higher cost 
+#### 1 - High quality; 2 - Low price
+#### 1 - Lower cost; 2 - Innovative, higher cost 
 For both, you have to understand the consumer opinion. 
 
-## Q: What is better, 30\$ + 10\% or 30$ + 2\$? 
+### Q: What is better, 30\$ + 10\% or 30$ + 2\$? 
 A: The first one: in general, a percentage is better when the starting price is greater. 
 
-## Q: Why do we need to work with the full capacity?
+### Q: Why do we need to work with the full capacity?
 
-## Q: Product can have lifetime that depends of physic and technical condition. If we have physical = 10Y and technical = 50Y, what is the lifetime of the product? 
+### Q: Product can have lifetime that depends of physic and technical condition. If we have physical = 10Y and technical = 50Y, what is the lifetime of the product? 
 A: The minimum, 10Y. 
 
-## Q: What is the best approach to calculate the selling price of a product? Cost-Plus pricing or Value-based one?
+### Q: What is the best approach to calculate the selling price of a product? Cost-Plus pricing or Value-based one?
 A: It depends from the relative part (?). The first one is the typicall of managers and generally simpler. 
