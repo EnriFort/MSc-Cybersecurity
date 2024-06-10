@@ -1,4 +1,5 @@
-# ETM Lesson Notes
+# ETM Lesson Notes 💵🧑‍💼
+#### By Enrico Fortuna ©️
 
 ## 0 - Decision-making methods
 - **Likert scale**: An instrument for measuring opinions and attitudes;
@@ -87,6 +88,8 @@ In other words the Balance Sheet is a financial statement that reports assets, l
     ![alt text](CVPgraph.jpg)
 - **Contribution Margin Ratio (CM Ratio)**: is the CM as a percentage of sales: \[ CM \; ratio = \frac{Contribution \; margin}{sales} = \frac{Contribution \; Margin \; Per \; Unit}{Selling \; Price \; Per \; Unit}\]
 
+    > **⚠️ Attention**: If you have two firm, you compare the CM ratio. 
+
 - **Variable Expense Ratio**: is the variable expenses as a percentage of sales:
 
 \[ Variable \; expense \; ratio = \frac{Variable \; expenses}{Sales}\]
@@ -144,7 +147,7 @@ It stop to the payback time. The **two problems of PBT** are the following:
     1. Discount rate is not considered;
     2. What happens after PBT? We does not know. 
 A project is accepted if **PBT < cutoff period**. If PBT > cutoff  period a project is not accepted. 
-- **Cutoff Period**: it is the period (usually in years) below which a project's payback period must fall in order to accept the project. Its unit of measure is *years*. Cutoff is decided by the investors and it is totally **subjective**. The maximum value is the lifetime of the project. 
+- **Cutoff Period**: it is the period (usually in years) below which a project's payback period must fall in order to accept the project. Its unit of measure is *years*. **Cutoff is decided by the investors** and it is totally **subjective**. The maximum value is the lifetime of the project. 
 - **Discounted Payback Time (DPBT)**: Is the PBT but considering also the discount rate:
 \[ \sum_{t=0}^{DPBT} \frac{F_t}{(1+r)^t} = 0 \]
 It has only one problem: you analyze only a part of the lifetime (the period in which you have recovered the initial investment), what happens later is unknown.  
@@ -155,6 +158,9 @@ If **Discount payback time < Cutoff period** the project is feasible;
 In other words the IRR is the discount rate that sets the NPV of an investment’s cash flows (both inflows and outflows) to zero, and is expressed in percentage. 
     - **IRR > cost opportunity of capital** the project is **accepted**;
     - **IRR cost opportunity of capital** the project is **noaccepted**. 
+
+    > ℹ️ **Note**:  When you calculate PBT or DPBT remember to start from year 0. 
+
 - **Profitability Index (PI)**: The unit of measure is dimensionless: $\frac{NPV (\$)}{Initial Investment (\$)}$; The PI cannot be used when more than one resource is rationated. 
 If you have multiple products you use the **Weighted Average Profitability Index (WPI)**. Its approach is to penalize some decisions. 
 - **ROI**: Return of an Investment = How much money do you obtain after make some investment = **Net Operative Income / Investment**.
@@ -178,6 +184,9 @@ If you have multiple products you use the **Weighted Average Profitability Index
         \[R_N = \frac{B - C'}{I} > 1\]
         Here you separate the costs (C' and I). 
     In general, **benefits $\neq$ revenues** because benefits encompass other aspects besides revenues.  
+
+        
+    > ℹ️ **Note**: The simple cost-benefit analysis can't be used when you have two alternatives; you need an **incremental** cost-benefit analysis.
 
 
 ## 8. Project management
@@ -268,6 +277,13 @@ A: In its graph, you have NPV on the Y-axis and the discount rate on the X-axis.
 ### Q: What is the Profitability Index?
 A: $\text{PI} = \frac{NPV (\$)}{Initial Investment (\$)}$;
 
+### Q: What is the difference between Cost Opportunity of Capital and Internal Rate of Return?
+A: The former is a standard, the latter is a measure, you calculate it. 
+
+### Q: What is the difference between public and private investors?
+The first one is about profit, the second one about welfare. 
+
+
 ### Q: Type of Organizational structures
 A: Functional, Divisional and Matrix.
 
@@ -289,6 +305,9 @@ A: 1. **Lifetime**; 2. **Discount Rate** (or cost opportunity of capital).
 $F_n = P(1 + r)^n$. Where $P$ is the amount invested now; $r$ the discount rate; $n$ the lifetime. 
 
 ### Q: What method is used to identify the Discount rate?
+
+### Q: Suppose you have two projects. Project 1 with an IRR of 28% and Project 2 with an IRR of 20%. Do you prefer Project 1 or Project 2?
+A: Without any additional information you must choose the best project. 
 
 ### Q: What is the salvage value? (Valore di rimpiazzo)
 Salvage value is the amount that an asset is estimated to be worth at the end of its useful life. It is also known as scrap value or residual value, and is used when determining the annual depreciation expense of an asset.
@@ -331,7 +350,7 @@ A: **EF = ES + Duration**
 ### Q: What are Total slack (SL) and Free slack (FS)?
 A: 
 - The **Total Slack** is referred to a specific activity and tell us the amount of time an activity can be delayed and not delayed the project. It is simply the difference between LS and ES (**SL = LS - ES**) or between LF and EF (**SL = LF - EF**). 
-- The **Free SLack** is the amount of time an activity can be delayed after the start of a longer parallel activity or activities. Only activities that occur at the end of a chain of activities, where you have a merge activity, can have free slack. 
+- The **Free SLack** is the amount of time an activity can be delayed after the start of a longer parallel activity or activities (can be calculated only ofr activities that are not in the critical path). Only activities that occur at the end of a chain of activities, where you have a merge activity, can have free slack. 
 
 ### Q: If you have unspent budget, what can you do with it?
 A: Invest it or set it aside for another project.
