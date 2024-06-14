@@ -1,4 +1,4 @@
-# ETM Lesson Notes 💵🧑‍💼
+# ETM Lesson Notes 💵
 #### By Enrico Fortuna ©️
 
 ## 0 - Decision-making methods
@@ -65,15 +65,15 @@ In other words the Balance Sheet is a financial statement that reports assets, l
     - **Capital Intensive**: machinery and other parts realized in investment;
     - **Labour Intensive**: Workers. 
 - **Business Size**: is measured with the **number of employees**:
-    - **Small and Medium Enterprises** (SMEs): company with les than 250 employees;
+    - **Small and Medium Enterprises** (SMEs): company with less than 250 employees;
     - **Large Enterprises**: more than 250 employees. 
 - **Organizational structures**:
     - **Functional structure**: it is very simple, divided for each category;
     - **Divisional Structure**: It is used when the differences between two market and products are relevant;
-    - **Matrix Structure**: you analyze two dimensios. It is more complex, more suitable for complex situation, but it increases in costs. 
+    - **Matrix Structure**: you analyze two dimensions. It is more complex, more suitable for complex situation, but it increases in costs. 
 - **Industries**: A group of companies that operate in the same segment of economy. 
 - **Competitive Advantage**: is an attribute, or a series of attributes, that allows a company to outperform its competitors and gain a favourable competitive position (with **innovation**). 
-    - - **Innovation**: The commercialization of an invention, the ability to change the current work;
+    - **Innovation**: The commercialization of an invention, the ability to change the current work;
 
 
 ## 3. Cost Volume Profit (CVP) Relationships 
@@ -109,7 +109,6 @@ In other words the Balance Sheet is a financial statement that reports assets, l
 - **Make to stock**: Products are readily available (Commercial Product).
 - **Make to order**: Production starts only after receiving a custom order.
 - **Pretermined overhead rate (POHR)**: it is used to apply overhead to jobs and is determined before the period begins. **POHR = Estimated total manufacturing overhead cost for the coming period / estimated total units in the allocation base for the coming period**. 
-    - **Total manufacturing overhead**: 
 
 
 ## 5. Pricing Decisions
@@ -157,7 +156,7 @@ If **Discount payback time < Cutoff period** the project is feasible;
 \[\sum_{t=0}^{N} \frac{F_t}{(1+IRR)^t} = 0\]
 In other words the IRR is the discount rate that sets the NPV of an investment’s cash flows (both inflows and outflows) to zero, and is expressed in percentage. 
     - **IRR > cost opportunity of capital** the project is **accepted**;
-    - **IRR cost opportunity of capital** the project is **noaccepted**. 
+    - **IRR < cost opportunity of capital** the project is **noaccepted**. 
 
     > ℹ️ **Note**:  When you calculate PBT or DPBT remember to start from year 0. 
 
@@ -230,8 +229,8 @@ More in details:
 
 ### Reducing Project Duration
 - Thanks to **additional costs** you can have more time (Time is money).
--**SLope**: How much you need to pay to reduce time. 
-**Maximum crash time**: Identifies the reduction in time that you can have. 
+-**Slope**: How much you need to pay to reduce time. 
+**Maximum crash time**: Identifies the maximum reduction in time that you can have. 
 **Crash point**: is the point at which the completion time of an activity is minimized by allocating additional resources, usually at a higher cost.
 
 
@@ -247,12 +246,12 @@ A: You must stop the production because it is unprofitable. There is no reason t
 ### Q: Cost vs Price, what is the difference? 
 A: **Cost** is the expense incurred for making a product or a service that is sold by a company. The **Price** is the amount a customer is willing to pay for a product or a service (e.g. the professor is a cost).
 
-### Q: When the Price (P) is less than the cost (C)?
+### Q: When the Price (P) is less than the Cost (C)?
 A: Tipically when the product is near its end of life. You must sell it (P < C is better than P = 0).
 
 ### Q: Suppose you have the two following products, which one do you prefer? 
 #### 1 - More quality; 2 - More economic opportunities:
-It depends from what is for you *economic opportunities* (Is the price near to your needs?). You can use multicriteria decision analysis to identify the weights associated with several criteria. But if you only want good quality you will choose 1. 
+A: It depends from what is for you *economic opportunities* (Is the price near to your needs?). You can use multicriteria decision analysis to identify the weights associated with several criteria. But if you only want good quality you will choose 1. 
 #### 1 - High quality; 2 - Low price
 #### 1 - Lower cost; 2 - Innovative, higher cost 
 A: For both, you have to understand the consumer opinion. 
@@ -261,9 +260,13 @@ A: For both, you have to understand the consumer opinion.
 A: The first one: in general, a percentage is better when the starting price is greater. 
 
 ### Q: Why do we need to work with the full capacity?
+A: When you have sufficient resources but also a large number of requests.
 
 ### Q: Product can have lifetime that depends of physic and technical condition. If we have physical = 10Y and technical = 50Y, what is the lifetime of the product? 
 A: The minimum, 10Y. 
+
+### Q: Is it better a project with a lifetime of 20Y or 40Y?
+A: It depends. 
 
 ### Q: What is the best approach to calculate the selling price of a product? Cost-Plus pricing or Value-based one?
 A: It depends from the relative part (?). The first one is the typicall of managers and generally simpler. 
@@ -277,11 +280,14 @@ A: In its graph, you have NPV on the Y-axis and the discount rate on the X-axis.
 ### Q: What is the Profitability Index?
 A: $\text{PI} = \frac{NPV (\$)}{Initial Investment (\$)}$;
 
+### Q: What is the difference between PI and NPV/Size?
+A: Both metrics aim to help in investment decision-making: PI is generally used for assessing the relative attractiveness of projects when investment capital is limited; NPV/Size is used for understanding the efficiency of investments in terms of value creation.
+
 ### Q: What is the difference between Cost Opportunity of Capital and Internal Rate of Return?
 A: The former is a standard, the latter is a measure, you calculate it. 
 
-### Q: What is the difference between public and private investors?
-The first one is about profit, the second one about welfare. 
+### Q: What is the difference between private and public investors?
+A: The first one is about profit, the second one about welfare. 
 
 
 ### Q: Type of Organizational structures
@@ -291,6 +297,7 @@ A: Functional, Divisional and Matrix.
 A: AHP is a specific methodology within the broader category of MCDA. Ther latter refers to the overall approach and includes various specific methodologies, including AHP.
 
 ### Q: How does the contribution margin work, and when is it utilized with constrained resources?
+A: A constrained resource is a limited resource that restricts the capacity of a process or system, such as time, personnel, or equipment. Effective management of constrained resources is crucial for optimizing efficiency and productivity.
 
 ### Q: Build network graph, calculate forward analysis and crash time. 
 
@@ -307,10 +314,10 @@ $F_n = P(1 + r)^n$. Where $P$ is the amount invested now; $r$ the discount rate;
 ### Q: What method is used to identify the Discount rate?
 
 ### Q: Suppose you have two projects. Project 1 with an IRR of 28% and Project 2 with an IRR of 20%. Do you prefer Project 1 or Project 2?
-A: Without any additional information you must choose the best project. 
+A: Without any additional information you must choose the best project (28%, You get more money back).
 
 ### Q: What is the salvage value? (Valore di rimpiazzo)
-Salvage value is the amount that an asset is estimated to be worth at the end of its useful life. It is also known as scrap value or residual value, and is used when determining the annual depreciation expense of an asset.
+A: Salvage value is the amount that an asset is estimated to be worth at the end of its useful life. It is also known as scrap value or residual value, and is used when determining the annual depreciation expense of an asset.
 
 ### Q: What does the acronym SMART mean?
 A: 
@@ -339,18 +346,19 @@ These points are all relevant (depends from specific point).
 A: In a project network the critical path is the longest path(s) trough the network.
 
 ### Q: If you have a blackout on a critical path, how would you act?
+A: Implement a contingency (emergenza) plan and consider outsourcing critical tasks to ensure continuity.
 
 ### Q: You have two parallel lines. You experience a delay in one of the lines and you can switch to the other, but at a high cost. Would you wait for the delay to resolve or switch to the other line?
 
 A: I need to know first what the cost of one day of delay is. Second, what the cost of switching to the other line is. So then compare the cost of the delay (cost per day of delay multiplied by the number of days) with the additional cost of switching to the other line. If the cost of the delay exceeds the switching cost, it is more economical to switch; otherwise, waiting may be more cost-effective (I need to make a comparision between cost loses and additional cost). 
 
-### Q: How do you calculate the Erly Finish (EF) in a forward pass computation?
+### Q: How do you calculate the Early Finish (EF) in a forward pass computation?
 A: **EF = ES + Duration**
 
 ### Q: What are Total slack (SL) and Free slack (FS)?
 A: 
 - The **Total Slack** is referred to a specific activity and tell us the amount of time an activity can be delayed and not delayed the project. It is simply the difference between LS and ES (**SL = LS - ES**) or between LF and EF (**SL = LF - EF**). 
-- The **Free SLack** is the amount of time an activity can be delayed after the start of a longer parallel activity or activities (can be calculated only ofr activities that are not in the critical path). Only activities that occur at the end of a chain of activities, where you have a merge activity, can have free slack. 
+- The **Free SLack** is the amount of time an activity can be delayed after the start of a longer parallel activity or activities (can be calculated only for activities that are not in the critical path). Only activities that occur at the end of a chain of activities, where you have a merge activity, can have free slack. 
 
 ### Q: If you have unspent budget, what can you do with it?
 A: Invest it or set it aside for another project.
@@ -362,7 +370,7 @@ A: PERT diagram (Program Evaluation Review Technique) is a project management to
 A: Using the following formula:
 \[t_e = \frac{a + 4m + b}{6}\]
 Where $t_e$ represents the **weighted average activity time**; $a$ **optimistic** activity time; $b$ **pessimistic** activity time and $m$ the **most likely** activity time. 
-The variability in the activity tim estimates is approximated by the following equations:
+The variability in the activity time estimated is approximated by the following equations:
     - **Standard deviation** for the activity:
     \[\sigma_{t_e} = \left(  \frac{b-a}{6}\right)\]
     - The standard deviation for the project:

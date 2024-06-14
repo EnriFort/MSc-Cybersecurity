@@ -3,6 +3,8 @@
 ## 00 - DISCLAIMER 
 These notes were taken during the laboratory sessions of Ethical Hacking, therefore the content inside does not entirely come from my own head. However, I try where possible to rework and enhance the quality of the notes themselves, adding material taken from the internet, etc. Furthermore, what follows is nothing but the '*surface*' of an immense world. Happy reading.
 
+---
+
 ## 01 - Vulnerabilities
 
 ### What is a vulnerability
@@ -43,6 +45,8 @@ Once vulnerabilities are identified, you can use **Metasploit** to exploit these
 ### METASPLOIT
 Metasploit is a widely-used penetration testing framework used for discovering, exploiting, and validating security vulnerabilities in computer networks and systems.
 
+---
+
 ## 02 - Remote Access
 Remote access enables legitimate remote management of computer systems or networks for operational needs, but if not secured, it poses cybersecurity risks, as attackers might exploit vulnerabilities for unauthorized access to sensitive data.
 
@@ -77,6 +81,7 @@ It has two type of payloads (shell are payloads):
 They are shells delivered by exploiting vulnerabilities in web applications and , less commonly, by leveraging vulnerability in web servers. 
 Vulnerabilities allowing Web Shell include: Arbitrary file upload; Various kind of injection (SSTI and SQLi); Remote file inclusion (RFI); Local file inclusion (LFI). 
 
+---
 
 ## 03 - Web Security p1
 Usually a website comes with: **HTML** (*foundation*), **CSS** (*aesthetics*) and *JavaScript* (*dynamic behavior*). They often utilize additional frameworks and libraries. 
@@ -118,6 +123,7 @@ It is caused by unchecked uploads: server allows any file type without validatio
 - **Malicious File Types**: upload harmful scripts (e.g. PHP, ASP) for RCE;
 - **Content Tampering**: Uploads can modify website content or user data.
 
+---
 
 ## 04 - Web Security p2
 
@@ -198,7 +204,8 @@ We could inject something like:
 
 To get:
 - `nmap sS localhost;cat /etc/shadow; # -oX`
-	
+
+---	
 
 ## 05 - Hacking Unix p1
 	
@@ -247,7 +254,8 @@ Sudo (SuperUser-DO) allows running programs as root:
 
 In short, **sudo** set the UID and GID to those of the superuser. 
 		
-		
+---	
+
 ## 06 - Hacking Unix p2
 
 ### Exploiting cronjobs
@@ -354,3 +362,102 @@ User is unprivileged, but: They can be root in a container ⇒ they could access
 - Assess kernel exposure on publicly known exploits:
 	- For each exploit, exposure is calculated : Highly probable / Probable / Less probable / Unprobable
 - Verify state of kernel hardening security measures. 
+
+---
+
+## 07 - Binary Exploitation p1
+
+### Useful Concepts
+#### CPU Registers
+A register is a **quickly accesible memory** location available to a computer's processor. It usually consist of a small amount of fast storage, although some registers have specific hardware functons, and may be read-only or write-only. 
+
+![alt text](cpuRegister.png)
+
+From the image above:
+
+Special (non-general purpose) registers for x86-64:
+- **rbp** - base or frame pointer: start of the function frame;
+- **rsp** - stack pointer: current location in stack, growing downwards;
+- **rip** - instruction pointer: points to the next instruction the CPU will execute;
+
+Some other registers and their conventional use
+- **rsi** - register source index (source for data copies);
+- **rdi** - register destination index (destination for data copies);
+- **rcx** - typically the index in loops.
+
+#### Call Stack
+It is a stack-like structure, which stores information about the **active subroutines** of a computer program. 
+
+#### Function prologue and epilogue
+- **Function prologue**: a few lines of code at the beginning of a function. It prepares the stack and registers for use within the function.
+
+- **Function epilogue**: appears at the end of the function. It restores the stack and registers to the state they were in before the function was
+called
+
+### Security Measures
+
+#### Stack Canary
+
+A stack canary is a random value put on the stack between the local variables of a function and the saved `$rbp`
+register (i.e., the frame pointer) + the function return address. The value is checked when the function returns: if different from the original, the program is terminated. Canary logic is produced by the compiler
+
+#### ASLR - Address Space Layout Randomization 
+It is developed to prevent exploitation of memory corruption vulnerabilities. *Example: Prevent an attacker from reliably jumping to a particular function in memory*.
+ASLR randomly arranges the address space positions of key data areas of a process, including:
+- the base of the executable;
+- the positions of the stack;
+- heap and libraries.
+
+#### PIC/PIE
+PIC (Position Independent Code) / PIE (PI
+Executable) are code that does not depend on being loaded in a particular
+memory address. PIC is used for shared libraries: is shared code that can be “loaded” at any location. Within the linking program's virtual address space
+PIC is also used for executable binaries (PIE):
+- Implemented for hardening purposes;
+- Default on modern Linux distros. 
+
+### Shared libraries
+Body of PIC, shared by multiple binaries (Libc is an example).
+Executables don’t know the location of functions they need in shared libs. The dynamic linker (that is ld.so, for Linux) is responsible for resolvin those addresses:
+- On each function call - aka lazy binding;
+- On program load;
+- On program load w/ RELRO (RELocation Read-Only) - default for modern distros.
+Dynamic linking is implemented through:
+- Procedure Linkage Table (PLT);
+- Global Offset Table (GOT).
+
+#### GOT and PLT
+
+##### PLT
+PLT contains a set of stubs or trampolines responsible for redirecting control flow to the dynamic linker during the first invocation of a function in the shared library. Subsequent calls will go to the real function in the shared library. Each entry in the PLT corresponds to a function in a shared library used by the executable (determined at compile time).
+
+##### GOT
+The GOT is a table that contains addresses of global data and functions. Initially, the entries in the GOT point to the corresponding PLT stubs. The first time the dynamic linker resolves the addresses of library functions, it updates the GOT entries with the resolved addresses (assuming lazy binding). From that moment, subsequent call to the same library functions go to the library.
+
+
+### Calling conventions
+Describe the interface of called code (e.g., functions). It’s part of the ABI (Application Binary Interface):
+- The order in which atomic (scalar) parameters, or individual parts of a complex parameter, are allocated;
+- How parameters are passed - pushed on the stack, placed in registers, or a mix of both;
+- Which registers the called function must preserve for the caller;
+- How the task of preparing the stack for, and restoring after, a function call is divided between the caller and the callee.
+
+### Shellcodes
+Small piece of code used as the payload in the exploitation of a software vulnerability written in machine code for the target system (hardware and OS). It typically spawns a shell but, being arbitrary code, it can for instance:
+- Create a bind shell with TCP;
+- Create a reverse shell via TCP or UDP;
+- Open the Windows Calculator app.
+
+**To understand shellcodes, we need to understand syscalls**:
+Syscalls are the Kernel APIs - programmatic way for a program to request a service from the kernel, which controls the core functionalities of the system bridge between a program and the operating system kernel. Each syscall has a number. 
+Calling conventions for syscalls are different from “normal” functions, some of them:
+- The kernel interface uses rdi, rsi, rdx, r10, r8 and r9 - syscall number in rax;
+- Done via the syscall instruction;
+- Returning from the syscall, register rax contains the result of the system-call:
+	- A value in the range between -4095 and -1 indicates an error, it is `-errno`.
+- Only values of class INTEGER or class MEMORY are passed to the kernel.
+
+---
+
+## 08 - Binary Exploitation p2
+
