@@ -461,3 +461,52 @@ Calling conventions for syscalls are different from “normal” functions, some
 
 ## 08 - Binary Exploitation p2
 
+### Stack-Based Buffer Overflows
+When a program allows overflowing a buffer created on the stack (i.e., local variables to a function), we are able to overwrite:
+- Local variables coming after the overflowed one;
+- Saved frame pointer (`$rbp`);
+- Return address of the function.
+
+When the function returns, the instruction pointer (`$rip`) is set to
+a value we can control (via the overflow). Controlling the instruction pointer **is a central concept of buffer overflow attacks**.
+
+> ℹ️ **Reminder**: stack canary makes this attack ineffective
+
+The canary is checked before returning from the function:
+- If it differs from expected value &rarr; the program is aborted. Sometimes overwriting other local variables can also be effective!
+
+### Executable Stack
+The stack is meant to contain data, but (binary) code is data. A buffer overflow can be used to inject and run (return to) arbitrary code. Assuming that:
+- The stack memory region is executable - otherwise no code execution (Unless we can read and reconstruct the canary)
+- No stack canary is used - otherwise, can’t control the IP (via return address);
+- ASLR is off - otherwise, stack base-address is random (Unless you can learn the address).
+
+> ℹ️ **Note**: Thanks to the popularity of BOs, those conditions are _neither the default nor considered
+good practices_ on modern Linux distros and compilers.
+
+
+### Return Oriented Programming (ROP)
+A buffer overflow can be used to execute “arbitrary code”. Assuming that:
+- No stack canary is used - otherwise, can’t control the IP (via return address);
+- ASLR is off - otherwise, code address (libraries and executable) is random;
+- There is something interesting to “jump” to, via return address:
+	- In other words, we can find all the ROP gadgets we need.
+
+ROP allows an attacker to execute code in the presence of security defences -
+e.g., non-executable stack:
+- ROP is used to hijack program control flow to executes carefully
+chosen machine instruction sequences called “gadgets”;
+- Gadgets are already present in the machine's memory;
+- Gadgets, typically, end in a return instruction;
+
+Chained together, gadgets allow arbitrary operations
+
+### Ret to function
+Is the simplest ROP we can imagine. In this case, the buffer overflow is used “only” to overwrite the return address:
+- The address is set as the address of some interesting function, or somewhere in its body. 
+
+### Ret to libc
+What if there is nothing interesting to return to in our program? We can return to any function we know the address of!
+- This includes libraries linked dynamically;
+- Functions in libc are great candidates as libc is almost always needed:
+	- Exception: statically linked programs (e.g., Golang).
