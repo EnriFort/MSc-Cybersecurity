@@ -714,10 +714,10 @@ In both WPA-PSK and WPA Enterprise, the client and the access point perform a **
 
 A:  &#128163; `WPA Pre-Shared Key`: The **pre-shared key (PSK)** used in WPA-PSK is shared among all users of a particular wireless network. It’s also used to derive the specific encryption keys that are used during a user’s session. For this reason, an attacker observing the four-way handshake can then launch an offline brute-force attack against it to figure out the pre-shared key: 
 - **Step 1 - Obtaining the Four-Way Handshake**: Regardless of how you actually brute force the key, all tools require a captured four-way handshake. The handshake happens every time a client connects to a wireless network. So you can wait around to **sniff the handshake passively**, or kick a client off with the de-authentication attack just so you can sniff the handshake when the client reconnects. Make sure your wireless packet-capturing tool is set to watch only the specific channel your target is on. If you don’t, you may hop to a different channel and only capture part of the handshake.
+  
   **Example** (root):
-
-  ```sh
-airodump-ng --channel 11 --bssid 00:16:XX.. --write wpa-psk mon0
+  ``` 
+  airodump-ng --channel 11 --bssid 00:16:XX.. --write wpa-psk mon0 
   ```
 - **Step 2 - Brute Forcing**: With the four-way handshake in hand, you’re ready to **launch an offline brute-force attack** with three methods:
 
