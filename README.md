@@ -1,5 +1,5 @@
 # MSc-Cybersecurity
-This repository collects my personal notes collected during my Cybersecurity course.
+This repository collects my personal Markdown notes collected during my Cybersecurity course.
 
 CCL - Cyber and Computer Law
 
