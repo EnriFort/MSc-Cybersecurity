@@ -1,5 +1,4 @@
-# Ethical Hacking Questions & Answers
-
+# Ethical Hacking Questions & Answers 🕵️‍♂️💻
 ##### Reviewed by Enrico Fortuna ©️
 
 *Legend*:

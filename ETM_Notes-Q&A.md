@@ -1,5 +1,5 @@
-# ETM Lesson Notes 💵
-#### By Enrico Fortuna ©️
+# Economics of Technology and Management Notes 📊📱
+##### By Enrico Fortuna ©️
 
 ## 0 - Decision-making methods
 - **Likert scale**: An instrument for measuring opinions and attitudes;

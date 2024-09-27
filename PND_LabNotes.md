@@ -1,5 +1,4 @@
-# PND Lab Lesson note
-
+# Practical Network Defense Lab's Notes 🛡️🌐
 
 ## Important tips for kathará 
 1. When you create a folder with  pc name, e.g. **pc1**, every time you start kathará, the content inside pc1 folder will be copied inside the root directory of pc1. This is good when for example you don't want to write inside `/etc/network/interfaces` every time at startup;
