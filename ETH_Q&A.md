@@ -9,7 +9,7 @@
 ---
 ## Ch. 1: Footprinting
 
-### Q: What is footprinting and which goals does achieve? Describe the attack steps that should be performed.
+### Q: What is footprinting and which goals does it achieve? Describe the attack steps that should be performed.
 
 A: Footprinting is about **scooping out** your target of interest, understand everything **without sending a single packet** to your target. It enables attackers to create a near complete profile of an organization's security posture.
 

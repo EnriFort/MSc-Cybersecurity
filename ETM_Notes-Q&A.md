@@ -24,7 +24,7 @@ In other words the Balance Sheet is a financial statement that reports assets, l
 
 ### Assigning Costs to Cost Objects
 - **Direct costs**: Costs that can be easily traced to a unit of product or other cost object. E.g.: ***direct material*** (*euro / product*), ***direct labor*** (*euro / hours*, salary of single worker). 
-- **Indirect cost**: Costs that cannot be easily traced to a unit of product. Example: ***Manufacturing overhead*** (*only the cost / # of products*, if all the product have the same parts).
+- **Indirect cost**: Costs that cannot be easily traced to a unit of product. Example: ***Manufacturing overhead*** (*only the cost / #of products*, if all the product have the same parts).
 
 ### Classifications of Costs
 - **Manufacturing costs** includes raw, in progress and finished, and are Direct Materials, Direct Labor and Manufacturing overhead:
@@ -86,13 +86,18 @@ In other words the Balance Sheet is a financial statement that reports assets, l
     - **Variable expenses** = Quantity sold **(Q)** **x** Variable expenses per unit **(V)**;
     - **Profit = (Q x P - Q x V) - Fixed expenses** = **(P - V) x Q - Fixed expenses** = **Unit CM x Q - Fixed expenses**. 
     ![alt text](img/CVPgraph.jpg)
-- **Contribution Margin Ratio (CM Ratio)**: is the CM as a percentage of sales: \[ CM \; ratio = \frac{Contribution \; margin}{sales} = \frac{Contribution \; Margin \; Per \; Unit}{Selling \; Price \; Per \; Unit}\]
-
-    > **⚠️ Attention**: If you have two firm, you compare the CM ratio. 
+- **Contribution Margin Ratio (CM Ratio)**: is the CM as a percentage of sales: 
+$$ 
+    CM \; ratio = \frac{Contribution \; margin}{sales} = \frac{Contribution \; Margin \; Per \; Unit}{Selling \; Price \; Per \; Unit}
+$$
+    
+> **⚠️ Attention**: If you have two firm, you compare the CM ratio. 
 
 - **Variable Expense Ratio**: is the variable expenses as a percentage of sales:
 
-\[ Variable \; expense \; ratio = \frac{Variable \; expenses}{Sales}\]
+$$
+Variable \; expense \; ratio = \frac{Variable \; expenses}{Sales}
+$$
 
 - **Break-even point**: is the production level (Q) at which total revenues equal total expenses &rarr; **Profit** = **Unit CM** x **Q** - **Fixed Expenses** &rarr; \$0 = \$200 x Q - Fixed expenses &rarr; \$200 x Q = \$0 = \$80000 &rarr; Q = 400. 
     - Formula Method &rarr; $ Unit \; sales \; to \; break \; even = \frac{Fixed \; expenses}{CM \; per \; unit}$
@@ -124,7 +129,9 @@ In other words the Balance Sheet is a financial statement that reports assets, l
 
 > **"A dollar received today is worth more than a dollar received a year from now beacuse you can put it in the bank today and have more than a dollar a year from now"**. 
 - **The balance F at the end of period n**: 
-\[ F_n = P(1 + r)^n \]
+$ 
+F_n = P(1 + r)^n 
+$
 
 Where $P$ is the amount invested now; $r$ the discount rate that can't be negative; $n$ the lifetime (include also time of realization). It represents the future value (F) of an initial investment (P) compounded at a periodic interest rate (r) over n periods. If $r>1$ &rarr; $F > P$. 
 - **Present  value**:  $\text{P} = \frac{F_n}{(1 + r)^n}$.
@@ -133,36 +140,57 @@ Where $P$ is the amount invested now; $r$ the discount rate that can't be negati
 ## 7. Economic Indicators
 > Indicators are objective.
 - **Net Present Value (NPV)**: The best indicator (No externalities): 
-\[ \text{NPV} = -F_0 + \frac{F_1}{(1+r)} + \frac{F_2}{(1+r)^2} + \dots \frac{F_N}{(1+r)^N}\]
-\[\text{NPV} = \sum_{t=0}^{N} \frac{F_t}{(1 + r)^t}\]
-Where $F_0$ is the **initial investment**; $F_t$ the **cash flows** during period t {1...N}; $r$ the **cost opportunity of capital** (also called **discount rate** or **rate of return** which is a **Profitability standard**) and $N$ **lifetime**. 
-If **NPV > 0** project accepted (profitable); If **NPV < 0** project not acccepted. 
-The larger the NPV is the more it is to be considered. NPV measure the profit of a project about the present, and it is based on estimated cashflow. 
-**Why NPV is the best method?** Because through the cost opportunity, it is able to aggregate all future cash flows. It considers aldo the inflaction (tha value of money can change).
+
+    $$
+    \text{NPV} = -F_0 + \frac{F_1}{(1+r)} + \frac{F_2}{(1+r)^2} + \dots + \frac{F_N}{(1+r)^N}
+    $$
+
+    $$
+    \text{NPV} = \sum_{t=0}^{N} \frac{F_t}{(1 + r)^t}
+    $$
+
+    Where $F_0$ is the **initial investment**; $F_t$ the **cash flows** during period $t$ (1...N); $r$ the **cost opportunity of capital** (also called **discount rate** or **rate of return** which is a **Profitability standard**) and $N$ **lifetime**. 
+
+    If **NPV > 0** project is accepted (profitable); If **NPV < 0** project is not accepted. 
+
+    The larger the NPV, the more it is to be considered. NPV measures the profit of a project in the present, and it is based on estimated cash flow. 
+
+    **Why is NPV the best method?** Because through the cost opportunity, it is able to aggregate all future cash flows. It also considers inflation (the value of money can change).
 
 - **Payback Time (PBT)**: To find PBT you sum cashflows for each period until it equals or exceeds zero:
-\[ \sum_{t=0}^{PBT} F_t = 0 \]
-It stop to the payback time. The **two problems of PBT** are the following:
+    $$ \sum_{t=0}^{PBT} F_t = 0 $$
+    It stop to the payback time. The **two problems of PBT** are the following:
     1. Discount rate is not considered;
     2. What happens after PBT? We does not know. 
-A project is accepted if **PBT < cutoff period**. If PBT > cutoff  period a project is not accepted. 
+    
+    A project is accepted if **PBT < cutoff period**. If PBT > cutoff  period a project is not accepted.
+
 - **Cutoff Period**: it is the period (usually in years) below which a project's payback period must fall in order to accept the project. Its unit of measure is *years*. **Cutoff is decided by the investors** and it is totally **subjective**. The maximum value is the lifetime of the project. 
 - **Discounted Payback Time (DPBT)**: Is the PBT but considering also the discount rate:
-\[ \sum_{t=0}^{DPBT} \frac{F_t}{(1+r)^t} = 0 \]
-It has only one problem: you analyze only a part of the lifetime (the period in which you have recovered the initial investment), what happens later is unknown.  
-The unit of measure is time. The difference between generic and specific? No difference. It can be measured only in time.
+    $$ \sum_{t=0}^{DPBT} \frac{F_t}{(1+r)^t} = 0 $$
+
+    It has only one problem: you analyze only a part of the lifetime (the period in which you have recovered the initial investment), what happens later is unknown.  
+
+    The unit of measure is time. The difference between generic and specific? No difference. It can be measured only in time.
 If **Discount payback time < Cutoff period** the project is feasible;
+
 - **Internal Rate of Return (IRR)**: It is a **profitability measure** (you calculate it) which represents the discount rate that makes the NPV of all cash flows from the investment equal to zero:
-\[\sum_{t=0}^{N} \frac{F_t}{(1+IRR)^t} = 0\]
-In other words the IRR is the discount rate that sets the NPV of an investment’s cash flows (both inflows and outflows) to zero, and is expressed in percentage. 
+    
+    $$ \sum_{t=0}^{N} \frac{F_t}{(1+IRR)^t} = 0 $$
+    
+    In other words the IRR is the discount rate that sets the NPV of an investment’s cash flows (both inflows and outflows) to zero, and is expressed in percentage. 
     - **IRR > cost opportunity of capital** the project is **accepted**;
     - **IRR < cost opportunity of capital** the project is **noaccepted**. 
 
     > ℹ️ **Note**:  When you calculate PBT or DPBT remember to start from year 0. 
 
-- **Profitability Index (PI)**: The unit of measure is dimensionless: $\frac{NPV (\$)}{Initial Investment (\$)}$; The PI cannot be used when more than one resource is rationated. 
+- **Profitability Index (PI)**: The unit of measure is dimensionless: $$ \frac{NPV (\$)}{Initial Investment (\$)} $$
+The PI cannot be used when more than one resource is rationated. 
 If you have multiple products you use the **Weighted Average Profitability Index (WPI)**. Its approach is to penalize some decisions. 
-- **ROI**: Return of an Investment = How much money do you obtain after make some investment = **Net Operative Income / Investment**.
+- **ROI**: Return of an Investment = How much money do you obtain after make some investment:
+
+$$ \frac{Net Operative Income}{Investment} $$
+
 ### Additional Material 
 
 - **Minimum Attractive Rate of Return (MARR)**: is a cutoff rate representing a yield on investment that is considered minimally acceptable (*il tasso minimo di rendimento richiesto per investire in un progetto, assicurando che il rendimento dell'investimento sia almeno pari o superiore a tale tasso.*)
@@ -176,11 +204,11 @@ If you have multiple products you use the **Weighted Average Profitability Index
     - **Public Activities** &rarr; **Welfare**;
 - **Benefit-Cost Analysis**: **BC(i) = Equivalent Benefits / Equivalent Costs**:
     - **Aggregated benefit-cost ratio:**
-        \[ R_A = \frac{B}{I + C'} > 1\]
+        $$ R_A = \frac{B}{I + C'} > 1 $$
         Where $I$ is the initial investment, $C'$ the operative cost (you aggregate costs, I + C'). 
         If ,for example, $R_A$ is equal 2, you have benefits that are 2 times the costs. 
     - **Net benefit-cost ratio**:
-        \[R_N = \frac{B - C'}{I} > 1\]
+        $$ R_N = \frac{B - C'}{I} > 1 $$
         Here you separate the costs (C' and I). 
     In general, **benefits $\neq$ revenues** because benefits encompass other aspects besides revenues.  
 
