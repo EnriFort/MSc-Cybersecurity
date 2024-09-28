@@ -395,14 +395,15 @@ A: Invest it or set it aside for another project.
 A: PERT diagram (Program Evaluation Review Technique) is a project management tool used to plan, schedule, and coordinate tasks within a project. It visually represents the sequence of activities and their dependencies, allowing project managers to estimate the duration of a project and identify the critical path. **It focus on task dependencies and critical paths**.
 
 ### Q: How to calculate the weighted average activity time?
-A: Using the following formula:
-\[t_e = \frac{a + 4m + b}{6}\]
+A: Using the following formula: 
+$$t_e = \frac{a + 4m + b}{6}$$
 Where $t_e$ represents the **weighted average activity time**; $a$ **optimistic** activity time; $b$ **pessimistic** activity time and $m$ the **most likely** activity time. 
 The variability in the activity time estimated is approximated by the following equations:
-    - **Standard deviation** for the activity:
-    \[\sigma_{t_e} = \left(  \frac{b-a}{6}\right)\]
-    - The standard deviation for the project:
-    \[\sigma_{T_e} = \sqrt{\Sigma \sigma^2_{t_e}}\]
+
+- **Standard deviation** for the activity:
+    $$\sigma_{t_e} = \left(  \frac{b-a}{6}\right)$$
+- The standard deviation for the project:
+    $$\sigma_{T_e} = \sqrt{\Sigma \sigma^2_{t_e}}$$
         
 > ℹ️ **Note**: The standard deviation of the activity is squared in this equation; this is also called variance ($\sigma^2_{t_e}$). This sum ($\Sigma \sigma^2_{t_e}$) includes only activities on the critical path(s). 
 
