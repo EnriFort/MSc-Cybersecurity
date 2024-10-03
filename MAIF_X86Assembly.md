@@ -15,7 +15,7 @@ Reverse engineering of binary code, i.e., take a piece of code and understanding
 Hovewer, there are some tools that helps, like **decompilers** (e.g. `Ghidra` for free, `Hex-Rays`, only some version for free, `rev.ng`), which try to reconstruct a high-level C-like representation of a binary code fragment. 
 
 Even though this process is far from perfect due to: 
-- information loss during compilation, for example types (in assemply integer or unsigned integer are the same thing);
+- information loss during compilation, for example types (in assembly integer or unsigned integer are the same thing);
 - decompiling obfuscated code return an obfuscated source;
 
 neverthleless they are quite usefull for reverse-engineering professionals, provided you are confident enough in their use. 

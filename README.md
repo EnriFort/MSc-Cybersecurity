@@ -7,6 +7,7 @@ This repository contains my personal Markdown notes collected during my Cybersec
 - **CCL** - *Cyber and Computer Law* ⚖️💻
 - **ETH** - *Ethical Hacking* 🕵️‍♂️💻
 - **ETM** - *Economics of Technology and Management* 📊📱
+- **NI** - Network Infrastructures 🖧🌐
 - **PND** - *Practical Network Defense* 🛡️🌐
 - **MAIF** - *Malware Analysis and Incident Forensics* 🦠🔍
 
