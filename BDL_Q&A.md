@@ -1,7 +1,17 @@
 # Blockchain and Distributed Ledgers Questions & Answers 📒🔗
 
 ## Q: What are the key properties of a cryptographically secure hash function?
-A: 
+A: ​A **hash function** ​is a mathematical function with the following three properties:
+- Its **input** can be any **string of any size**
+- It produces a **fixed size output**
+- It is **efficiently computable**
+
+Intuitively the last point means that for a given input string you can figure out what the output of the hash function is in a reasonable amount of time More technically computing the hash of an ​n​‐bit string should have a running time that is O(​n​).
+
+Those properties define a general hash function while a **​cryptographic ​hash functions**, to be cryptographically secure, has the following three additional 
+properties: (1) **collision‐resistance**, (2) **hiding**, (3)**puzzle‐friendliness**: 
+
+
 
 ## Q: Explain the Merkle-Damgård construction. What issue does it address, and how does it work?
 
