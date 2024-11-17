@@ -2,9 +2,9 @@
 ##### Reviewed by Enrico Fortuna ©️
 
 *Legend*:
-- &#128163;  `Attack`: This icon identify a specific attack.
-- &#128295; ` Tool:` This symbol represent the tool used to perform a certain attack.
-- &#9940; ` Countermeasures:` It indicates contromeasures for a certain attack.
+- &#128163;  `Attack`: This icon identify a specific attack
+- &#128295; ` Tool:` This symbol represent the tool used to perform a certain attack
+- &#9940; ` Countermeasures:` It indicates contromeasures for a certain attack
 
 ---
 ## Ch. 1: Footprinting
@@ -15,34 +15,74 @@ A: Footprinting is about **scooping out** your target of interest, understand ev
 
 The attack steps are the following:
 
-- **Step 1 - Determine the scope of your activities**: Are you going to footprint the entire organization or limit your activities to certain subsidiaries or locations?
-- **Step 2 - Get proper authorization**: Do you have authorization to proceed with your activities?
-- **Step 3 - Publicly available information**: The amount of information immediately available about your image is astonishing. Examples of public information are: C*ompany web pages, Related organizations, Location details, Employee information, Current events, Privacy and security policies, Archived information, Search engines and data relationship*.
-- **Step 4 - WHOIS and DNS Enumeration**:
+- **STEP 1 - Determine the scope of your activities**: 
 
-  - **Domain-Related Searches**: The first thing to do is determine which of the many **WHOIS servers** contains the information we are looking for. The general process flows like this &rarr; the authoritative **Registry** for a given TLD, “.com” in this case, contains information about which **Registrar** the target entity has registered its domain &rarr; then you query the appropriate Registrar to find the **Registrant** details for the particular domain name you are interested. We refer to these as the *Three Rs* of WHOIS: Registry, Registrar, and Registrant.
-    As mentioned, ICANN (IANA) is the authoritative Registry for all of the TLDs and is a great starting point for all manual WHOIS queries (also from command line). This registrant detail provides physical addresses, phone numbers, names, email addresses, DNS server names, IPs, and so on.
-  - **IP-Related Searches**: The WHOIS server at ICANN (IANA) does not currently act as an authoritative registry for all the **Regional Internet Registries (RIRs)** as it does for the TLDs, but each RIR does know which IP ranges it manages. This allows us simply to pick any one of them to start our search. If we pick the wrong one, it will tell us which one we need to go to.
-- **Step 5 - DNS Interrogation**: After identifying all the associated domains, you can begin to **query the DNS**. DNS is a distributed database used to map IP addresses to hostnames, and vice versa.
-  &#128163; `Zone transfer`: One of the most serious misconfigurations a system administrator can make is allowing untrusted Internet users to perform a DNS zone transfer. A zone transfer allows a secondary master server to update its zone database from the primary master. Generally, a DNS zone transfer needs to be performed only by secondary master DNS servers. Providing internal IP address information to untrusted user over the Internet is akin to providing a complete blueprint, or roadmap, of an organization’s internal network. A simple way to perform a zone transfer is to use the nslookup (interactive mode) client.
+  Before proceeding, it's essential to define the boundaries of your assessment. Will you be gathering information about the entire organization, or are you focusing on specific subsidiaries, departments, or locations?
+- **STEP 2 - Get proper authorization**: 
+  
+  Do you have authorization to proceed with your activities? (preferably in writing to avoid any misunderstandings)
+- **STEP 3 - Publicly available information**: 
+  
+  A significant amount of information about an organization can be gathered from publicly accessible sources. Examples of public information are: *Company web pages, Related organizations, Location details, Employee information, Current events, Privacy and security policies, Archived information, Search engines and data relationship*.
 
-  - &#128295; ` nslookup`: is a network administration command-line tool for querying the Domain Name System (DNS) to obtain the mapping between domain name and IP address, or other DNS records.
-    **Example**:
+- **STEP 4 - WHOIS and DNS Enumeration**:
 
-    - set record type to any so we can pull any DNS records available for a complete list;
-    - `ls -d domain.com` to list all the associated records for the domain (for each entry we have an A record that denotes the IP address of the system name located to the right). In addition each host has an HINFO record that identifies the platform or type of OS running. We can easily manipulate the results with UNIX programs such as *grep*, *sed*, *awk* to find out some keyword like “Solaris” and “test”.
-  - &#128295; ` Host & Dig:` If there are multiple DNS server, you may be able to find one that will allow zone transfers. Automate the process with tools like host and dig. The `-l option` of host command perform a zone transfer on the domain in input. The dig command is often used to troubleshoot DNS architectures.
-  - &#128295; ` dnsrecon:` The best tool for performing zone transfers (with `option -x`). We can use fierce 2.0 to enumerate dns entries even though zone transfer attempts fail.
+  **Domain-Related Searches**: When you're looking up information about a **domain name** (e.g., `example.com`), here's the process:
+    - **Start with the Registry**: Each top-level domain (TLD) like `.com`, `.org`, or `.net`, has an **authoritative Registry** that manages information about which **Registrar** (a company like GoDaddy or Namecheap) is handling that domain. For `.com`, this would be a `.com` Registry.
+    - **Find the Registrar**: Once you know which Registrar is managing the domain, you query their WHOIS database. This database contains details about the domain's Registrant you are interested (the person or organization that owns the domain). 
+
+    We refer to these as the *Three Rs* of WHOIS: Registry, Registrar, and Registrant.
+
+    To start your search, you can use ICANN (the Internet Corporation for Assigned Names and Numbers), which is the authoritative source for TLDs. ICANN provides tools to perform manual WHOIS lookups, even from the command line. The results often include details like physical addresses, phone numbers, email addresses, DNS servers, and more.
+
+    
+  **IP-Related Searches**: 
+  When you're trying to look up information about an IP address, the process is slightly different:
+
+  1. **Start with a Regional Internet Registry (RIR)**:
+  IP addresses are managed by Regional Internet Registries (RIRs), organizations that assign IP ranges to specific regions. For example ARIN (North America), RIPE NCC (Europe), APNIC (Asia-Pacific). 
+  
+  2. **Query an RIR**:
+  	Unlike domains, there isn’t one central database for all IP address lookups. However, any RIR can tell you if the IP address you're searching for falls under its management. If it doesn’t, it will redirect you to the correct RIR.
+  
+- **STEP 5 - DNS Interrogation**: 
+  
+  After identifying all the associated domains, you can begin to **query the DNS**. DNS is a distributed database used to map IP addresses to hostnames, and vice versa.
+
+  &#128163; `Zone transfer`: One of the most serious misconfigurations a system administrator can make is allowing untrusted Internet users to perform a **DNS zone transfer**. A zone transfer is a process where one DNS server (usually a backup or secondary DNS server) requests and receives a complete copy of the DNS records from another (the primary DNS server). This is meant for redundancy and maintaining consistent records across servers.
+  
+   Generally, a DNS zone transfer needs to be performed only by **trusted DNS servers** within the same organization. Providing internal IP address information to untrusted user over the Internet is akin to providing a complete blueprint, or roadmap, of an organization’s internal network. A simple way to perform a zone transfer is to use the nslookup (interactive mode) client.
+
+  - &#128295; `nslookup`: is a network administration command-line tool for querying the Domain Name System (DNS) to obtain the mapping between domain name and IP address, or other DNS records.
+    **Usage and Examples**:
+    1. **Set record type**: Use `nslookup` in interactive mode to specify record types (e.g., `ANY`) for pulling all DNS records available for a domain: 
+        ```
+        nslookup
+        > set type=any
+        > <domain>
+        ```
+    2. **List domain records**: Use the `ls -d <domain>` command to list all the associated records for the domain (for each entry we have an **A record** that denotes the IP address of the system name located to the right). In addition each host has an HINFO record that identifies the platform or type of OS running. We can easily manipulate the results with UNIX programs such as *grep*, *sed*, *awk* to find out some keyword like “Solaris” and “test”.
+  - &#128295; ` Host & Dig:` If there are multiple DNS server, you may be able to find one that will allow zone transfers. Automate the process with tools like host and dig. The `-l option` of host command perform a zone transfer on the domain in input. The dig command is often used to troubleshoot DNS architectures (e.g. `dig axfr <domain> @<DNS_server>
+`, axfr command specifies a full zone transfer request). 
+  - &#128295; ` dnsrecon:` The best tool for performing zone transfers (with `option -x`). 
+  - &#128295; ` fierce 2.0:` If zone transfers fail, **fierce 2.0** can still enumerate DNS entries by brute-forcing subdomains or analyzing DNS responses.
 
   &#9940; ` Countermeasures:` On the network side you could **configure a firewall or packet-filter router** to deny all unauthorized inbound connections to TCP port 53, because name lookup requests are UDP and zone transfer requests are TCP. A better solution would be to **implement cryptographic transaction signatures (TSIGs)** to allow only trusted hosts to transfer zone information. Finally we **discourage the use of HINFO records**.
-- **Step 6 - Network Reconnaissance:** The process of gathering information about a target network to identify its structure, assets, and potential vulnerabilities:
 
-  - &#128295; ` traceroute:` This program lets you view the route that a packet follow from one host to the next. Traceroute use **TTL field** in the IP packet to elicit an `ICMP TIME EXCEED` message from each router. Each router that handles the packet is required to decrement the TTL field (hop counter). Traceroute helps you to discover the network topology by the target network, in addition to identifying access control devices. There may be multiple routing paths. Moreover, each interface may have different ACL applied. In many cases some interfaces pass your traceroute requests (ACL applied). Therefore, it’s important to map your entire network using traceroute (access path diagram).
-  > Note: ACL stands for **Access Control List**. It is a set of rules used to control network traffic and restrict access to or from a network.
+- **STEP 6 - Network Reconnaissance:** 
   
-    Traceroute in UNIX use UDP packets with the option of using ICMP packet with the `-I switch`. The `-p n option` in traceroute allows us to specify a starting UDP port number (n) that will be incremented by 1 when the probe is launched. This allows us to force every packet we send to have a fixed port number, in the hopes that access control device will pass the traffic. A good starting port number is UDP port 53 (DNSQueries). Because the TTL value used in tracerouting is in the IP header, two tools that allow for TCP tracerouting to specific ports are the aptly named **tcptraceroute** and **Cain & Abel**.
+  This step involves gathering information about a target network to understand its structure, assets, and potential vulnerabilities:
 
-  &#9940; ` Countermeasures:` However, several countermeasures can be employed to counter and identify the network reconnaissance probes discussed thus far. Many of the **commercial NIDS (network IDS) and IPS** detect this type of network reconnaissance. Best NIDS programs to detect this activity: **SNORT**, **Bro-IDS**.
+  - &#128295; ` traceroute:` This program lets you view the route that a packet follow from one host to the next. Traceroute use **TTL field** in the IP packet to elicit an `ICMP TIME EXCEED` message from each router along the way. Each router that handles the packet is required to decrement the TTL field (hop counter). 
+    
+    Traceroute helps you to discover the network topology by the target network, in addition to identifying access control devices. There may be multiple routing paths. Moreover, each interface may have different ACL applied. In many cases some interfaces pass your traceroute requests (ACL applied). Therefore, it’s important to map your entire network using traceroute (access path diagram).
+    
+    > Note: ACL stands for **Access Control List**. It is a set of rules used to control network traffic and restrict access to or from a network.
+  
+    In UNIX, traceroute uses UDP packets by default, but you can use the `-I` switch to force it to use **ICMP** packets instead. Additionally, the `-p n` option in traceroute allows you to specify a starting UDP port number, which will increment by 1 with each probe. This technique helps you bypass access control devices that may filter packets based on port numbers. A good starting port number is **UDP port 53 (DNSQueries)**. Since TTL values are located in the IP header, specialized tools like `tcptraceroute` and `Cain & Abel` can perform TCP traceroutes to specific ports.
+
+  &#9940; ` Countermeasures:` However, several countermeasures can be employed to counter and identify the network reconnaissance attempts. Many of the **commercial NIDS (network IDS) and IPS** detect this type of network reconnaissance. Best NIDS programs to detect this activity: `SNORT`, `Bro-IDS`.
+
   Also you may be able to **configure your border routers to limit ICMP and UDP traffic to specific systems** (minimize the exposure).
 
 ---
