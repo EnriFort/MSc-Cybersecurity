@@ -56,6 +56,7 @@ The attack steps are the following:
   - &#128295; `nslookup`: is a network administration command-line tool for querying the Domain Name System (DNS) to obtain the mapping between domain name and IP address, or other DNS records.
     **Usage and Examples**:
     1. **Set record type**: Use `nslookup` in interactive mode to specify record types (e.g., `ANY`) for pulling all DNS records available for a domain: 
+
         ```
         nslookup
         > set type=any
@@ -91,7 +92,7 @@ The attack steps are the following:
 ### Q: Describe what is Scanning
 A: Scanning is the process of identifying which systems are active and determining what services they are running. It involves two phases: **host discovery**, which checks if a system is online, and **port scanning**, which identifies open ports and the services listening on them. 
 
-### Q: What are ping sweeps? Describe at least two host discovery techniques, and at least one tool used to perform host discovery.
+### Q: What are ping sweeps? Describe at least two HOST DISCOVERY techniques, and at least one tool used to perform host discovery.
 
 A: Initially, "pinging" referred to the use of the **ICMP** protocol, but the term has been extended to include ARP, ICMP, TCP, and UDP traffic to determine if a host is active and connected.
 A ping sweep is a method that can **establish a range of IP addresses which map to live hosts**.
@@ -99,12 +100,11 @@ A ping sweep is a method that can **establish a range of IP addresses which map 
 **Discovery techniques**:
 
 - **ARP Host Discovery**: The Address Resolution Protocol (ARP) translates a system’s hardware address (MAC) to the IP address that has been assigned to it. The system has to send some sort of ARP request to start traversing the path to reach its destination. An ARP scan sends an ARP request out for every host on a subnet, and the host is considered “alive” if an ARP reply is received.
-
   - &#128295; ` arp-scan`: Simple ARP pinging and fingerprinting utility. You must run `arp-scan` as the root user.
   - &#128295; ` Nmap` (UNIX, Windows, Mac): de facto tool for anything related to host and services discovery. Support arp scanning via the `-PR option`. To only perform a host discovery and not a port scanning you can specify the `-sn option`.
   - &#128295; ` Cain`: It provides a ton of functionality for the Windows-only crowd that goes way beyond hosts and service discovery.
-- **ICMP Host Discovery**: ICMP provides a variety of message types to help diagnose the status of a host and its network path. Common ICMP types:
 
+- **ICMP Host Discovery**: ICMP provides a variety of message types to help diagnose the status of a host and its network path. Common ICMP types:
   - **type 0**: echo reply (ping);
   - **type 8**: echo request (ping reply);
   - **type 13**: timestamp (sys time);
@@ -117,7 +117,7 @@ A ping sweep is a method that can **establish a range of IP addresses which map 
 - &#128295; ` SuperScan`: Using the TCP/UDP port scan options, you can determine whether a host is alive or not without using ICMP at all. Simply select the checkbox for each protocol you wish to use and the type of technique you desire, and you are off to the races.
 - &#128295; ` nping`: As expected, you can also use nping to perform TCP/UDP host discovery. Since nping is so versatile, its output is more verbose by default, which may be more information than you really need.
 
-### Q: Describe at least one technique to determine which services are running or listening on a remote host (port scanning). Discuss pro and cons, and which tools you may use in practice.
+### Q: Describe at least one technique to determine which services are running or listening on a remote host (PORT SCANNING). Discuss pro and cons, and which tools you may use in practice.
 
 A: **Techniques**:
 
@@ -169,7 +169,10 @@ A: **Techniques**:
 
 ### Q: Discuss the differences between scanning and enumeration. Describe at least one enumeration technique.
 
-A: **Scanning** is equivalent to **inspecting** the walls for doors and windows as **potential entry points**. An attacker can typically turn next to **probing more the identified services** for known weaknesses, a process we call **enumeration**.
+A: **Scanning** is equivalent to **inspecting the perimeter** for potential entry points. This process is typically non-intrusive and focuses on gathering surface-level information to map the target environment.
+
+**Enumeration**, on the other hand, involves **digging deeper into the identified entry points** by actively interacting with the system to extract detailed information.
+
 
 The key difference is in the **level of intrusiveness**. Enumeration involves active connections to systems and directed queries. As such, they may be logged or otherwise noticed. In general, the information attackers seek via enumeration includes **user account names** (to inform subsequent password-guessing attacks), **misconfigured shared resources** (for example, unsecured file shares), and **older software versions with known security vulnerabilities** (such as web servers with remote buffer overflows).
 
@@ -210,22 +213,95 @@ Enumeration techniques tend to be platform-specific and are, therefore, heavily 
 
 ### Q: SNMP enumeration, which account you need, countermeasure.
 
-A: The **Simple Network Management Protocol (SNMP, UDP 161-162)**, conceived as a network management and monitoring service, is designed to provide information on network devices, software and systems, therefore it is the target of hacker attacks, also because it is considered poorly protected.
-The data in SNMP is protected by a simple password authentication system, but unfortunately there are several well-known default passwords. For example, the most common password for accessing an SNMP agent in read-only mode (the so-called community string for reading) is “public”. Hackers always try to guess or use a packet inspection application like Wireshark (discussed later) to get this string if they identify SNMP in port scans.
-What's more, many vendors have implemented proprietary extensions to the SNMP information set (referred to as **MIB, Management Information Base**), which may contain vendor-specific data; for example, the Microsoft MIB contains the names of Windows user accounts. Therefore, even if you have a severe limitation on accessing other enumerable ports such as TCP port 139 and/or 445, NT systems may still miss out on similar information if you run the SNMP service in the configuration by default (which uses "public" as a community string for reading). 
+A: The **Simple Network Management Protocol (SNMP)**,  was originally developed for network management and monitoring, providing detailed information about network devices, software, and systems. However, its widespread use and relatively weak security mechanisms make it a common target of hacker attacks.
 
-Therefore, enumerating Windows users via SNMP is easy, using the SNMP browser `snmputil` from the resource kit:
+&#128163; `Enumerating SNMP (UDP 161)`: SNMP relies on a basic password system known as the **SNMP community string**. It is like a user ID or password that allows access to the SNMP agent, for example, a router's, firewall’s, or other network device's statistics. Unfortunately, many implementations use well-known default passwords. For example, "public" is a commonly used read-only community string, and attackers often attempt to guess it or intercept it using tools like Wireshark once SNMP is identified during a port scan.
 
-```sh
-snmputil walk 192.168.202.33 public .1.3.6.1.4.1.77.1.2.25
-```
+What's more, many vendors extend SNMP's **Management Information Base (MIB)** to include proprietary information; for example, the Microsoft MIB contains the names of Windows user accounts. This means that even if other vulnerable ports (like TCP 139 or 445) are secured, NT systems may still miss out on similar information if you run the SNMP service in the configuration by default (which uses "public" as a community string for reading). 
 
-The last variable of the previous snmputil command, ".1.3.6.1.4.1.77.1.2.25", is the **OID (Object IDentifier)** which indicates a specific branch of the Microsoft MIB. The latter is a hierarchical namespace, therefore walking up the tree (that is, using a less specific number like .1.3.6.1.4.1.77) you get much more information. Remembering all these numbers is difficult, so an intruder will use the equivalent text string. You can also use the UNIX/Linux `snmpget` tool in the net-snmp suite to query SNMP.
-An hacker could use all this information to try to compromise the system. In the even worse case where the default community name was enabled for writing (for example "private"), the hacker would also be able to modify some of the parameters listed, in order to carry out a DoS attack or compromise system security.
-A particularly useful tool for misusing default community names for SNMP writing is muts' `copy-router-config.pl`. Cisco networking devices allow anyone who knows the string to copy their configuration to a TFTP server community for writing. Having gained access to the configuration of the Cisco device, a hacker could decrypt the password or launch a brute force attack to obtain it.
+
+- &#128295; `snmputil`:
+SNMP makes it relatively easy to enumerate Windows users when default settings are in place. For example, using the snmputil tool from the Microsoft Resource Kit, an attacker could execute the following command to list user accounts:
+
+  ```sh
+  snmputil walk 192.168.202.33 public .1.3.6.1.4.1.77.1.2.25
+  ```
+  **Explanation of the command**:
+  - `192.168.202.33`: The target system’s IP address
+  - `public`: The default community string for read-only access
+  - `.1.3.6.1.4.1.77.1.2.25`: The **OID (Object IDentifier)**  for Windows user accounts in Microsoft’s MIB
+
+  The latter is a hierarchical namespace, therefore walking up the tree (that is, using a less specific number like .1.3.6.1.4.1.77) you get much more information. Remembering all these numbers is difficult, so an intruder will use the equivalent text string (human-friendly label that correspond to the same OID). You can also use the UNIX/Linux `snmpget` tool in the net-snmp suite to query SNMP.
+
+  An hacker could use all this information to try to compromise the system. In the even worse case where the default community string was enabled for writing (for example "private"), the hacker would also be able to modify some of the parameters listed, in order to carry out a DoS attack or compromise system security.
+
+  A particularly useful tool for misusing default community names for SNMP writing is muts' `copy-router-config.pl`. Cisco networking devices allow anyone who knows the string to copy their configuration to a TFTP server community for writing. Having gained access to the configuration of the Cisco device, a hacker could decrypt the password or launch a brute force attack to obtain it.
 
 &#9940; ` Countermeasures`: The simplest way to prevent SNMP enumeration is to **remove or disable SNMP agents** on individual machines. If you cannot disable SNMP entirely, you must at least make sure it is configured with the community names chosen in so that they are difficult to guess (and are not, therefore, the default names "public" or "private").
-Of course, if you use SNMP to manage your network, you must **block access to TCP and UDP ports 161** (SNMP GET /SET) in all access devices placed on the perimeter of the network. Finally, it is necessary to limit access to SNMP people by granting it only to the IP address of the appropriate management console.
+Of course, if you use SNMP to manage your network, you must **block access to TCP and UDP ports 161** (SNMP GET/SET) in all access devices placed on the perimeter of the network. Finally, it is necessary to limit access to SNMP people by granting it only to the IP address of the appropriate management console.
+
+
+### Q: Active Directory enumeration (Windows). Describe techniques and tools.
+
+A: &#128163; `Windows Active Directory LDAP Enumeration (TCP/UDP 389 and 3268)`: **Lightweight Directory Access Protocol (LDAP)**, which Microsoft implements as **Active Directory (AD)**, is a centralized system for
+managing and storing information about network resources such as users, computers, and groups. 
+Because AD is designed to contain a logical and unified representation of an organization's IT infrastructure, it contains a lot of information by enumeration.
+
+- &#128295; `ldp.exe`: is Windows LDAP client included in the **Active Directory Administration Tools** which allows users (and attacker) to connect to an 
+AD server and navigate its directory structure. An attacker can then use `ldp.exe` against a host and enumerate 
+all users and groups with an LDAP query. The only prerequisite is to create an authenticated session via LDAP, which means you have already compromised 
+an existing account on the target (have access to valid login credentials). Step-by-Step process:
+
+  1. Connect to the target using ldp. Open Connection &rarr; Connect and enter the IP or DNS destination server name;
+  2. Once connected to the target, authenticate as Guest user (already compromised) and select Links &rarr; Bind and enter the properties of the Guest;
+  3. Once the LDAP session has been established, it can be enumerated: open View &rarr; Tree and enter the root context in the dialog box eg. dc = labfarce, dc = org;
+  4. A node appears in the left panel, click the + to reveal the objects under the root of the directory;
+  5. Double click on the CN = Users and CN = Builtin containers which reveal all the users e server groups.
+
+When installing AD, administrators are prompted to decide whether to loosen directory access permissions for compatibility with older systems. 
+In this way the user objects will be exposed to enumeration via LDAP. On Linux you can do the same using **LUMA**, or the Java based tool called **Jxplorer**, 
+both with GUI. For command line of a Linux tool use **ldapenum**.
+
+&#9940; ` Countermeasures`: You should **filters access to ports 389 and 3268 on the device that interfaces with the internet in the network** (network boundaries). 
+Nobody should log in without being authenticated to the ADs then restrict permissions. To keep safety you need to keep the mode native to Windows 
+(which does not include the Everyone group). Also be sure to **remove the Everyone group** (group that allows authenticated sessions with any user) 
+from pre-Windows 2000 compatible installations (less secure having this group).
+
+
+### Q: Describe the technique to enumerate the Microsoft's Server Message Block (SMB) service. What information can be enumerated from the SMB service? Under what assumptions is each of such enumeration possible? Discuss the tools, explain how each of them works, and also the countermeasures for this enumeration attack. Is Microsoft providing a facility to prevent SMB enumeration?
+
+
+A: &#128163; `Server Messagge Block Enumeration (TCP 139 and 445)`: Microsoft's **Server Messagge Block (SMB)** protocol forms the basis of
+Windows File and Print Sharing (the Linux implementation of SMB is called Sambe). 
+SMB is accessible via API's that can return rich information about Windows, even to unauthenticated users. 
+
+- **Null Sessions**: The first step in enumerating SMB is to connect to the service 
+using the so-called "null session" command: 
+  ```sh
+  net use \\192.168.202.33\IPC$ "" /u:"" 
+  ```
+
+  This syntax connects to the hidden interprocess communications "share" (`IPC$`) at IP address `192.168.202.33`
+  as the built-in anonymous user (`\u:""`) with a null (`""`) password. 
+  If successful, the attacker now has an open channel over which to attempt 
+  the various techniques outlined in this section to pillage as much
+  information as possible from the target, including **network information, shares, users, groups, Registry keys**, and so on. 
+
+  Called also the “Red Button” vulnerability or anonymous logon, it can be the single most devastating network foothold sought by intruders, as we will vividly demonstrate next. 
+
+- **Enumerating File Shares**: Some of the favorite targets of intruders are mis-ACL’d Windows file shares. With a null session established, we can enumerate the names of file shares quite easily using a number of techniques. For example, the built-in Windows net view command can be used to enumerate shares on remote systems:
+
+  ```sh
+  net view \\vito 
+  ```
+  - &#128295; `srvcheck and srvinfo`: These are two good share-enumeration tools (using the `-s` switch). `srvcheck`displays **shares and authorized users**, including hidden shares, but **it requires privileged access to the remote system** to enumerate users and hidden shares. `srvinfo -s` parameter lists shares along with a lot of other potentially revealing information. 
+
+
+  - &#128295; `DumpSec`: Formerly known as DumpAcl, DumpSec is one of the best tools for enumerating Windows file shares. It audits everything from
+  **file-system permissions** to **services available on remote systems**. Basic user information can be obtained even over an innocuous null connection, and it can be run from the command line, making for easy automation and scripting. DumpSec can be used to dump share information from a remote computer. 
+
+
+
 
 ---
 ## Ch. 4: Hacking Windows
@@ -278,20 +354,6 @@ A: Once intruders have successfully gained Administrator- or SYSTEM-equivalent p
   - &#128295; ` ADS (Alternate Data Streams)`: If the target systems runs the NTFS (**New Technology File System**, a file system developed by Microsoft that supports advanced features like security, compression, and Alternate Data Streams), an alternate  file-hiding technique is available to intruders. NTFS offers support for multiple streams of information within a file (a mechanism to add additional attributes or information to a file without restructuring the file system). It’s also used to hide a malicious hacker’s toolkit (called adminkit). Any file could be used.
 - **Rootkits**: However, more insidious techniques are beginning to come into vogue, especially the use of Windows rootkits. A rootkit is a **collection of computer software, typically malicious**, designed to enable access to a computer or an area of its software that is not otherwise allowed (for example, to an unauthorized user) and often masks its existence or the existence of other software.
 
-### Q: Active Directory enumeration. Describe techniques and tools.
-
-A: **Lightweight Directory Access Protocol** that Microsoft calls **Active Directory (AD)** is designed to contain a logical and unified representation of all objects relevant to the company's technology infrastructure. It therefore contains a lot of information by enumeration.
-
-- &#128295; ` ldp.exe`: among the Windows support tools there is an LDAP client called **Active Directory Administration Tool** which connects to an AD server and navigates to the directory. An attacker can then use `ldp.exe` against a host and enumerate all users and groups with an LDAP query. The only prerequisite is to create an authenticated session via LDAP, which means you have already compromised an existing account on the target, it’s an alternative to NetBIOS. We now show the enumeration of users and groups using `ldp.exe`:
-  1. Connect to the target using ldp. Open Connection &rarr; Connect and enter the IP or DNS destination server name;
-  2. Once connected to the target, authenticate as Guest user (already compromised) e select Links &rarr; Bind and enter the properties of the Guest;
-  3. Once the LDAP session has been established, it can be enumerated: open View &rarr; Tree and enter the root context in the dialog box eg. dc = labfarce, dc = org;
-  4. A node appears in the left panel, click the + to reveal the objects under the root of the directory;
-  5. Double click on the CN = Users and CN = Builtin containers which reveal all the users e server groups.
-
-During the installation of AD windows it asks if the user wants to loosen the permissions of directory access to allow older servers to perform these searches, in this way the user objects will be exposed to enumeration via LDAP. On Linux you can do the same using **LUMA**, or the Java based tool called **Jxplorer**, both with GUI. For command line of a Linux tool use **ldapenum**.
-
-&#9940; ` Countermeasures`: It **filters access to ports 389 and 3268 on the device that interfaces with the internet in the network** (network boundaries). Nobody should log in without being authenticated to the ADs then restrict permissions. To keep safety you need to keep the mode native to Windows (which does not include the Everyone group). Also be sure to **remove the Everyone group** (group that allows authenticated sessions with any user) from pre-Windows 2000 compatible installations (less secure having this group).
 
 ### Q: Describe at least three Windows security features available with Windows 2000 and above. Are there published attacks that bypass these three features? P.S: The presentations of Windows Firewall and Automated Updates will not be evaluated.
 

@@ -1,5 +1,211 @@
 # Blockchain and Distributed Ledgers Questions & Answers 📒🔗
 
+## Bitcoin Fundamentals Quiz
+
+### Q: Which of the following is true of SHA-256:
+- It has been proven not to have a collision ❌
+- We hope that there are no colisions ❌
+- **No collision has ever been publicly found** ✅
+- It has been proven that there is no fast way to find collisions ❌
+
+#### Explanation:
+The fist one is false because collisions are theoretically possible for any cryptographic hash function due to the pigeonhole principle. 
+
+The second is too vague and lacks the specificity of the known facts about SHA-256.
+
+The last is not true, it doesn't exist a proof. For now what we only know is that no collision has been found. 
+
+
+### Q: Which of the following types of modifications of a block chain data structure can be detected by someone who holds a hash pointer to the latest block?
+- **Insertion of a block** ✅
+- **Deletion of a block** ✅
+- **Tempering of data in a block** ✅
+- **Re-ordering of blocks** ✅
+
+#### Explanation: 
+We have a hash pointer, so any alteration to the blockchain — whether it involves inserting, deleting, tampering with, or reordering blocks — will invalidate the hash pointers, making the modification detectable.
+
+### Q: Which of these keys are required for veryfing a signature?
+- The secret key ❌
+- The public key ✅
+- Both the secret key and the public key ❌
+- None. Keys are required only for signing; anyone can verify the signature without a key ❌
+
+#### Explanation: 
+To verify a signature, you need the public key of the signer. The private (secret) key is used only for creating the signature and remains confidential. Since the public key is meant to be shared, it allows anyone to verify the authenticity of the signature without requiring access to the private key.
+
+### Q: If you generate numerous identities (public keys) for yourself and interact online using those different identities:
+
+- It is essential to have a good source of randomness. Otherwise adversaries might be able to deduce your secret key and take control of your identities ✅
+- Adversaries may be able to link your identities because public keys generated on the same computer tend to look similar ❌
+- Adversaries may be able to de-anonymize you by analyzing your activity patterns ✅
+
+#### Explanation: 
+You need a good source of randomness because cryptographic key generation relies on randomness to ensure that secret keys are unpredictable. If the randomness is weak or predictable (e.g., using the same seed or predictable inputs), adversaries could deduce your private keys by analyzing patterns or using brute-force techniques. This would compromise all identities tied to those keys.
+
+Additionally, adversaries may de-anonymize you by analyzing your activity patterns across different identities. For example, repeated behaviors, timestamps, or interactions could allow them to link seemingly separate identities.
+
+
+### Q: Alice and Bob use ScroogeCoin. Alice owns ten coins, each under a different address (public key) and each of value 3.0. She would like to transfer coins of value 5.0 to Bob. Recall that the PayCoins transaction consumes (and destroys) some coins, and creates new coins of the same total value. Alice’s transfer will require, at a minimum:
+- One PayCoins transaction, one new coin created, and one signature ❌ 
+- One PayCoins transaction, two new coins created, and two signatures ✅
+- Two PayCoins transaction, two new coins created, and four signatures ❌
+- Two PayCoins transactions, one new coin created, and two signatures ❌
+
+### Q: Which of these factors make distributed consensus hard?
+- Nodes may crash ✅
+- Nodes may be taken over by malware ✅
+- Encrypted messages may be intercepted and decrypted ❌
+- There is latency on the network ✅
+
+#### Explanation: 
+Crashing nodes is one of the main problem, because the network cannot determine the status of a crashed node. 
+
+Nodes can also be Byzantine and send wrong information. 
+
+The third  is generally not a direct factor in distributed consensus itself, but rather a security issue (e.g. using weak encryption algorithm). 
+
+The latency is another problem: suppose a node crash and we have high latency. We can never know if the node is crashed or just have connection lag. 
+
+
+### Q: Why is Bitcoin able to reach consensus in practice despite this being a generally difficult problem?
+- Financial incentives cause participants to work togheter ✅
+- Only small groups of nodes have to reach consensus rather than the network having to globally reach consensus ❌
+- The order of blocks doesn't matter for consensus ❌
+- Consensus has only to be reached over long times scales ✅
+
+#### Explanation: 
+Bitcoin does not actually solve all the problems of consensus, but it uses a tradeoff by incentivizing participants to behave honestly. 
+
+Is not important when the final consensus is achieved, but what matters is that, eventually, all nodes reach a shared consensus. 
+
+The order of block DOES MATTER for consensus because, over time, all nodes should have the same blockchain with identical information. 
+
+There is a point in the future where all nodes should align on the same chain, ensuring consistency across the network.
+
+### Q: What can a malicious node do?
+- Create a valid transactions originating from someone else's address ❌
+- Prevent a valid transaction from getting any confirmations ❌
+- Ignore the longest valid branch rule when proposing a new block ✅
+
+#### Explanation: 
+For the first option, it is impossible for a malicious node to create a valid transaction originating from someone else's address unless they have access to the private key. A valid transaction must be signed with the private key of the address sending the transaction, ensuring its authenticity.
+
+The malicious node can, however, ignore the longest valid branch rule when proposing a new block, potentially attempting to create a fork or disrupt the consensus process.
+
+### Q: Proof of work is a way to:
+- Select nodes in proportion to computing power ✅
+- Let nodes compete for the "right" to create blocks ✅
+- Make it impossible for one miner to act like many different miners ❌
+
+#### Explanation: 
+The more computing power you have, the higher the chances of finding the correct nonce (the solution to the proof of work) and winning the right to create the next block.
+
+The last statement is not true because proof of work does not prevent a miner from simulating multiple miners. It is possible for a miner to create virtual or "fake" nodes, often called "sybil attacks," where the total computational power is still the same as the original machine. These virtual nodes would not change the total hash power of the system, but they could give the illusion of more independent miners participating.
+
+### Q: A block in the block chain was found at time t. What is the probability that the next block was found at or before time t + 10 minutes? Assume that the total hash power of the network stays constant.
+- More than 50% ✅
+- Less than 50% ❌
+- Exactly 50% ❌
+
+
+### Q: A 51% attacker can potentially:
+- Steal coins from an existing address ❌
+- Make it unprofitable for others miners to mine ✅
+- Change the block reward ❌
+- Suppress transactions from the block chain ✅
+- Spend two times the same coins ✅
+
+#### Explanation: 
+Stealing coins from an address requires the private key, not just control over the network. A 51% attacker can’t directly steal coins unless they have access to the private keys of the user’s wallet.
+
+The second one is true because a 51% attacker has the ability to control the majority of the hash rate, which means they can create longer chains and rewrite the blockchain. This reduces the probability of other miners successfully finding blocks, making mining less profitable for them (loose trust on the coin &rarr; they sell the coin &rarr; the price drop). 
+
+Block reward requires changing the protocol itself, which is a hard fork.
+
+The 4th is true because a 51% attacker has the 51% of chance to be the next node that mine the next block, so it can select the transaction it wants.
+
+The last one is true because with 51% control, an attacker can potentially reverse their own transactions, allowing them to spend the same coins again in a different transaction (double spending).
+
+### Q: Which of the following are true?
+- 51% attacks are difficult because an adversary would need to control more than half of the nodes on the Bitcoin network ❌
+- Proof-of-work is essential for preventing sybil attacks on the Bitcoin blockchain ✅
+- As a transaction gets buried deeper in the blockchain, it becomes less and less likely that it will ever be undone because the work required to make a longer alternate branch becomes more and more difficult ✅
+
+#### Explanation: 
+First is false, because a 51% attack requires controlling more than half of the computational power (hash rate) of the network, not the nodes. Mining pools, if they want, could amass enough hash rate to carry out such an attack. The reason they don’t is primarily due to the economic incentives; attacking the network would likely devalue their own holdings.
+
+Tha last one is true for the **finality** property. 
+
+### Q: In a typical transaction
+- There is one signature that covers all the inputs ❌
+- Each input contains a signature ✅
+- There is one signature that covers all the outputs ❌
+- Each output contains a signature ❌✅
+
+#### Explanation: 
+Of course the second one is true, we need to sign each input (from another point of view it correspond to sign each output).
+
+### Q: Bitcoin’s script supports instructions whose effect is
+- Adding two numbers ✅
+- Conditional execution (if/then) ✅
+- Looping ❌
+- Recursion ❌
+- Hashing ✅
+
+#### Explanation: 
+Script are NOT turing complete. In bitcoin script you cannot use loop, also everything you can do with loop you can also do with the recursion. 
+
+### Q: Alice is paying for a service using Bitcoin micropayments. If she simply disconnects at some point without notifying Bob and stops sending micropayments, what can Bob do?
+- Bob is out of luck. He doesn't earn any Bitcoins and must pursue legal recourse. ❌
+- Bob can redeeem the maximum amount that Alice initially escrowed into a multisig address ❌
+- Bob can redeem the latest micropayment transaction that Alice sent in the latest time period before disconnecting, which matches the length of service she received ✅
+- Bob can refuse to sign the refund transaction, so both Alice and Bob will end up losing Bitcoins, which will sit in the multisig escrow forever ❌
+
+
+### Q: Bitcoin micropayments require the use of:
+- Multisignature Transactions ✅
+- Proof of burn ❌
+- Time-locked transactions ✅
+- Pay-to-script-hash ❌
+
+#### Explanation: 
+Time lock is to ensure that Alice will not lose the money if bob start acting in a weird way. 
+
+### Q: Blocks contain a tree of transactions instead of a flat list because
+- It results in smaller blocks ❌
+- It's easier to insert or delete new transactions while the block is being assembled ❌
+- It enables efficiently proving that a transaction is included in a block ✅
+
+#### Explanation: 
+It is essentially the Merkle Tree.
+
+### Q: If two conflicting transactions A → B and A → C are both broadcast almost simultaneously from different nodes, what determines which one will eventually end up in the block chain?
+- The transaction that reaches the majority of nodes first will win ❌
+- That transaction that was broadcast first will win ❌
+- The miner who finds the next block will likely resolve the tie including one of the transaction in the block ✅
+- Each node has its own version of the block chain containing the transaction that it heard about first ❌
+
+#### Explanation: 
+The first one is not true, because it is not about how many nodes a transaction reaches first, but rather about which transaction gets included in the next block. The miner who successfully mines the next block gets to choose which transactions to include (of course transaction fee helps in this). 
+
+The last one is of course false because the blockchain is a **distributed ledger**. While nodes may temporarily have different views of the transaction pool, once a block is mined and added to the blockchain, all nodes will eventually reach consensus on the same version of the blockchain.
+
+### Q: Which of the following requires a hard fork?
+- Disabling the OP_SHA1 instruction ❌
+- A requirement that each transaction have its outputs sorted by value in ascending (or non-decreasing) order ❌
+- Increasing the maximum permitted size of blocks ✅
+- Decreasing the maximum permitted size of blocks ✅
+
+#### Explanation: 
+The first one is false because disabling or modifying existing operations (like OP_SHA1) could be implemented via a soft fork. The same is for the second one. This type of rule change does not alter the validity of the transaction but enforces a new ordering convention.
+
+Increasing the maximum block size requires changing the protocol in a way that older nodes would not recognize or accept the new, larger blocks. 
+This would be a hard fork, as it is not backward-compatible. Nodes that haven't adopted the new rules would not be able to validate blocks larger than the previous maximum size.
+
+---
+# Exam Q&A
+
 ## Q: What are the key properties of a cryptographically secure hash function? (pag. 23)
 
 A: The first cryptographic primitive that we’ll need to understand is a **​cryptographic hash function**. ​A **hash function** ​is a mathematical function with the following three properties:
