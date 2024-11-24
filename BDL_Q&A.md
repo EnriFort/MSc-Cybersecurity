@@ -1,4 +1,5 @@
 # Blockchain and Distributed Ledgers Questions & Answers 📒🔗
+--- 
 
 ## Bitcoin Fundamentals Quiz
 
@@ -25,6 +26,7 @@ The last is not true, it doesn't exist a proof. For now what we only know is tha
 #### Explanation: 
 We have a hash pointer, so any alteration to the blockchain — whether it involves inserting, deleting, tampering with, or reordering blocks — will invalidate the hash pointers, making the modification detectable.
 
+
 ### Q: Which of these keys are required for veryfing a signature?
 - The secret key ❌
 - The public key ✅
@@ -33,6 +35,7 @@ We have a hash pointer, so any alteration to the blockchain — whether it invol
 
 #### Explanation: 
 To verify a signature, you need the public key of the signer. The private (secret) key is used only for creating the signature and remains confidential. Since the public key is meant to be shared, it allows anyone to verify the authenticity of the signature without requiring access to the private key.
+
 
 ### Q: If you generate numerous identities (public keys) for yourself and interact online using those different identities:
 
@@ -51,6 +54,7 @@ Additionally, adversaries may de-anonymize you by analyzing your activity patter
 - One PayCoins transaction, two new coins created, and two signatures ✅
 - Two PayCoins transaction, two new coins created, and four signatures ❌
 - Two PayCoins transactions, one new coin created, and two signatures ❌
+
 
 ### Q: Which of these factors make distributed consensus hard?
 - Nodes may crash ✅
@@ -83,6 +87,7 @@ The order of block DOES MATTER for consensus because, over time, all nodes shoul
 
 There is a point in the future where all nodes should align on the same chain, ensuring consistency across the network.
 
+
 ### Q: What can a malicious node do?
 - Create a valid transactions originating from someone else's address ❌
 - Prevent a valid transaction from getting any confirmations ❌
@@ -93,6 +98,7 @@ For the first option, it is impossible for a malicious node to create a valid tr
 
 The malicious node can, however, ignore the longest valid branch rule when proposing a new block, potentially attempting to create a fork or disrupt the consensus process.
 
+
 ### Q: Proof of work is a way to:
 - Select nodes in proportion to computing power ✅
 - Let nodes compete for the "right" to create blocks ✅
@@ -102,6 +108,7 @@ The malicious node can, however, ignore the longest valid branch rule when propo
 The more computing power you have, the higher the chances of finding the correct nonce (the solution to the proof of work) and winning the right to create the next block.
 
 The last statement is not true because proof of work does not prevent a miner from simulating multiple miners. It is possible for a miner to create virtual or "fake" nodes, often called "sybil attacks," where the total computational power is still the same as the original machine. These virtual nodes would not change the total hash power of the system, but they could give the illusion of more independent miners participating.
+
 
 ### Q: A block in the block chain was found at time t. What is the probability that the next block was found at or before time t + 10 minutes? Assume that the total hash power of the network stays constant.
 - More than 50% ✅
@@ -127,6 +134,7 @@ The 4th is true because a 51% attacker has the 51% of chance to be the next node
 
 The last one is true because with 51% control, an attacker can potentially reverse their own transactions, allowing them to spend the same coins again in a different transaction (double spending).
 
+
 ### Q: Which of the following are true?
 - 51% attacks are difficult because an adversary would need to control more than half of the nodes on the Bitcoin network ❌
 - Proof-of-work is essential for preventing sybil attacks on the Bitcoin blockchain ✅
@@ -137,6 +145,7 @@ First is false, because a 51% attack requires controlling more than half of the 
 
 Tha last one is true for the **finality** property. 
 
+
 ### Q: In a typical transaction
 - There is one signature that covers all the inputs ❌
 - Each input contains a signature ✅
@@ -145,6 +154,7 @@ Tha last one is true for the **finality** property.
 
 #### Explanation: 
 Of course the second one is true, we need to sign each input (from another point of view it correspond to sign each output).
+
 
 ### Q: Bitcoin’s script supports instructions whose effect is
 - Adding two numbers ✅
@@ -155,6 +165,7 @@ Of course the second one is true, we need to sign each input (from another point
 
 #### Explanation: 
 Script are NOT turing complete. In bitcoin script you cannot use loop, also everything you can do with loop you can also do with the recursion. 
+
 
 ### Q: Alice is paying for a service using Bitcoin micropayments. If she simply disconnects at some point without notifying Bob and stops sending micropayments, what can Bob do?
 - Bob is out of luck. He doesn't earn any Bitcoins and must pursue legal recourse. ❌
@@ -172,6 +183,7 @@ Script are NOT turing complete. In bitcoin script you cannot use loop, also ever
 #### Explanation: 
 Time lock is to ensure that Alice will not lose the money if bob start acting in a weird way. 
 
+
 ### Q: Blocks contain a tree of transactions instead of a flat list because
 - It results in smaller blocks ❌
 - It's easier to insert or delete new transactions while the block is being assembled ❌
@@ -179,6 +191,7 @@ Time lock is to ensure that Alice will not lose the money if bob start acting in
 
 #### Explanation: 
 It is essentially the Merkle Tree.
+
 
 ### Q: If two conflicting transactions A → B and A → C are both broadcast almost simultaneously from different nodes, what determines which one will eventually end up in the block chain?
 - The transaction that reaches the majority of nodes first will win ❌
@@ -190,6 +203,7 @@ It is essentially the Merkle Tree.
 The first one is not true, because it is not about how many nodes a transaction reaches first, but rather about which transaction gets included in the next block. The miner who successfully mines the next block gets to choose which transactions to include (of course transaction fee helps in this). 
 
 The last one is of course false because the blockchain is a **distributed ledger**. While nodes may temporarily have different views of the transaction pool, once a block is mined and added to the blockchain, all nodes will eventually reach consensus on the same version of the blockchain.
+
 
 ### Q: Which of the following requires a hard fork?
 - Disabling the OP_SHA1 instruction ❌
@@ -207,7 +221,6 @@ This would be a hard fork, as it is not backward-compatible. Nodes that haven't 
 # Exam Q&A
 
 ## Q: What are the key properties of a cryptographically secure hash function? (pag. 23)
-
 A: The first cryptographic primitive that we’ll need to understand is a **​cryptographic hash function**. ​A **hash function** ​is a mathematical function with the following three properties:
 - Its **input** can be any **string of any size**
 - It produces a **fixed size output**

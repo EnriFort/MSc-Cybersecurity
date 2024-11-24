@@ -269,14 +269,13 @@ from pre-Windows 2000 compatible installations (less secure having this group).
 
 
 ### Q: Describe the technique to enumerate the Microsoft's Server Message Block (SMB) service. What information can be enumerated from the SMB service? Under what assumptions is each of such enumeration possible? Discuss the tools, explain how each of them works, and also the countermeasures for this enumeration attack. Is Microsoft providing a facility to prevent SMB enumeration?
-
-
 A: &#128163; `Server Messagge Block Enumeration (TCP 139 and 445)`: Microsoft's **Server Messagge Block (SMB)** protocol forms the basis of
 Windows File and Print Sharing (the Linux implementation of SMB is called Sambe). 
 SMB is accessible via API's that can return rich information about Windows, even to unauthenticated users. 
 
 - **Null Sessions**: The first step in enumerating SMB is to connect to the service 
 using the so-called "null session" command: 
+  
   ```sh
   net use \\192.168.202.33\IPC$ "" /u:"" 
   ```
@@ -300,9 +299,14 @@ using the so-called "null session" command:
   - &#128295; `DumpSec`: Formerly known as DumpAcl, DumpSec is one of the best tools for enumerating Windows file shares. It audits everything from
   **file-system permissions** to **services available on remote systems**. Basic user information can be obtained even over an innocuous null connection, and it can be run from the command line, making for easy automation and scripting. DumpSec can be used to dump share information from a remote computer. 
 
-
-
-
+  Opening null connections and using the preceding tools manually is great for
+  directed attacks, but most hackers commonly employ a NetBIOS scanner to check
+  entire networks rapidly for exposed shares. Two tools that perform these tasks are:
+  - &#128295; `SysInternals’s` (acquired by Microsoft)
+  - &#128295; `ShareEnum`: it has fewer configurable options, but, by default, it provides a good amount of information and has nice comparison features that may be useful for comparing results over time.
+  - &#128295; `SoftPerfect’s Network Scanner`:  it is a bit more diverse but requires some minimal configuration beyond the default
+  Another popular Windows share scanner is:  
+  - &#128295; `NetBIOS Auditing Tool (NAT)`: NAT not only finds shares but also attempts forced entry utilizing user-defined username and password lists.
 ---
 ## Ch. 4: Hacking Windows
 
@@ -701,6 +705,13 @@ A: **Steps**:
 20. Check anomalous jobs for path and *\*.exe*.
 21. Check for anomalous service names.
 22. Check for anomalous service DLL paths or mismatched service names. If you run these commands on all hosts in a network and parse/load the results into a SQL database, you can perform an efficient analysis. An additional benefit is the provisioning of an enterprise “baseline” for later differential analysis when required.
+
+
+### Q: Following a successful APT attack, in the phase of the forensic analysis which focuses on the filesystem of a Windows System, which interesting files should be collected to analyze the attacker activities? List at least three files. Registry keys and page/swap/hibernations files will not be considered valid answers. For each of the files you listed, describe its default location, the information it contains, and which tools should be used for its analysis.
+
+### Q: Describe APT in the context of Unix systems. In particular, describe Trojan, sniffers, log cleaning and kernel rootkits, and briefly discuss some countermeasures for each of these points.
+
+
 ---
 ## Ch. 7: Remote Connectivity and VoIP Hacking
 
@@ -744,7 +755,11 @@ To be truly safe, **redesign the Citrix environment** to minimize access to only
 
 If you have more than five users in your Citrix environment, or if you don't know all of them personally, or if you don't want to leave them with a shell on the network then you need to evaluate the system well. In conclusion, hire experienced people and/or conduct your own assessments and then move on.
 
+### Q: What is a VoIP; Footprinting, scanning, Wardialers and Enumeration.
+
 ### Q: VoIP Attacks. Describe VoIP Enumeration, Denial of Service and other attacks against VoIP. Which tools are used? Write console commands. Which countermeasures?
+
+### Q: Describe at least three attacks to a VoIP network. Include in your description at least the activities to carry out, the tools, and the command line to be used. What are the possible countermeasures for each of these attacks? For example, one of the possible VoIP attack is the enumeration of VoIP users (no discuss this in the answer).
 
 A: VoIP is a general term used for describing the **voice transportation on top of an IP network**. VoIP is based on more than one protocol: at least one for the signaling and one for the voice encrypted traffic and the two most common ones are **H.323** and **SIP (Session Initiation Protocol)**. SIP operates on port TCP/UDP 5060 and implements various methods and response codes (*similar to HTTP: 1xx for information, 2xx for success, 3xx for redirection, 4xx for client failure…*). 
 
@@ -754,11 +769,11 @@ VoIP configurations are exposed to a large number of attacks since they require 
 
 - &#128163; `SIP Scanning`: Before attacking we must scan, in this case SIP devices, to identify what is available. To do this we can use the **SiVuS** tool for Windows and Linux (with GUI) or the **SIPVicious** command line tool written in python. 
 
-	The `svmap.py` tool within the SIPVicious suite is a SIP scanner meant for identifying SIP systems within a provided network range:
+	- &#128295; `svmap.py` tool within the SIPVicious suite is a SIP scanner meant for identifying SIP systems within a provided network range:
 
-	```sh
-	svmap.py 10.219.1.10-30 
-	```
+      ```sh
+      svmap.py 10.219.1.10-30 
+      ```
 
 	&#9940; ` Countermeasures`: The segmentation of the network between the VoIP network and the user access segment can prevent direct attacks against SIP systems, but once access is obtained, there are no countermeasures.
 
@@ -791,15 +806,120 @@ VoIP configurations are exposed to a large number of attacks since they require 
 
 ## Ch. 8: Wireless Hacking
 
-### Q: What are the differences between WPA and WEP,  Encryption Attacks and Authentication Attacks?
+### Background
+Wi-Fi, technically known as **802.11**, is a wireless communication standard 
+developed by the IEEE. The "802" refers to a group of standards that cover 
+all types of local area networks (LANs), while the ".11" specifically 
+applies to wireless LANs. Whenever updates or changes are made to this 
+standard, they are reflected by adding a letter to the end of its name. 
+For example, common updates include **802.11a**, **802.11b**, and **802.11g**. 
+The 802.11 standard defines how communication works at both the physical layer and the data link layer in the OSI model.
 
-A: First, it's important to understand the distinction between authentication and encryption in wireless security:
+#### 📡 Frequencies and Channels
+The radio spectrum is regulated by governments, and specific parts are reserved for general use, 
+known as **industrial, scientific, and medical (ISM) bands**. 
+Wi-Fi (802.11) operates in the 2.4-GHz or 5-GHz ISM bands:
+
+- **802.11a** devices use the **5-GHz** band;
+- **802.11b/g** devices use the **2.4-GHz** band;
+- **802.11n** devices can operate in either band but require specification of the band they support;
+- Devices that support both bands are called **dual-band devices**.
+
+To manage the spectrum efficiently, 802.11 divides it into channels:
+
+- In the **2.4-GHz band**, channels are numbered from 1 to 14, but neighboring channels 
+overlap and can cause interference. However, channels 1, 6, and 11 are spaced far enough apart 
+to avoid overlap, making them the best choice for reducing interference.
+- In the **5-GHz band**, channels (numbered 36–165 in the U.S.) are all nonoverlapping.
+
+Channel availability and restrictions vary by country. 
+For single access point (AP) setups, the AP and connected devices communicate on a single channel. 
+Overlapping channels in the 2.4-GHz band can cause interference, unlike the 5-GHz band where 
+this issue is avoided.
+
+
+#### 📶 Session Estabilishment
+Wireless networks can operate in two main modes:
+
+- **Infrastructure networks**: Require an access point (AP) to relay communication between 
+clients and bridge wireless and wired networks.
+- **Ad hoc networks**: Allow direct peer-to-peer communication without an access point.
+
+This discussion focuses primarily on infrastructure networks, though many principles also apply 
+to ad hoc networks.
+
+Before communication begins, a client must establish a session with the access point
+serving the wireless network. This is done in three steps:
+
+1. **Probe Request**:
+This process is for the client to identify if the wireless network is present.
+Traditionally, the client sends a broadcast message (probe request) looking for a specific network,
+identified by its **Service Set Identifier (SSID)**. The client scans all available channels, 
+sends probe requests, and waits for responses (probe responses) from nearby access points. The client
+does this continuously until it finds the wireless network it’s configured for. Modern systems, 
+like Windows Vista and newer, modify this process for security using **beacon frames**, as discussed later. 
+
+2. **Authentication**:
+After finding the access point, the client initiates authentication. In the 802.11 session 
+establishment process, this step is completely unrelated to the more advanced mechanisms that come 
+later if the network is configured to use something like WPA. 
+
+    - Open Authentication: The access point may be configured to allow any client to connect.
+
+    - Shared Key Authentication: (Used with WEP-encrypted networks) The client must respond to a 
+      challenge from the AP. However, this method is almost obsolete.
+
+
+    > **Note**: Open authentication with encryption means the AP accepts any client but disconnects 
+    those sending unencrypted or incorrectly encrypted data frames.
+
+3. **Association**:
+  The final step is association, where the client and access point formally record their connection:
+
+    - The client sends an association request.
+    - The AP replies with an association response, officially tracking the client.
+
+    At this stage, the client might still need to meet additional security requirements 
+    (e.g., WPA authentication) before gaining full access to the network.
+
+#### 🔒 Security Mechanisms
+While wired networks have a basic security advantage due to their physical access requirements, 
+wireless networks expand accessibility, creating the need for additional security measures. 
+
+##### 🛡️ Basic Security Mechanisms
+Some of basic measures are considered "*security by obscurity*" and are relatively easy to bypass. 
+Below, we explain their functionality and limitations.
+
+- **MAC Filtering**:
+Access points (APs) can check the MAC address of a client during the authentication phase.
+If the client's MAC address isn’t in a predefined list, the AP denies the connection.
+  - **Limitation**: Attackers can easily spoof MAC addresses to bypass this filter.
+
+- **“Hidden” Wireless Networks**:
+APs typically broadcast their SSID in regular announcements called **beacons**.
+To "hide" the network, the AP can omit the SSID from these beacons, making it slightly harder for attackers to detect the network.
+Hovewer, Microsoft recommends announcing the SSID to improve client security (e.g., Windows Vista and later prefer beacon-based discovery to avoid constant probe requests).
+  - **Limitations**: Hidden SSIDs offer minimal protection since the SSID is still exposed during client connection attempts.
+
+- **Ignoring Broadcast Probe Requests**:
+Clients often send broadcast probe requests (without specifying an SSID) to detect nearby networks.
+APs can be configured to ignore these requests, preventing unauthorized clients from discovering the network.
+  - **Limitations**: This requires all authorized clients to be **preconfigured** with the correct network details.
+
+##### 🔑 Authentication
+First, it's important to understand the distinction between authentication and encryption in wireless security:
 - **Authentication** is the process of verifying a client's identity and producing a session key, which is then used in the encryption process;
 - **Encryption** secures the data transmitted between the client and the access point. 
 
-Both processes occur at Layer 2 of the OSI model, which means they take place before a user even receives an IP address. In 802.11 wireless networks, encryption only secures the data frames between the access point and the client; other information like MAC addresses and management frames (e.g., probes, beacons) remains unencrypted.
+Both processes occur at Layer 2 of the OSI model (Data Link Layer), 
+which means they take place before a user even receives an IP address. 
 
-**WPA (Wi-Fi Protected Access)** was introduced as an improvement over the older **WEP (Wired Equivalent Privacy)** standard. WPA provides enhanced encryption and authentication mechanisms to better protect wireless networks. It comes in two main forms:
+
+**WPA (Wi-Fi Protected Access)** was introduced as an improvement over the older 
+**WEP (Wired Equivalent Privacy)** standard. WPA provides enhanced encryption and 
+authentication mechanisms to better protect wireless networks. 
+
+It comes in two main forms:
 - **WPA Pre-Shared Key (WPA-PSK)**: In this mode, a shared key is used to generate encryption keys that secure the session. The key is known by both the access point and the clients on the network.
 - **WPA Enterprise**: This version is designed for larger and more secure networks, such as in businesses or institutions. Instead of a pre-shared key, it uses a more robust authentication method that involves a **RADIUS (Remote Authentication Dial-In User Service)** server.
 
@@ -807,15 +927,197 @@ In both WPA-PSK and WPA Enterprise, the client and the access point perform a **
 - A **Pairwise Transient Key (PTK)** for unicast communication.
 - A **Group Temporal Key (GTK)** for multicast and broadcast communication.
 
-**Encryption Attacks vs. Authentication Attacks**: 
+##### 🔐 Encryption
 
-- **Encryption Attacks** exploit flaws in the way encryption algorithms or protocols operate. In WPA, encryption relies on the success of the authentication phase. If there’s a flaw in encryption mechanisms like **TKIP** or **AES-CCMP**, an attacker could decrypt data, encrypt data, and even send forged data as if they were a legitimate user. However, in WPA, network keys rotate, so an attacker can only perform these actions until the keys change. With **WEP**, there's no true authentication phase and no key rotation, so once an attacker cracks the key, they can access the network as a valid user indefinitely, decrypt others' data, and inject forged data.
-- **Authentication Attacks** target the process of verifying a user's identity, often aiming to bypass or exploit weaknesses in the authentication mechanism. These attacks often involve brute-forcing passwords, though there are other methods. Unlike encryption attacks, authentication attacks focus on compromising the credentials used to access the network rather than the data being transmitted.
+In wireless networks, encryption takes place between the access point (AP) 
+and the client at Layer 2 of the OSI model. However, there are important distinctions:
 
-### Q: Describe at least one method for attacking WPA (Wi-Fi Protected Access). Which countermeasures can be used?
+- Addressing information (such as source and destination MAC addresses) and 
+management frames (like probes and beacons) are not encrypted.
+- For data being sent from a wireless client to a wired host, the data is 
+decrypted at the AP and sent over the wire unencrypted.
+- If higher-layer protocols (like HTTPS) are encrypted, that traffic remains 
+unaffected by 802.11 encryption/decryption.
+
+Wireless networks offer three main encryption options:
+
+- **Wired Equivalent Privacy (WEP)**:
+WEP was the original encryption method used in wireless networks and has been 
+replaced by more secure protocols (WPA).
+It does not have a true authentication phase, except for a variant called dynamic WEP.
+In WEP, all participants in the network share the same encryption key.
+Weakness: WEP has several known vulnerabilities, making it highly insecure and 
+easy to exploit.
+
+- **Temporal Key Integrity Protocol (TKIP)**: 
+TKIP was introduced as a quick fix to WEP's flaws and is based on Rivest Cipher 4 (RC4),
+similar to WEP.
+TKIP makes several improvements to address WEP’s weaknesses but still uses the same 
+RC4 cipher. It was designed to be used with older hardware that couldn't support 
+the more complex AES-CCMP encryption, allowing a firmware update to enable TKIP support.
+While AES-CCMP is now more commonly used, TKIP remains in use in some environments due to its compatibility.
+
+- **Advanced Encryption Standard – Counter Mode with Cipher Block Chaining Message Authentication Code Protocol (AES-CCMP)**
+AES-CCMP is a complete redesign of the encryption process, offering far 
+stronger security than TKIP.
+It addresses many of the potential flaws of TKIP and is considered the 
+recommended encryption standard for wireless networks.
+AES-CCMP is more secure, but it requires more computing power, 
+which led to its initial limited support on older hardware.
+
+
+#### WEP
+When sending data over a WEP-protected network, 
+the **WEP key** and an **Initialization Vector (IV)** are used to encrypt the data:
+
+- The **IV** is pseudo-randomly generated for each frame and added 
+to the frame's 802.11 header.
+
+- Together, the WEP key and IV are used to create a **keystream** that turns 
+plaintext data into ciphertext via an XOR process.
+
+- To decrypt, the receiver uses the same WEP key and extracts the IV from the 
+received frame, then generates the keystream to decrypt the ciphertext back 
+into plaintext.
+
+- The decrypted data is validated by checking a checksum before it’s further processed.
+
+
+The IV is only 24 bits long, which is quite short. 
+This can lead to duplicate IVs being generated, especially when large amounts of 
+data are transmitted. If the same IV is used in multiple frames, attackers can:
+- Compare the ciphertexts of these frames to deduce the keystream.
+- Collect many frames of predictable types (e.g., **ARP packets**), 
+which can be easily guessed. The more frames the attacker collects, 
+the easier it becomes to identify the keystream.
+
+With enough data, the attacker can:
+- **Deduce the keystream**, which is used to decrypt frames encrypted with the same IV.
+- **Inject new frames** into the network, as they can now decrypt and re-encrypt the data.
+- In some cases, **guess the WEP key** if enough of the keystream is identified.
+
+Cracking WEP encryption requires gathering a large amount of data, 
+either duplicate IVs or specific types of frames (like ARP packets), 
+to gradually deduce the keystream and eventually break the encryption.
+
+
+#### **Encryption Attacks vs. Authentication Attacks**: 
+
+- **Encryption Attacks** exploit flaws in the way encryption 
+algorithms or protocols operate. 
+In WPA, encryption relies on the success of the authentication phase. 
+If there’s a flaw in encryption mechanisms like **TKIP** or **AES-CCMP**, 
+an attacker could decrypt data, encrypt data, and even send forged data as if 
+they were a legitimate user. However, in WPA, network keys rotate, 
+so an attacker can only perform these actions until the keys change. 
+With **WEP**, there's no true authentication phase and no key rotation, 
+so once an attacker cracks the key, they can access the network as a valid 
+user indefinitely, decrypt others' data, and inject forged data.
+
+- **Authentication Attacks** target the process of verifying a user's identity, 
+often aiming to bypass or exploit weaknesses in the authentication mechanism. 
+These attacks often involve brute-forcing passwords, though there are other methods. 
+Unlike encryption attacks, authentication attacks focus on compromising the credentials
+used to access the network rather than the data being transmitted.
+
+
+### Q: Deauth attacks (Denial of Service Attacks)
+
+A:  &#128163; `De-authentication Attack`: The de-authentication (or deauth) attack spoofs de-authentication frames from the client to the AP, and vice versa, to instruct the client that the AP wants it to disconnect and to instruct the AP that the client wants to disconnect. This almost always works, but sending more than one frame is useful, as no requirement is
+defined in the 802.11 standard as to when the client will attempt to reconnect. So client drivers often try to reconnect very quickly.
+
+- &#128295; `aireplay-ng`: aireplay-ng, a tool within the aircrack-ng suite, is a simple tool that performs a variety of functions, one of which is the de-authentication attack. Its de-authentication method is pretty aggressive, sending out a total of 128 frames for every deauth you define (64 to the AP from the client and 64 to client from the AP). 
+
+  With the adapter in monitor mode and on channel 1: 
+  - `iwconfig mon0 channel 1`
+
+  Launch a de-authentication:
+
+  - `aireplay-ng --deauth 2 -a 00:11:92:B0:2F:3B -c 00:23:15:2E:2C:50 mon0`
+
+    by defining the count (`--deauth 2`), the BSSID (`-a 00:11:92:B0:2F:3B`), the client (`-c 00:23:15:2E:2C:50`), and the interface (`mon0`).
+
+  An attacker can use the de-authentication attack to reveal the SSID of a
+  “hidden” wireless network by observing the client’s probe requests as it
+  reconnects. It can also be used in attacking WPA-PSK in “Authentication Attacks.”
+
+&#9940; `Stopping De-authentication Attacks`: Because the de-authentication attack abuses a function defined within the 802.11 specification, there is little you can do to mitigate your risk to this attack completely while staying true to the standard. I’ve seen some corporate customers create custom drivers in which the client’s wireless adapter disconnects if it sees
+a de-authentication frame and quickly reconnects to a completely different
+company access point. This creates a cat-and-mouse game between the attacker
+and his or her target. Tools have been released that observe this behavior and attempt to automate the tracking of the client as it moves to each AP, kicking it off as soon as it finds it.
+
+
+
+### Q: Describe one WEP attack method and countermeasures (Encryption attack). 
+A: Several attacks on the WEP (Wired Equivalent Privacy) algorithm emerged soon 
+after its introduction in wireless networks. 
+While there are many types of attacks on WEP, 
+we'll focus on two: a passive attack for historical context and a 
+traffic injection attack using the ARP replay attack.
+
+&#128163; `Passive Attack`:
+
+The passive attack was a widely used method in the early days of WEP cracking. 
+It involves capturing a large amount of wireless traffic and analyzing it to deduce the WEP key. Here’s how the attack works:
+
+To perform the attack, you need to collect a significant amount of data frames 
+(up to 1GB or more). Depending on network activity, this process can take anywhere 
+from hours to weeks. As you capture data, the tool you’re using extracts the Initialization 
+Vectors (IVs) and attempts to deduce the WEP key. Originally, cracking a 104-bit WEP key 
+required around 1 million IVs, but with newer techniques, the number 
+has dropped to as low as 60,000. Any 802.11 packet capturing tool 
+can be used to record WEP frames and save them in a PCAP file. 
+
+&#128295; `airodump-ng`: is a common tool known for its lightweight and efficient performance.
+Here’s an example command to capture the data:
+
+- `airodump-ng --channel 1 --write wepdata mon0`
+
+  `--channel 1` specifies the channel to capture data from 
+  (in this case, channel 1);
+  `--write wepdata` instructs the tool to save the captured data into a 
+  PCAP file named "wepdata";
+  `mon0` specifies the wireless interface to use for monitoring.
+
+&#128295; `aircrack-ng`: 
+It performs the statistical analysis needed to crack the WEP key. 
+It takes a PCAP file as input and automatically reloads the file to analyze more 
+data as it progresses. This feature gives you an idea  of how much data (IVs) you have, 
+and by watching the rate at which
+the IVs are incrementing, you can get a good sense as to how much longer it will
+take to gather enough to crack the key. 
+
+To launch aircrack-ng, just provide a PCAP
+file, for example, `wepdata-01.cap`:
+- `aircrack-ng wepdata-01.cap`
+
+You’ll know you’ve cracked the key when aircrack-ng stops and the output says `KEY
+FOUND!`. 
+
+
+&#9940; ` Countermeasures`: WEP should be treated as obsolete. 
+If your network is still using WEP, it’s crucial to **disable it immediately**. 
+WEP is essentially equivalent to an open wireless network in terms of security,
+so it’s best to avoid it altogether.
+**Implementing encryption at higher layers**, like VPNs, can help protect the 
+transport data of your clients. However, ensure proper configuration to avoid 
+vulnerabilities that could allow attackers to target internal network resources.
+Simply put, never use WEP. It's outdated and highly vulnerable to attacks. 
+Switch to stronger security protocols like WPA2 or WPA3.
+
+
+### Q: Describe at least one method for attacking WPA (Wi-Fi Protected Access). Which countermeasures can be used? (Authentication Attack)
 
 A:  &#128163; `WPA Pre-Shared Key`: The **pre-shared key (PSK)** used in WPA-PSK is shared among all users of a particular wireless network. It’s also used to derive the specific encryption keys that are used during a user’s session. For this reason, an attacker observing the four-way handshake can then launch an offline brute-force attack against it to figure out the pre-shared key: 
-- **Step 1 - Obtaining the Four-Way Handshake**: Regardless of how you actually brute force the key, all tools require a captured four-way handshake. The handshake happens every time a client connects to a wireless network. So you can wait around to **sniff the handshake passively**, or kick a client off with the de-authentication attack just so you can sniff the handshake when the client reconnects. Make sure your wireless packet-capturing tool is set to watch only the specific channel your target is on. If you don’t, you may hop to a different channel and only capture part of the handshake.
+
+- **Step 1 - Obtaining the Four-Way Handshake**: Regardless of how you actually 
+brute force the key, all tools require a captured four-way handshake. 
+The handshake happens every time a client connects to a wireless network. 
+So you can wait around to **sniff the handshake passively**, or kick a client 
+off with the de-authentication attack just so you can sniff the handshake when 
+the client reconnects. Make sure your wireless packet-capturing tool is set to 
+watch only the specific channel your target is on. If you don’t, you may hop to a 
+different channel and only capture part of the handshake.
   
   **Example** (root):
   ``` 
@@ -832,7 +1134,7 @@ A:  &#128163; `WPA Pre-Shared Key`: The **pre-shared key (PSK)** used in WPA-PSK
 &#9940; ` Countermeasures`: WPA-PSK security all comes down to the **complexity of the chosen pre-shared key** and your **users’ integrity**. If you choose an extremely complex pre-shared key, but share it among 100 users, and one of them knowingly or unknowingly discloses the credentials, the entire network is at risk.
 Ensure WPA-PSK is only used in environments where all options are considered, and ensure the key is complex enough to withstand a dedicated attacker.
 
-### Q: Describe at least one method to attack WPA Enterprise. What are the possible countermeasures?
+### Q: Describe at least one method to attack WPA Enterprise. What are the possible countermeasures? (Authentication Attack)
 
 A: In order to gear our attack toward a particular EAP type, we first need to **identify which EAP type a client is using**. We do this by observing the communication between the client and the AP during the initial EAP handshake. We can capture the EAP handshake in essentially the same way that we captured the four-way handshake when we targeted WPA-PSK.
 Once we have the handshake, we’ll analyze it using a standard packet capturing tool to figure out the network client. Using **Wireshark**, we filter on `eap` to inspect only the EAP handshake. Wireshark parses out the important information and shows us the EAP type right in the Info column.
@@ -850,10 +1152,13 @@ The attacks that you can do are:
 		```
 
 	&#9940; ` Countermeasures`: LEAP has been in the same bucket as WEP for a number of years now. It’s sort of a bruise on the face of wireless security, but the truth of the matter is that with an **extremely complex password**, LEAP can be secure.
+  
 - &#128163; `EAP-TTLS and PEAP`: EAP-TTLS and PEAP are two of the **most commonly used EAP types**. They establish a TLS tunnel between the unauthenticated wireless client and a wired-side RADIUS server. The AP has no visibility into this tunnel and simply relays the traffic between the two. The TLS tunnel is established so the client can transmit credentials via a less secure, inner authentication protocol. TLS is a relatively secure protocol, so “tapping” into the tunnel is currently out of the question.
 	However, since the nature of wireless networks makes them extremely susceptible to AP impersonation and man-in-the-middle attacks, another option is available. The trick here is to impersonate the AP that the target client is looking to connect to and then act as the terminating end of the TLS tunnel.
 
 	&#9940; ` Countermeasures`: EAP-TTLS and PEAP can be secured with a simple checkbox and an input field. Be sure to **validate the server certificate** on all wireless clients connecting with EAP-TTLS and PEAP. By checking that box and defining the common name on the certificate, you force clients to ignore any RADIUS servers that are not explicitly allowed on by you, and therefore, an attacker won’t be able to terminate the TLS tunnel.
+
+
 
 ---
 ## CH. 9: Hacking Hardware
@@ -862,10 +1167,22 @@ The attacks that you can do are:
 
 A: Many secure facilities require that an access card be used for entry in addition to other security measures. These cards normally come in one of two types: **magnetic stripe (magstripe)** or **RFID (Radio Frequency Identification**; these are often referred to as proximity cards).
 
-- **Hacking MagStripe cards** : Many magnetic cards comply with ISO standards 7810, 7811 and 7813 which define a standard size and say that the card contains 3 data tracks called tracks 1, 2 and 3. Most of these cards have **no security measures to protect the data** saved in the card and **encrypt data in clear text**, so they are easy to clone and reuse.
+- **Hacking MagStripe cards** : 
+  Many magnetic cards comply with ISO standards 7810, 7811 and 7813 which define a 
+  standard size and say that the card contains 3 data tracks called tracks 1, 2 and 3. 
+  Most of these cards have **no security measures to protect the data** saved in the card 
+  and **encrypt data in clear text**, so they are easy to clone and reuse.
 
-  There are tools to clone them, alter them and update their data, such as the `makinterface.de` reader/writer which is sent with a Magnetic Stripe Card Explorer software, which allows anyone to do this attack once the data from the source card has been acquired. The tool allows you to display card data in Char, Binary or ISO on the screen and can provide data information such as ID number, serial number, social security number, name, address, account balance and other common information of these cards. This data is in thick custom format and must be decrypted to be readable.
-  Brute forcing card values can be a quick way to gain access to a system or bypass a panel. However, to analyze the card data easily, you can read more cards of the same type and then use a tool and inspect the data. Find a common context, such as 2 binary codes that differ only for a few bits that probably represent 2 different card IDs if (for example) they are sequential numbers.
+  There are tools to clone them, alter them and update their data, 
+  such as the `makinterface.de` reader/writer which is sent with a Magnetic Stripe Card Explorer software, 
+  which allows anyone to do this attack once the data from the source card has been acquired. 
+  The tool allows you to display card data in Char, Binary or ISO on the screen and can provide data information such as ID number, 
+  serial number, social security number, name, address, account balance and other common information of these cards. 
+  This data is in thick custom format and must be decrypted to be readable.
+  Brute forcing card values can be a quick way to gain access to a system or bypass a panel. 
+  However, to analyze the card data easily, you can read more cards of the same type and then use a tool and inspect the data. 
+  Find a common context, such as 2 binary codes that differ only for a few bits that probably 
+  represent 2 different card IDs if (for example) they are sequential numbers.
 
   So writing data on a card is simple but many tracks include checksum data to check if the data is valid or the card is not damaged; if there is a checksum you need to figure out which checksum is being used and recalculate a new one before using the card.
 - **Hacking RFID cards**: Magstripes are temporarily disappearing in favor of RFID card systems, which are used to provide access to facilities as well as payment systems around the world. Many RFID card access systems operate at 135kHz or 13.56MHz and like their predecessors these RFID cards are often unsecured and can be cloned (custom encryption and other security measures are now being adopted to mitigate the risks). RFID card is from HID Corp which uses a proprietary protocol.
@@ -893,17 +1210,34 @@ Many bypass products and services exist for specific drives; however, the most c
 &#9940; ` Countermeasures`: The best defense against ATA drive password bypass is to avoid it: **don’t rely on ATA security** to protect drives from tampering or to protect the contents of the drive. Many ATA drives are trivial to bypass, and password protecting them provides a false sense of security.
 As an alternative to ATA password security, **use full disk encryption** to protect the entire contents of the drive or sensitive partitions on the drive. Three common products that provide disk encryption are **BitLocker**, **TrueCrypt**, or **SecurStar**.
 
+
 ### Q: Wireless interface sniffing
 
-A: Before you can access a wireless interface, you need an available client such as a wireless card or a bluetooth device. At this point, a layer 2 software attack could be carried out against the device, but if it cannot be done, there is a need to reconnaissance.
-We start by **identifying the FCC ID** of the device that should be printed on the device, packaging or in the manual. With the FCC ID you can search the FCC website for documents about the device for information such as radio frequencies at which it operates, or type of modulation it uses, mutilated to do **symbol decoding** (it is deciphering the lowest level bits from wireless channel on which the device operates). To do this, you need defined radio softwares such as **WinRadio** or **USRP**, as well as a lot of software programming.
+A: Before you can access a wireless interface, 
+you need an available client such as a wireless card or a bluetooth device. 
+At this point, a layer 2 software attack could be carried out against the device, 
+but if it cannot be done, there is a need to reconnaissance.
+We start by **identifying the FCC ID** of the device that should be printed on the device, 
+packaging or in the manual. 
+With the FCC ID you can search the FCC website for documents 
+about the device for information such as radio frequencies at which it operates, 
+or type of modulation it uses, mutilated to do **symbol decoding** 
+(it is deciphering the lowest level bits from wireless channel on which the device operates). 
+To do this, you need defined radio softwares such as **WinRadio** or **USRP**, 
+as well as a lot of software programming.
 
 ### Q: Firmware reversing
 
-A: Many embedded devices require **custom firmware**, which is often held upgradable and can be loaded by the user. Searching for firmware files (site) can lead to device information such as default passwords, administrative ports and debugging interfaces (fast way with a hex editor like 010 Editor of SweetScape Software).
+A: Many embedded devices require **custom firmware**, 
+which is often held upgradable and can be loaded by the user. 
+Searching for firmware files (site) can lead to device information such as default passwords, 
+administrative ports and debugging interfaces (fast way with a hex editor like 010 Editor 
+of SweetScape Software).
 
-Another common and fundamental tool in reverse engineering the firmware of an embedded device is **IDA Pro**, since it supports hundreds of different processors.
-Another useful tool is the UNIX command `strings` which prints all ASCII strings from a binary, useful because many developers hardcode passwords, keys, etc.
+Another common and fundamental tool in reverse engineering the firmware 
+of an embedded device is **IDA Pro**, since it supports hundreds of different processors.
+Another useful tool is the UNIX command `strings` which prints all ASCII strings from a 
+binary, useful because many developers hardcode passwords, keys, etc.
 
 We can mount the firmware image using the mount command:
 
