@@ -312,12 +312,14 @@ To determine the number of chunks and the length of each chunk, let’s break do
 
 ## Q: How does a digital signature scheme operate? Describe the two essential properties required for its security and effectiveness. (pag. 37)
 **​Digital signatures​** is the second cryptographic primitive, along with 
-hash functions, that we need as building blocks for the cryptocurrency. A digital  signature is supposed to be the digital analog to a handwritten signature on paper. 
+hash functions, that is needed as building blocks for the cryptocurrency. A digital  signature is supposed to be the digital analog to a handwritten signature on paper. 
 
-We desire **two properties** from digital signatures that correspond well to the handwritten signature analogy. Firstly, only you can make your signature, but anyone who sees it can verify that it’s valid. Secondly, we want  the signature to be tied to a particular document so that the signature cannot be used to indicate 
-your agreement or endorsement of a different document. For handwritten signatures, this latter 
-property is analogous to assuring that somebody can’t take your signature and snip it off one 
-document and glue it onto the bottom of another one.  
+We desire **two properties** from digital signatures that correspond well to the handwritten signature analogy. 
+- 1. Only you can make your signature, but anyone who sees it can verify that it’s valid. 
+- 2. We want the signature to be tied to a particular document so that the signature cannot be used to indicate 
+your agreement or endorsement of a different document. 
+
+For handwritten signatures,this latter property is analogous to assuring that somebody can’t takeyour signature and snip it off one document and glue it onto the bottom of another one.  
 
 
 > ### Digital Signature Scheme

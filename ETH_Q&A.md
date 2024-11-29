@@ -94,14 +94,23 @@ A: Scanning is the process of identifying which systems are active and determini
 
 ### Q: What are ping sweeps? Describe at least two HOST DISCOVERY techniques, and at least one tool used to perform host discovery.
 
-A: Initially, "pinging" referred to the use of the **ICMP** protocol, but the term has been extended to include ARP, ICMP, TCP, and UDP traffic to determine if a host is active and connected.
-A ping sweep is a method that can **establish a range of IP addresses which map to live hosts**.
+A: Initially, *pinging* referred to the use of the **ICMP** protocol, 
+but the term has been extended to include **ARP**, **ICMP**, **TCP**, and **UDP**
+traffic to determine if a host is active and connected.
+A ping sweep is a method that can 
+**establish a range of IP addresses which map to live hosts**.
 
-**Discovery techniques**:
+**Host Discovery techniques**:
 
-- **ARP Host Discovery**: The Address Resolution Protocol (ARP) translates a system’s hardware address (MAC) to the IP address that has been assigned to it. The system has to send some sort of ARP request to start traversing the path to reach its destination. An ARP scan sends an ARP request out for every host on a subnet, and the host is considered “alive” if an ARP reply is received.
-  - &#128295; ` arp-scan`: Simple ARP pinging and fingerprinting utility. You must run `arp-scan` as the root user.
-  - &#128295; ` Nmap` (UNIX, Windows, Mac): de facto tool for anything related to host and services discovery. Support arp scanning via the `-PR option`. To only perform a host discovery and not a port scanning you can specify the `-sn option`.
+- **ARP Host Discovery**: The Address Resolution Protocol (ARP) translates a 
+system’s hardware address (MAC) to the IP address that has been assigned to it.
+The system has to send some sort of ARP request to start traversing the path 
+to reach its destination. 
+An ARP scan sends an ARP request out for every host on a subnet, 
+and the host is considered *alive* if an ARP reply is received.
+
+  - &#128295; ` arp-scan`: Simple ARP pinging and fingerprinting utility. You must run `arp-scan` as the root user;
+  - &#128295; ` Nmap` (UNIX, Windows, Mac): *de facto* tool for anything related to host and services discovery. Support arp scanning via the `-PR option`. To only perform a host discovery and not a port scanning you can specify the `-sn option`.
   - &#128295; ` Cain`: It provides a ton of functionality for the Windows-only crowd that goes way beyond hosts and service discovery.
 
 - **ICMP Host Discovery**: ICMP provides a variety of message types to help diagnose the status of a host and its network path. Common ICMP types:
@@ -113,7 +122,17 @@ A ping sweep is a method that can **establish a range of IP addresses which map 
 
 **Tools**:
 
-- &#128295; ` Nmap` : Nmap **-sn option** enables a hybrid-type of attack where it attempts ARP, ICMP, and TCP host discovery. If our target host does not have TCP port 80 open, or Nmap’s packets are otherwise dropped on the way to the target (e.g., by a firewall), Nmap considers the host down. We can blindly attempt to query Nmap’s default port list (which is comprised of 1,000 common ports) by telling Nmap to ignore its host discovery options and just do a port scan. Nmap `-Pn option` to port scan.
+- &#128295; ` Nmap` : Nmap **-sn option** enables a **hybrid-type** of attack 
+where it attempts ARP, ICMP, and TCP host discovery. 
+If the target host has TCP port 80 closed, or if packets are dropped by a 
+firewall, Nmap might incorrectly determine the host as being down.
+To work around this, you can skip Nmap’s default host discovery and 
+directly scan its default port list (1,000 common ports) 
+using a blind port scan: 
+`nmap -Pn <target>`
+This forces Nmap to ignore host discovery and proceed with 
+the port scan regardless of the host's response.
+
 - &#128295; ` SuperScan`: Using the TCP/UDP port scan options, you can determine whether a host is alive or not without using ICMP at all. Simply select the checkbox for each protocol you wish to use and the type of technique you desire, and you are off to the races.
 - &#128295; ` nping`: As expected, you can also use nping to perform TCP/UDP host discovery. Since nping is so versatile, its output is more verbose by default, which may be more information than you really need.
 
@@ -121,15 +140,18 @@ A ping sweep is a method that can **establish a range of IP addresses which map 
 
 A: **Techniques**:
 
-- **TCP Connect Scan** - This type of scan connects to the target port and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
-  - Longer than some of the other scan types;
-  - Logged from the target system;
-- **TCP SYN Scan** - Only a SYN packet is sent to the target port. If a SYN/ACK is received from the target port, we can deduce that it is in the LISTENING state; If an RST/ACK is received, it usually indicates that the port is not listening:
-  - Not Logged from the target system;
+- **TCP Connect Scan** - This type of scan connects to the target port 
+and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
+  - **Slower** than other scan types;
+  - **Logged** by the target system;
+- **TCP SYN Scan** - Only a SYN packet is sent to the target port. 
+  - **SYN/ACK** response → Port is LISTENING.
+  - **RST/ACK** response → Port is NOT LISTENING.
+  - **Not Logged** by the target system;
   - This form of scanning can produce a DOS condition on the target by opening a large number of half-open connections;
   - Relatively safe.
 - **TCP FIN Scan** - Sends a FIN packet to the target port:
-  - Based on RFC 793, the target system should send back an RST for all closed ports;
+  - Based on *RFC 793*, the target system should send back an RST for all closed ports;
   - Only works on UNIX-based TCP/IP stacks.
 - **TCP Xmas Tree scan** - This technique sends a FIN, URG, and PUSH packet to the target port:
   - Based on RFC 793, the target system should send back an RST for all closed ports.
@@ -144,7 +166,8 @@ A: **Techniques**:
   - Specific in UNIX systems;
   - Used to detect and identify RPC (Remote Procedure Call) ports, their 	associated program and version number.
 - **UDP Scan** - Sends a UDP packet to the target port:
-  - If the target port responds with an “ICMP port unreachable” message, the port is closed. Otherwise, if you don’t receive an “ICMP port unreachable” message, you can deduce the port is open;
+  - ICMP "Port Unreachable" response → Port is closed.
+  - No response → Port is likely open.
   - Very slow process.
 
 **Tools**:
@@ -173,16 +196,23 @@ A: **Scanning** is equivalent to **inspecting the perimeter** for potential entr
 
 **Enumeration**, on the other hand, involves **digging deeper into the identified entry points** by actively interacting with the system to extract detailed information.
 
-
 The key difference is in the **level of intrusiveness**. Enumeration involves active connections to systems and directed queries. As such, they may be logged or otherwise noticed. In general, the information attackers seek via enumeration includes **user account names** (to inform subsequent password-guessing attacks), **misconfigured shared resources** (for example, unsecured file shares), and **older software versions with known security vulnerabilities** (such as web servers with remote buffer overflows).
 
 Enumeration techniques tend to be platform-specific and are, therefore, heavily dependent on information gathered with scanning (port scans and OS detection). In fact, port scanning and enumeration functionalities are often bundled into the same tool, as you saw with scanning with programs such as SuperScan, which can scan a network for open ports and simultaneously grab banners from any it discovers listening.
 
 **Techniques**:
 
-- &#128163; `Basic Banner Grabbing`: Banner grabbing can be simply defined as **connecting to remote services and observing the output**, and it can be surprisingly informative to remote attackers. At the very least, they may identify the maker and model of the running service, which in many cases is enough to set the vulnerability research process in motion.
+- &#128163; `Basic Banner Grabbing`: Banner grabbing involves 
+**connecting to remote services and observing the output**, 
+to gather information about running services. Attacker may identify the 
+maker and model of the running service, which in many cases is enough 
+to set the vulnerability research process in motion.
 
-  - &#128295; ` Telnet and netcat`: The tried-and-true manual mechanism for enumerating banners and application info has traditionally been based on **telnet**. Using telnet to grab banners is as easy as **opening a telnet connection to a known port on the target server**, pressing ENTER a few times, if necessary, and **seeing what comes back**.
+  - &#128295; ` Telnet and netcat`: The simplest mechanism for 
+  enumerating banners and application info has traditionally been based on 
+  **telnet**. Using telnet to grab banners is as easy as 
+  **opening a telnet connection to a known port on the target server**, 
+  pressing ENTER a few times, if necessary, and **seeing what comes back**.
     For a slightly more surgical probing tool, rely on **netcat**, the *TCP/IP Swiss Army knife*. 
     
     Here, we examine one of its more simplistic uses, connecting to a remote TCP/IP port and enumerating the service banner:
@@ -190,10 +220,16 @@ Enumeration techniques tend to be platform-specific and are, therefore, heavily 
     nc -v www.example.com 80
     ```
 
-  &#9940; ` Countermeasures:` As we’ve already noted, the best defense against banner grabbing is to **shut down unnecessary services**. Alternatively, restrict access to services using **network access control**. You need to research the correct way to disable the presentation of the vendor and version in banners.
-- &#128163; `Enumerating FTP (TCP 21)`: Public FTP sites end up hosting sensitive and potentially embarrassing content. Even worse, many such sites are configured for anonymous access. 
+  &#9940; ` Countermeasures:` 
+  - **Disable unnecessary services** to minimize exposed ports.
+  - **Implement network access control** to restrict access to critical services.
+  - **Obfuscate banners** by removing vendor and version details from the service configuration.
 
-	We can use anonymous and a spurious email-address to authenticate to this anonymous service: 
+- &#128163; `Enumerating FTP (TCP 21)`: FTP servers often inadvertently host sensitive information. 
+Even worse, many public FTP servers allow anonymous access, 
+which attackers can exploit. 
+
+	We can use anonymous and a dummy email-address to authenticate to this anonymous service: 
 	
 	```sh 
 	ftp ftp.example.com
@@ -201,10 +237,14 @@ Enumeration techniques tend to be platform-specific and are, therefore, heavily 
 
 	Also graphical FTP clients are available (such as FileZilla).
 
-  &#9940; ` Countermeasures`: FTP should just be turned off. Always use Secure FTP (SFTP, with SSH encryption) or FTP Secure (FTPS, with SSL) protected by strong password or certificate-based authentication.
-- &#128163; `Enumerating SMTP (TCP 25)`: SMTP provides two built-in commands that allow the enumeration of the users (after a connection with telnet on the port 25, netcat as well):
+  &#9940; ` Countermeasures`: FTP should just be turned off. Always use Secure FTP (SFTP, with SSH encryption) or FTP Secure (FTPS, with SSL) 
+  protected by strong password or certificate-based authentication.
 
-  - `vrfy <mail>` → confirm names of valid users;
+- &#128163; `Enumerating SMTP (TCP 25)`: SMTP provides two built-in 
+commands that allow the enumeration of the users 
+(after a connection with telnet on the port 25, netcat as well):
+
+  - `vrfy <mail>` → verifies if an email address is valid;
   - `expn <mail>` → reveals the actual delivery addresses of aliases and mailing lists.
 
   A tool called `vrfy.pl` can speed up this process.
@@ -213,10 +253,11 @@ Enumeration techniques tend to be platform-specific and are, therefore, heavily 
 
 ### Q: SNMP enumeration, which account you need, countermeasure.
 
-A: The **Simple Network Management Protocol (SNMP)**,  was originally developed for network management and monitoring, providing detailed information about network devices, software, and systems. However, its widespread use and relatively weak security mechanisms make it a common target of hacker attacks.
+A: The **Simple Network Management Protocol (SNMP)**,  was 
+originally developed for network management and monitoring, 
+providing detailed information about network devices, software, and systems. However, its widespread use and relatively weak security mechanisms make it a common target of hacker attacks.
 
 &#128163; `Enumerating SNMP (UDP 161)`: SNMP relies on a basic password system known as the **SNMP community string**. It is like a user ID or password that allows access to the SNMP agent, for example, a router's, firewall’s, or other network device's statistics. Unfortunately, many implementations use well-known default passwords. For example, "public" is a commonly used read-only community string, and attackers often attempt to guess it or intercept it using tools like Wireshark once SNMP is identified during a port scan.
-
 What's more, many vendors extend SNMP's **Management Information Base (MIB)** to include proprietary information; for example, the Microsoft MIB contains the names of Windows user accounts. This means that even if other vulnerable ports (like TCP 139 or 445) are secured, NT systems may still miss out on similar information if you run the SNMP service in the configuration by default (which uses "public" as a community string for reading). 
 
 
@@ -312,31 +353,85 @@ using the so-called "null session" command:
 
 ### Q: Unauthenticated Attacks VS Authenticated Attacks
 
-A: Starting only with the knowledge of the target system gained with scanning and enumeration, **unauthenticated attacks** involves remote exploits to gain some level of access to a Windows system. The primary vectors for compromising Windows system remotely include: 
-- **Authentication spoofing**: The primary gatekeeper of access to Windows systems remains the frail password. Common **brute-force/dictionary password guessing** and **man-in-the-middle** authentication spoofing remain real threats to Windows networks.
+A: **Unauthenticated attacks** are initiated only with the knowledge 
+of the target system gained with 
+scanning and enumeration, without prior access or credentials. 
+The goal is to exploit vulnerabilities to gain a **foothold**.
+
+The primary vectors for compromising Windows system remotely include: 
+- **Authentication spoofing**: Exploits the reliance on password-based 
+authentication. Techniques include **brute-force** or **dictionary attacks** to 
+guess passwords and **man-in-the-middle (MITM)** attacks to intercept or spoof authentication traffic.
 - **Network services**: Modern tools make it easy to penetrate vulnerable services that listen on the network.
 - **Client vulnerabilities**: Client software like Internet Explorer, Outlook, Office, Adobe Acrobat Reader, and others have become frequent targets for attackers who seek to directly access user data.
 - **Device drivers**: Research into device drivers, which handle communication between the operating system and hardware like wireless adapters, USB drives, and CD-ROMs, has revealed new vulnerabilities that attackers can exploit.
 
-Once attackers have obtained access to a user account on a Windows system, their next goal is to escalate privileges to gain full control of the system. **Authenticated attacks** refer to attacks carried out after the attacker has already obtained valid credentials or access. These attacks focus on **exploiting vulnerabilities or misconfigurations to elevate privileges**, such as moving from a regular user to Administrator or SYSTEM-level access, allowing the attacker to execute commands with the highest privileges and potentially take over the entire system.
+Once attackers have obtained access to a user account on a Windows system, 
+their next goal is to escalate privileges to gain full control of the system.
+**Authenticated attacks** refer to attacks carried out after the attacker 
+has already obtained valid credentials or access. 
+These attacks focus on 
+**exploiting vulnerabilities or misconfigurations to elevate privileges**, 
+such as moving from a regular user to Administrator or SYSTEM-level access, 
+allowing the attacker to execute commands with the highest privileges and 
+potentially take over the entire system.
 
 ### Q: What are the three main network password exchange protocols used in Windows systems? Describe the pass-the-hash and pass-the-ticket attacks and countermeasures.
 
 A: The three main network password exchange protocols in windows are the following:
 
-1. **LM (Lan Manager) authentication protocol**: is an outdated network operating system and authentication protocol used by Microsoft for managing and securing local area networks (LANs). It can be exploited due to a weakness in the Windows challenge response implementation that makes it easy to exhaustively guess the original LM hash credential.
-2. **NTLM (New Technology LM)**: It is a challenge/response protocol. The authentication  happens something like this: 
-	First, the client attempts to login and the server responds with a challenge &rarr; in effect the server says, If you are who you say you are, then encrypt this thing (**challenge X**) with your hash &rarr; next, the client encrypts the challenge and sends back the encrypted challenge response &rarr; the server then attempts to decrypt that encrypted challenge response with the user password hash &rarr; if it decrypts to reveal the challenge that it sent, then the user is authenticated.
-1. **Kerberos**: is a secure network authentication protocol that uses **tickets** to allow nodes to communicate over an insecure network. It is commonly used in distributed systems for user and service authentication, with a Key Distribution Center (KDC) managing secret key exchanges. This implementation sends a preauthentication packet that contains a known plaintext (a timestamp) encrypted with a key derived from the user password.
+1. **LM (Lan Manager) authentication protocol**: is an outdated network 
+operating system and authentication protocol used by Microsoft for managing 
+and securing local area networks (LANs). 
+It can be exploited due to a weakness in the Windows challenge response 
+implementation that makes it easy to exhaustively guess the original LM hash credential.
 
-- &#128163; `Pass-the-Hash`: Pass-the-hash is a technique that allows an attacker to authenticate to a remote server using the LM and/or NTLM hash of a user’s password, eliminating the need to crack/brute-force the hashes to obtain the cleartext password (which is normally used to authenticate). In the context of NTLM authentication, Windows password hashes are equivalent to cleartext passwords, so rather than attempting to crack them offline, attackers can simply replay them to gain unauthorized access. 
+2. **NTLM (New Technology LM)**: It is a challenge/response protocol. 
+The authentication  happens something like this: 
+First, the client attempts to login and the server responds with a 
+challenge &rarr; in effect the server says, If you are who you say you are, 
+then encrypt this thing (**challenge X**) with your hash &rarr; next, 
+the client encrypts the challenge and sends back the encrypted challenge 
+response &rarr; the server then attempts to decrypt that encrypted 
+challenge response with the user password hash &rarr; if it decrypts to 
+reveal the challenge that it sent, then the user is authenticated.
+
+3. **Kerberos**: is a secure network authentication protocol that uses 
+**tickets** to allow nodes to communicate over an insecure network. 
+It is commonly used in distributed systems for user and service 
+authentication, with a Key Distribution Center (KDC) managing secret 
+key exchanges. This implementation sends a preauthentication packet 
+that contains a known plaintext (a timestamp) encrypted with a key 
+derived from the user password.
+
+- &#128163; `Pass-the-Hash`: Pass-the-hash is a technique that allows an 
+attacker to authenticate to a remote server using the LM and/or NTLM hash 
+of a user’s password, eliminating the need to crack/brute-force the 
+hashes to obtain the cleartext password (which is normally used to 
+authenticate). In the context of NTLM authentication, Windows 
+password hashes are equivalent to cleartext passwords, so rather 
+than attempting to crack them offline, attackers can simply replay 
+them to gain unauthorized access. 
 
 	In 2000, Hernan Ochoa published techniques for implementing the pass-the-hash technique natively in Windows by modifying at runtime the username, domain name, and password hashes stored in memory. These allow you to pass-the-hash using Windows native applications like Windows Explorer to access remote shares administrative tools like Active Directory Users and Computers, and any other Windows native application that uses NTLM authentication. This technique has become very popular among penetration testers and attackers because it can allow the compromise of the whole Windows domain after compromising a single machine.
 
   &#9940; ` Countermeasures`: The pass-the-hash technique is inherent to the NTLM authentication protocol; all services using this authentication method (SMB, FTP, HTTP, etc.) are vulnerable to this attack. **Using two-factor authentication** might help in some situations, but in most network environments, you will most likely have to live with the possibility of the attack.
-- &#128163; `Pass the Ticket for Kerberos`: When using Kerberos authentication, clients authenticate to remote services on remote systems using “tickets” and create new tickets using the **Ticket Granting Ticket (TGT)** provided by the Key Distribution Center (KDC), which is part of the domain controller, on logon. Similar to how pass-the-hash attacks allow an attacker to replay NTLM password hashes to authenticate on a remote system, an attacker can perform a "Pass the Ticket" attack. After a successful compromise, an attacker can dump existing Kerberos tickets in the following manner (using the Windows Credential Editor): `wce.exe -K`.
 
-  &#9940; ` Countermeasures`: For mitigating Kerberos sniffing attacks, there is no single Registry value to set as with LM.
+- &#128163; `Pass the Ticket for Kerberos`: When using Kerberos 
+authentication, clients authenticate to remote services on remote systems 
+using “tickets” and create new tickets using the 
+**Ticket Granting Ticket (TGT)** provided by the Key Distribution Center 
+(KDC), which is part of the domain controller, on logon. 
+
+  Similar to how pass-the-hash attacks allow an attacker to replay 
+  NTLM password hashes to authenticate on a remote system, an attacker 
+  can perform a "Pass the Ticket" attack: 
+  They can dump existing Kerberos tickets from the 
+  memory of a compromised system using tools like the **Windows Credential Editor** (`wce.exe -K`).
+  The stolen ticket is replayed to authenticate to additional services.
+
+  &#9940; ` Countermeasures`: For mitigating Kerberos sniffing attacks, 
+  there is no single Registry value to set as with LM.
 
 ### Q: Explain what steps attacker should take to cover his tracks after successfully gaining administrator privileges on Windows system in order to avoid detection. Attackers can hide their files in the system?
 
