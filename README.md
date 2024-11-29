@@ -11,6 +11,7 @@ This repository contains my personal Markdown notes collected during my Cybersec
 - **PND** - *Practical Network Defense* 🛡️🌐
 - **MAIF** - *Malware Analysis and Incident Forensics* 🦠🔍
 - **BDL** - *Blockchain and Distributed Ledgers* 📒🔗
+- **RM** - *Risk Management (Legal Risk part)* 📈⚠️
 
 > ⚠️ **Note**: Some mathematical formulas may not display correctly. The issue might be related to the Markdown rendering engine you're using, which may not fully support LaTeX-style math or formulas. Try switching to a different rendering engine or editor!
 
