@@ -11,7 +11,8 @@
 
 ### Q: What is footprinting and which goals does it achieve? Describe the attack steps that should be performed.
 
-A: Footprinting is about **scooping out** your target of interest, understand everything **without sending a single packet** to your target. It enables attackers to create a near complete profile of an organization's security posture.
+A: Footprinting is about **scooping out** your target of interest, understand everything there is to know about that target and how it interrelates
+with everything around it, often **without sending a single packet** to your target. It enables attackers to create a near complete profile of an organization's security posture.
 
 The attack steps are the following:
 
@@ -31,9 +32,9 @@ The attack steps are the following:
     - **Start with the Registry**: Each top-level domain (TLD) like `.com`, `.org`, or `.net`, has an **authoritative Registry** that manages information about which **Registrar** (a company like GoDaddy or Namecheap) is handling that domain. For `.com`, this would be a `.com` Registry.
     - **Find the Registrar**: Once you know which Registrar is managing the domain, you query their WHOIS database. This database contains details about the domain's Registrant you are interested (the person or organization that owns the domain). 
 
-    We refer to these as the *Three Rs* of WHOIS: Registry, Registrar, and Registrant.
+    We refer to these as the *Three Rs* of WHOIS: **Registry**, **Registrar**, and **Registrant**.
 
-    To start your search, you can use ICANN (the Internet Corporation for Assigned Names and Numbers), which is the authoritative source for TLDs. ICANN provides tools to perform manual WHOIS lookups, even from the command line. The results often include details like physical addresses, phone numbers, email addresses, DNS servers, and more.
+    To start your search, you can use **ICANN** (**_Internet Corporation for Assigned Names and Numbers_**), which is the authoritative source for TLDs. ICANN provides tools to perform manual WHOIS lookups, even from the command line. The results often include details like physical addresses, phone numbers, email addresses, DNS servers, and more.
 
     
   **IP-Related Searches**: 
@@ -51,9 +52,10 @@ The attack steps are the following:
 
   &#128163; `Zone transfer`: One of the most serious misconfigurations a system administrator can make is allowing untrusted Internet users to perform a **DNS zone transfer**. A zone transfer is a process where one DNS server (usually a backup or secondary DNS server) requests and receives a complete copy of the DNS records from another (the primary DNS server). This is meant for redundancy and maintaining consistent records across servers.
   
-   Generally, a DNS zone transfer needs to be performed only by **trusted DNS servers** within the same organization. Providing internal IP address information to untrusted user over the Internet is akin to providing a complete blueprint, or roadmap, of an organization’s internal network. A simple way to perform a zone transfer is to use the nslookup (interactive mode) client.
+   Generally, a DNS zone transfer needs to be performed only by **trusted DNS servers** within the same organization. Providing internal IP address information to untrusted user over the Internet is akin to providing a complete blueprint, or roadmap, of an organization’s internal network. A simple way to perform a zone transfer is to use the **nslookup** (interactive mode) client.
 
   - &#128295; `nslookup`: is a network administration command-line tool for querying the Domain Name System (DNS) to obtain the mapping between domain name and IP address, or other DNS records.
+    
     **Usage and Examples**:
     1. **Set record type**: Use `nslookup` in interactive mode to specify record types (e.g., `ANY`) for pulling all DNS records available for a domain: 
 
@@ -63,7 +65,10 @@ The attack steps are the following:
         > <domain>
         ```
     2. **List domain records**: Use the `ls -d <domain>` command to list all the associated records for the domain (for each entry we have an **A record** that denotes the IP address of the system name located to the right). In addition each host has an HINFO record that identifies the platform or type of OS running. We can easily manipulate the results with UNIX programs such as *grep*, *sed*, *awk* to find out some keyword like “Solaris” and “test”.
-  - &#128295; ` Host & Dig:` If there are multiple DNS server, you may be able to find one that will allow zone transfers. Automate the process with tools like host and dig. The `-l option` of host command perform a zone transfer on the domain in input. The dig command is often used to troubleshoot DNS architectures (e.g. `dig axfr <domain> @<DNS_server>
+
+  If there are multiple DNS server, you may be able to find one that will allow zone transfers. Automate the process with tools like **host** and **dig**:
+  - &#128295; ` Host`: The `-l option` of host command perform a zone transfer on the domain in input. 
+  - &#128295; ` dig`: The dig command is often used to troubleshoot DNS architectures (e.g. `dig axfr <domain> @<DNS_server>
 `, axfr command specifies a full zone transfer request). 
   - &#128295; ` dnsrecon:` The best tool for performing zone transfers (with `option -x`). 
   - &#128295; ` fierce 2.0:` If zone transfers fail, **fierce 2.0** can still enumerate DNS entries by brute-forcing subdomains or analyzing DNS responses.
@@ -89,7 +94,7 @@ The attack steps are the following:
 ---
 ## Ch. 2: Scanning
 
-### Q: Describe what is Scanning
+### Q: Describe what is Scanning. 
 A: Scanning is the process of identifying which systems are active and determining what services they are running. It involves two phases: **host discovery**, which checks if a system is online, and **port scanning**, which identifies open ports and the services listening on them. 
 
 ### Q: What are ping sweeps? Describe at least two HOST DISCOVERY techniques, and at least one tool used to perform host discovery.
@@ -97,7 +102,7 @@ A: Scanning is the process of identifying which systems are active and determini
 A: Initially, *pinging* referred to the use of the **ICMP** protocol, 
 but the term has been extended to include **ARP**, **ICMP**, **TCP**, and **UDP**
 traffic to determine if a host is active and connected.
-A ping sweep is a method that can 
+A **ping sweep** is a method that can 
 **establish a range of IP addresses which map to live hosts**.
 
 **Host Discovery techniques**:
@@ -160,8 +165,7 @@ and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
 - **TCP ACK Scan** - Used to map out firewall rule sets:
   - It can help determine if the firewall is a simple packet filter allowing only established connections (connections with the ACK bit set) or a stateful firewall performing advance packet filtering.
 - **TCP Windows Scan**:
-  - May detect open as well as filtered/non filtered ports on some systems (AIX, FreeBSD and so on);
-  - Due to an anomaly in the way the TCP window size is reported.
+  - May detect open as well as filtered/non filtered ports on some systems (AIX, FreeBSD and so on), due to an anomaly in the way the TCP window size is reported.
 - **TCP RPC Scan**:
   - Specific in UNIX systems;
   - Used to detect and identify RPC (Remote Procedure Call) ports, their 	associated program and version number.
@@ -179,7 +183,7 @@ and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
   - `option -f`: **fragment the packet**, against a simple packet filter as primary firewall. Depending on the sophistication of the target network and hosts, the scans performed thus far may have easily been detected;
   - `option -D`: **decoy-scan capabilities**, making it more difficult to discern legitimate port scans from bogus ones. You simply spoof the source address of legitimate servers and intermix these bogus scans with the real port scan.
   - `option -b`: **perform a FTP bounce scanning**. FTP bounce attack is an exploit of the FTP protocol whereby an attacker is able to use the PORT command to request access to ports indirectly through the use of the victim machine as a middle man for the request.
-- &#128295; ` Netcat` (CLI): (Swiss Army knife of security): is an excellent utility that deserves an honorable mention. Netcat’s basic TCP and UDP port-scanning capabilities are useful in some scenarios when you need to **minimize your footprint on a compromised system**. By default, netcat uses TCP ports. Therefore, we must specify:
+- &#128295; ` Netcat` (CLI): (*Swiss Army knife* of security): is an excellent utility that deserves an honorable mention. Netcat’s basic TCP and UDP port-scanning capabilities are useful in some scenarios when you need to **minimize your footprint on a compromised system**. By default, netcat uses TCP ports. Therefore, we must specify:
 	- `option -u`  for UDP scanning; 
 	- `options -v and -vv`  provide verbose and very verbose output, respectively;
 	- `option -z` provides zero mode I/O and it’s used for port scanning;
@@ -257,7 +261,8 @@ A: The **Simple Network Management Protocol (SNMP)**,  was
 originally developed for network management and monitoring, 
 providing detailed information about network devices, software, and systems. However, its widespread use and relatively weak security mechanisms make it a common target of hacker attacks.
 
-&#128163; `Enumerating SNMP (UDP 161)`: SNMP relies on a basic password system known as the **SNMP community string**. It is like a user ID or password that allows access to the SNMP agent, for example, a router's, firewall’s, or other network device's statistics. Unfortunately, many implementations use well-known default passwords. For example, "public" is a commonly used read-only community string, and attackers often attempt to guess it or intercept it using tools like Wireshark once SNMP is identified during a port scan.
+&#128163; `Enumerating SNMP (UDP 161)`: SNMP relies on a basic password system known as the **SNMP community string**. It is like a user ID or password that allows access to the SNMP agent, for example, a router's, firewall’s, or other network device's statistics. Unfortunately, many implementations use **well-known default passwords**. For example, "public" is a commonly used read-only community string, and attackers often attempt to guess it or intercept it using tools like Wireshark once SNMP is identified during a port scan.
+
 What's more, many vendors extend SNMP's **Management Information Base (MIB)** to include proprietary information; for example, the Microsoft MIB contains the names of Windows user accounts. This means that even if other vulnerable ports (like TCP 139 or 445) are secured, NT systems may still miss out on similar information if you run the SNMP service in the configuration by default (which uses "public" as a community string for reading). 
 
 
@@ -291,11 +296,13 @@ Because AD is designed to contain a logical and unified representation of an org
 - &#128295; `ldp.exe`: is Windows LDAP client included in the **Active Directory Administration Tools** which allows users (and attacker) to connect to an 
 AD server and navigate its directory structure. An attacker can then use `ldp.exe` against a host and enumerate 
 all users and groups with an LDAP query. The only prerequisite is to create an authenticated session via LDAP, which means you have already compromised 
-an existing account on the target (have access to valid login credentials). Step-by-Step process:
+an existing account on the target (have access to valid login credentials). 
 
-  1. Connect to the target using ldp. Open Connection &rarr; Connect and enter the IP or DNS destination server name;
-  2. Once connected to the target, authenticate as Guest user (already compromised) and select Links &rarr; Bind and enter the properties of the Guest;
-  3. Once the LDAP session has been established, it can be enumerated: open View &rarr; Tree and enter the root context in the dialog box eg. dc = labfarce, dc = org;
+**Step-by-Step process**:
+
+  1. **Connect to the target** using ldp. `Open Connection` &rarr; `Connect` and **enter the IP or DNS** destination server name;
+  2. Once connected to the target, **authenticate as Guest user** (already compromised) and select `Links` &rarr; `Bind` and enter the properties of the Guest;
+  3. Once the LDAP session has been established, it can be enumerated: open `View` &rarr; `Tree` and enter the root context in the dialog box (*eg. dc = labfarce, dc = org*);
   4. A node appears in the left panel, click the + to reveal the objects under the root of the directory;
   5. Double click on the CN = Users and CN = Builtin containers which reveal all the users e server groups.
 
@@ -310,8 +317,8 @@ from pre-Windows 2000 compatible installations (less secure having this group).
 
 
 ### Q: Describe the technique to enumerate the Microsoft's Server Message Block (SMB) service. What information can be enumerated from the SMB service? Under what assumptions is each of such enumeration possible? Discuss the tools, explain how each of them works, and also the countermeasures for this enumeration attack. Is Microsoft providing a facility to prevent SMB enumeration?
-A: &#128163; `Server Messagge Block Enumeration (TCP 139 and 445)`: Microsoft's **Server Messagge Block (SMB)** protocol forms the basis of
-Windows File and Print Sharing (the Linux implementation of SMB is called Sambe). 
+A: &#128163; `Server Messagge Block Enumeration (TCP 139 and 445)`: Microsoft's **Server Messagge Block (SMB)** protocol forms the **basis of
+Windows File and Print Sharing** (the Linux implementation of SMB is called Sambe). 
 SMB is accessible via API's that can return rich information about Windows, even to unauthenticated users. 
 
 - **Null Sessions**: The first step in enumerating SMB is to connect to the service 
@@ -329,7 +336,7 @@ using the so-called "null session" command:
 
   Called also the “Red Button” vulnerability or anonymous logon, it can be the single most devastating network foothold sought by intruders, as we will vividly demonstrate next. 
 
-- **Enumerating File Shares**: Some of the favorite targets of intruders are mis-ACL’d Windows file shares. With a null session established, we can enumerate the names of file shares quite easily using a number of techniques. For example, the built-in Windows net view command can be used to enumerate shares on remote systems:
+- **Enumerating File Shares**: Some of the favorite targets of intruders are mis-ACL’d Windows file shares. With a null session established, we can **enumerate the names of file shares** quite easily using a number of techniques. For example, the built-in **Windows net view command** can be used to enumerate shares on remote systems:
 
   ```sh
   net view \\vito 
@@ -342,10 +349,12 @@ using the so-called "null session" command:
 
   Opening null connections and using the preceding tools manually is great for
   directed attacks, but most hackers commonly employ a NetBIOS scanner to check
-  entire networks rapidly for exposed shares. Two tools that perform these tasks are:
+  entire networks rapidly for exposed shares. Some tools that perform these tasks are:
   - &#128295; `SysInternals’s` (acquired by Microsoft)
   - &#128295; `ShareEnum`: it has fewer configurable options, but, by default, it provides a good amount of information and has nice comparison features that may be useful for comparing results over time.
-  - &#128295; `SoftPerfect’s Network Scanner`:  it is a bit more diverse but requires some minimal configuration beyond the default
+  - &#128295; `SoftPerfect’s Network Scanner`: it is a bit more diverse but requires some minimal configuration beyond the default
+
+
   Another popular Windows share scanner is:  
   - &#128295; `NetBIOS Auditing Tool (NAT)`: NAT not only finds shares but also attempts forced entry utilizing user-defined username and password lists.
 ---
@@ -368,6 +377,7 @@ guess passwords and **man-in-the-middle (MITM)** attacks to intercept or spoof a
 
 Once attackers have obtained access to a user account on a Windows system, 
 their next goal is to escalate privileges to gain full control of the system.
+
 **Authenticated attacks** refer to attacks carried out after the attacker 
 has already obtained valid credentials or access. 
 These attacks focus on 
@@ -376,7 +386,7 @@ such as moving from a regular user to Administrator or SYSTEM-level access,
 allowing the attacker to execute commands with the highest privileges and 
 potentially take over the entire system.
 
-### Q: What are the three main network password exchange protocols used in Windows systems? Describe the pass-the-hash and pass-the-ticket attacks and countermeasures.
+### Q: What are the three main network password exchange protocols used in Windows systems? Describe the pass-the-hash and pass-the-ticket attacks and countermeasures (Unauthenticated attacks). 
 
 A: The three main network password exchange protocols in windows are the following:
 
@@ -433,41 +443,69 @@ using “tickets” and create new tickets using the
   &#9940; ` Countermeasures`: For mitigating Kerberos sniffing attacks, 
   there is no single Registry value to set as with LM.
 
-### Q: Explain what steps attacker should take to cover his tracks after successfully gaining administrator privileges on Windows system in order to avoid detection. Attackers can hide their files in the system?
+### Q: Explain what steps attacker should take to cover his tracks after successfully gaining administrator privileges on Windows system in order to avoid detection. Attackers can hide their files in the system? (Covering Tracks)
 
-A: Once intruders have successfully gained Administrator- or SYSTEM-equivalent privileges on a system, they will take pains to avoid further detection of their presence:
+A: Once intruders have successfully gained high-level privileges on a Windows system, their goal is to avoid further detection of their presence.  Here are common methods attackers use to evade detection:
 
-- **Disabling Auditing**: Because auditing can slow performance on active servers most Windows admins either don’t enable auditing or enable only a few checks. The first thing intruders check on gaining Administrator privilege is the Audit policy status on the target.  Use `auditpol` command with the `disable` argument to turn off the auditing on a remote system. At the end of their stay, the intruders simply turn on auditing again using the `auditpol/enable` switch.
-	> Note: **Auditing** is the process of tracking and recording activities and events on a system, such as logins, file access, system changes, and network activity. It is used to monitor user actions and detect unauthorized access or anomalies for security and compliance purposes.
-- **Clearing the Event Log**: If activities leading to Administrator status have already left telltale traces in the Windows Event Log, intruders may just **wipe the logs clean with the Event Viewer**. Event Viewer on the attacker’s host can open, read and clear the remote host’s logs. This process clears the log of all records but it does leave one new record stating that the Event Log has been cleared by the attacker (can raise alarms among system users).
+- **Disabling Auditing**: Auditing tracks activities like logins, file access, system changes, and network activity. It is used to monitor user actions and detect unauthorized access or anomalies for security and compliance purposes. Disabling auditing makes it harder for system administrators to detect malicious actions.
+  
+  The first thing intruders check on gaining Administrator privilege is the Audit policy status on the target.  Use &#128295; `auditpol` command with the `disable` argument to turn off the auditing on a remote system. At the end of their stay, the intruders simply turn on auditing again using the `auditpol/enable` switch.
+	 
+- **Clearing the Event Log**: Intruders may **clear the logs** that show evidence of their activities, such as successful privilege escalation or suspicious network traffic. Event Viewer on the attacker’s host can open, read and clear the remote host’s logs. This process clears the log of all records but it does leave one new record stating that the Event Log has been cleared by the attacker (can raise alarms among system users).
 
   - &#128295; ` ELSave utility`: it is a simple tool for clearing the Event Log.
     Syntax to clear the Security Log on the remote server ‘joel’:
     ```sh
     elsave -s \\joel -l “Security” -C
     ```
+
 - **Hiding Files**: Keeping a toolkit on the target system for later use is a great time-saver for the next attack.
 
-  - &#128295; ` attrib`: Hiding files gets no simpler than copying files to a directory and using the old *DOS attrib tool* to hide it:
+  - &#128295; `attrib`: Hiding files gets no simpler than copying files to a directory and using the old *DOS attrib tool* to hide it:
     - `attrib +h [directory]`: hides files and directories from command-line tools, but not if the ‘*Show All Files*’ is selected in Windows.
-  - &#128295; ` ADS (Alternate Data Streams)`: If the target systems runs the NTFS (**New Technology File System**, a file system developed by Microsoft that supports advanced features like security, compression, and Alternate Data Streams), an alternate  file-hiding technique is available to intruders. NTFS offers support for multiple streams of information within a file (a mechanism to add additional attributes or information to a file without restructuring the file system). It’s also used to hide a malicious hacker’s toolkit (called adminkit). Any file could be used.
-- **Rootkits**: However, more insidious techniques are beginning to come into vogue, especially the use of Windows rootkits. A rootkit is a **collection of computer software, typically malicious**, designed to enable access to a computer or an area of its software that is not otherwise allowed (for example, to an unauthorized user) and often masks its existence or the existence of other software.
+  - &#128295; ` ADS (Alternate Data Streams)`: NTFS (**New Technology File System**) is a file system developed by Microsoft that supports advanced features like security, compression, and Alternate Data Streams. If the target systems runs it, an alternate file-hiding technique is available to intruders. 
+    NTFS offers support for multiple streams of information within a file (a mechanism to add additional attributes or information to a file without restructuring the file system). It’s also used to hide a malicious hacker’s toolkit (called adminkit). Any file could be used.
+
+- **Rootkits**: A rootkit is a **collection of computer software, typically malicious**, designed to enable access to a computer or an area of its software that is not otherwise allowed (for example, to an unauthorized user) and often masks its existence or the existence of other software.
 
 
 ### Q: Describe at least three Windows security features available with Windows 2000 and above. Are there published attacks that bypass these three features? P.S: The presentations of Windows Firewall and Automated Updates will not be evaluated.
 
 A: Windows provides many security tools and features: 
+
 -  **Security Center**: Windows Security Center is a consolidated viewing and configuration point for key system security features: Windows Firewall, Windows Update, Antivirus (if installed), and Internet Options.
-- **BitLocker & Encrypting File System**: **EFS** is a public key cryptographic system to transparently encrypt in real time so that attackers cannot attack without the right key. It does using a randomly generated key  that is itself encrypted with one or more public keys and to avoid losing encrypted data Windows has created a system of associated data recovery. EFS does not apply to multiple users on the same machine who want to protect files from the other files, in this case we need the ACLs of NTFS. The **main vulnerability of EFS is the recovery agent account** as the password local administrator can be easily reset using tools that they work when the system is started with a different operating system (ex. `chntpw`).
+
+- **BitLocker & Encrypting File System (EFS)**: **EFS** is a public key-based cryptographic system used to encrypt files on a local system. It ensures that files remain protected from unauthorized access, with encryption done in real-time. It encrypts a file using a random key that is itself encrypted with a user’s public key.
+EFS does not apply to multiple users on the same machine who want to protect files from the other files, in this case we need the ACLs of NTFS. 
+
+  The **main vulnerability of EFS lies in the recovery agent account**. The password for the local administrator can be easily reset using tools that they work when the system is started with a different operating system (ex. `chntpw`).
+  
   **BitLocker Drive Encryption** (from Vista onwards) instead, initially meant to provide security on the integrity of the OS, now it serves to protect against attacks like the technique previously mentioned for EFS. BDE **encrypts entire volumes of memory** and saves the key in multiple ways, difficult to compromise since changing OS  doesn't help. But also BDE is **vulnerable to cold boot attacks**, which consist in cooling the DRAM to increase the time before the OS loaded in memory is cleaned of DRAM, and get a system image from which the BDE encryption key could be extracted.
 
   &#9940; ` Countermeasures`: It is impossible to protect keys in scenarios where the attacker physically possesses them. The only possible mitigation is to physically separate the key from the system it must protect. Shutting down the BDE protected system removes the keys from memory making them unreachable to these attacks. It goes without saying that removable external hardware physically containing the key mitigates the attack.
-- **Windows Resource Protection**: WFP initially tried to prevent OS critics from being altered, It later became WRP and moved the location to `%Windir%\WinSxS\Backup` and changed protection mechanisms that now rely on ACLs (protecting actively system) instead of a System File Protection thread. With WRP not even the Administrator can change the protected resources. By default only these things can overcome its protection: Windows Update Installer, Service Packs, Hot fixes and Operating system upgrades all installed by TrustedInstaller. The **vulnerability of WRP is that Administrator can change ACLs on protected resources**, and administrators can access resources protected by WRP. Directors at this point can modify the privileges on the resources. The purpose of WRP is to prevent changes to protected resources by third party installers who want to compromise the OS, not prevent the action of imprudent administrators.
-- **Integrity Levels, UAC and PMIE**: With Vista, Microsoft implements an extension of the discretionary access control system with the intent to implement mandatory access control in certain situations calling it **Mandatory Integrity Control (MIC)**. MIC to work implements 4 principles called **Integrity Levels (IL)** (low, medium, high, system) which they can be added to access tokens and ACLs and function like SIDs. MIC is based on the **Biba Integrity Model** (no write up, no read down) which protects the integrity, and matches if the IL of the applicant's access token matches the IL of the resource required and substantially underpins the new defense capabilities of Vista: **User Access Control (UAC)** and **Protected Mode Internet Explorer (PMIE)**.
 
-  - &#128295; ` UAC`: It gets one type of access control: only specific applications that can be started with elevated privileges. It works like this: Developers embed to applications a manifest to understand if it has elevated privileges (in practice it switches to high IL). Modified LSA to have 2 tokens (filtered and linked) at login for Administrators, filtered does not have elevated permissions (a default application runs with the filtered token), linked instead is used on applications with the manifest for high privileges. Finally, prompt if the user wants to launch the program, he is prompted for credentials if the user is not admin. All non-administrative user processes run at a medium integrity level for default when a process has been elevated with UAC it runs at the level of high integrity and can access objects of that level so it is mandatory to have the high-level privileges to access certain objects.
-  - &#128295; ` PMIE`: `iexplore.exe` runs at low IL by default, being able to write only on the `%USERPROFILE%\AppData\LocalLow` folder and registry key `HKCU\Software\AppDataLow`, so it cannot write to another system object by default and this greatly limits the damage that could be done if the process was compromised on its own by malware while the user browses the Internet.
-- **Data Execution Prevention (DEP)**: To prevent attacks that exploit writing to some executable areas of memory by injecting malicious code (buffer overflows) it was thought to make the Stack not executable. Buffer overflow is based on injecting malicious code into portions of executable memory like the CPU stack or heap, so if you make the stack non-executable, this solves the exploit. DEP (Data Execution Prevention) was born for this purpose and has both SW and HW components to prevent this type of attack.
+- **Windows Resource Protection**: Originally called Windows File Protection (WFP), it was later updated to include critical Registry values in addition to system files and renamed **Windows Resource Protection (WRP)**. WRP stores copies of essential system files in `%Windir%\WinSxS\Backup`. Its protection mechanisms rely on Access Control Lists (ACLs), which actively protect system resources.
+
+  With WRP, even administrators cannot change the protected resources by default. Only specific processes can override its protection, including the Windows Update Installer, Service Packs, Hotfixes, and Operating System upgrades, all of which are installed by the TrustedInstaller account.
+
+  The **vulnerability of WRP** lies in the fact that administrators can change the ACLs on protected resources, allowing them to access and modify the protected files. Administrators can, therefore, alter the privileges on these resources.
+
+  The purpose of WRP is to prevent unauthorized changes to protected resources by third-party installers or malicious software, not to prevent administrators from performing legitimate actions on the system.
+
+- **Integrity Levels, UAC and PMIE**: With Vista, Microsoft implements **Mandatory Integrity Control (MIC)**, an extension of the discretionary access control system, designed to implement a form of mandatory access control (MAC). MIC to work implements 4 principles called **Integrity Levels (IL)** (low, medium, high, system). These levels prevent a process from reading or writing to a resource with a higher integrity level (called "no write up, no read down" based on the Biba Integrity Model) protecting the integrity. This means, for example, that a process with Medium IL cannot modify resources with High IL privileges, and a High IL process cannot access or change System IL resources.
+
+  MIC isn’t directly visible, but rather provides the basis for several important security features introduced in Vista and later versions, such as **User Access Control (UAC)** and **Protected Mode Internet Explorer (PMIE)**.
+
+  - &#128295; ` UAC`: It controls which specific applications can be run with elevated privileges. It works like this: developers embed to applications a manifest to specify if they require higher privileges (in practice it switches to high IL). 
+
+    When an administrator logs in, the system assigns two tokens: a **filtered token** (for regular applications with no elevated privileges) 
+    and a **linked token** (for applications that need higher privileges). 
+    If a non-admin user tries to run a program that needs elevated privileges, they are prompted for administrator credentials.
+    By default, non-admin processes run at a medium IL, but when elevated through UAC, they run at a high IL, giving them access to resources that require those privileges.
+
+  - &#128295; ` PMIE`: Internet Explorer (`iexplore.exe`) runs at low IL by default, being able to write only on the `%USERPROFILE%\AppData\LocalLow` folder and registry key `HKCU\Software\AppDataLow`. This reduces the risk of malware causing damage while the user is browsing, as it can't write to other critical system areas.
+
+- **Data Execution Prevention (DEP)**:  DEP is a security feature designed to protect against attacks like buffer overflows, where malicious code is injected into executable areas of memory (such as the CPU stack or heap). By **marking certain areas of memory as non-executable**, DEP prevents code from running in those areas. This helps stop attacks that rely on injecting malicious code into memory. DEP uses both software and hardware components to enforce these protections, blocking this type of attack.
 
 ---
 ## Ch. 5: Hacking UNIX

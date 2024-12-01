@@ -164,8 +164,12 @@ La **pena pecuniaria** è una sanzione di tipo economico che consiste nell'obbli
 In sintesi, la pena pecuniaria è una forma di punizione economica che implica il pagamento di una somma di denaro da parte della persona condannata per il reato commesso.
 
 
-### Norma
-Un articolo della legge **non è una norma**, ma un **enunciato linguistico** (frase avente senso compiuto). Ques'tultimo acquista significato tramite l'**interptretazione** (che può essere dottrinale, della cassazione, teleologica ecc.) e diventa una **Norma**, ovvero, un **enunciato interpretato**. 
+### Q: Norma
+A: Un articolo della legge **non è una norma**, ma un **enunciato linguistico** 
+(frase avente senso compiuto). Ques'tultimo acquista significato tramite 
+l'**interptretazione** (che può essere dottrinale, della cassazione, 
+teleologica ecc.) e diventa una **Norma**, ovvero, un 
+**enunciato interpretato**. 
  
 ### Legge omeostatica
 
@@ -205,7 +209,11 @@ L'elemento centrale delle cause di giustificazione è che, se sussistono, **puli
 
 ### Querela
 
+
+
 ### Incidente probatorio e in generale indagini preliminari
+
+
 
 ### Q: Metadati
 
@@ -247,16 +255,64 @@ Il termine **"meta"** significa "dopo" o "oltre". Di conseguenza, i metadati son
   Le **VPN** (Virtual Private Networks) e lo **Metadata Encoding and Transmission Standard (METS)** sono esempi di tecnologie che utilizzano i metadati per ottimizzare la gestione dei dati. METS, basato su XML, è un formato per la codifica e la conservazione dei metadati, che consente di creare strutture gerarchiche di dati, registrando file, oggetti e le loro relazioni.
 
 - **Dati di Riferimento**:
-  I metadati possono essere utilizzati per riferire a un altro dato attraverso **link**. Questi dati di riferimento, che possono essere esplicitamente menzionati o impliciti, permettono di connettere insieme informazioni correlate.
+  I metadati possono essere utilizzati per riferire a un altro dato attraverso **link**. 
+  Questi dati di riferimento, che possono essere esplicitamente menzionati o impliciti, permettono di connettere insieme informazioni correlate.
 
 
 
 ### Diligenza (buon padre di famiglia)
 
-### Indagato e imputato
+
+### Q: Indagato e imputato
+A: 
+- **Indagato**: è la persona nei cui confronti il pubblico ministero o la polizia giudiziaria sta conducendo un'indagine preliminare perché sospettata di aver commesso un reato. L'indagato si trova nella fase iniziale del procedimento penale, chiamata **fase delle indagini preliminari**. Esso ha diritto di essere informato delle accuse a suo carico e può partecipare agli atti investigativi e proporre mezzi di difesa.
+
+   L'indagato può diventare imputato se il pubblico ministero, al termine delle indagini, ritiene che ci siano sufficienti elementi per sostenere l'accusa in giudizio.
+
+- **Imputato**: è la persona formalmente accusata di un reato e sottoposta a processo penale. L'imputato si trova nella **fase processuale**, ovvero quando il giudice valuta le prove e decide sulla colpevolezza o innocenza.
+Esso ha diritto a un processo equo e alla presunzione di innocenza fino a sentenza definitiva e può presentare prove e difendersi durante il processo.
+
+   L'imputato può essere assolto (se non si prova la colpevolezza) o condannato (se le prove dimostrano la sua responsabilità penale).
+
+#### **Tabella Comparativa**
+
+| Aspetto                  | Indagato                                    | Imputato                                   |
+|--------------------------|---------------------------------------------|-------------------------------------------|
+| **Fase del Procedimento** | Indagini preliminari                        | Processo penale                            |
+| **Accusa Formale**        | Non ancora formulata in modo definitivo     | Formalizzata con l'atto di accusa          |
+| **Ruolo del Giudice**     | Nessun giudizio ancora avviato              | In corso di giudizio                       |
+| **Evoluzione**            | Può diventare imputato o vedere archiviato il caso | Può essere assolto o condannato             |
+
+#### Sintesi
+La differenza fondamentale tra **indagato** e **imputato** è legata alla fase del procedimento penale: l'indagato si trova nella fase preliminare, mentre l'imputato è la persona accusata che affronta il processo penale.
+
+
 
 ### Fatto tipico del reato
 
 ### Circostanze aggravanti comuni
 
 ### Dolo eventuale
+A: Il **dolo eventuale** si verifica quando un soggetto, pur non avendo come scopo principale il verificarsi di un determinato evento illecito, **accetta consapevolmente il rischio** che tale evento si realizzi come conseguenza della propria condotta. In altre parole, il soggetto non vuole direttamente il risultato, ma è disposto ad accettarlo come possibile conseguenza del proprio agire.
+
+#### **Caratteristiche**
+- **Conoscenza del rischio**: Il soggetto è consapevole della possibilità che la sua azione possa provocare l'evento illecito.
+- **Accettazione del rischio**: Il soggetto accetta, anche tacitamente, il rischio del verificarsi dell'evento.
+- **Differenza con la colpa con previsione**:
+  - Nel dolo eventuale, l'accettazione del rischio è volontaria.
+  - Nella colpa con previsione, il soggetto prevede il rischio ma confida che l'evento non si verifichi.
+
+#### **Esempio**
+Un automobilista guida ad alta velocità in una zona pedonale, consapevole del rischio di investire qualcuno. Non ha l'intenzione diretta di ferire i pedoni, ma accetta la possibilità che ciò accada. Se investe una persona, la sua responsabilità penale sarà valutata alla luce del dolo eventuale.
+
+#### **Differenze con altri tipi di dolo**
+1. **Dolo diretto**: L'evento illecito è voluto come scopo primario dell'azione.
+2. **Dolo indiretto**: L'evento illecito è previsto come effetto secondario, ma inevitabile, dell'azione.
+3. **Dolo eventuale**: L'evento illecito è previsto come possibile conseguenza e accettato.
+
+#### **Rilevanza Penale**
+Il dolo eventuale ha lo stesso peso giuridico del dolo diretto o indiretto. La sua configurazione può incidere sulla qualificazione del reato e sulla gravità della pena, in quanto implica un atteggiamento psicologico del soggetto che accetta il rischio della lesione di un bene giuridico.
+
+#### **Articoli di Riferimento**
+- **Codice Penale Italiano**: Articolo 43 c.p. (dolo, colpa, preterintenzione).
+
