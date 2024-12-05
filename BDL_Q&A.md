@@ -1,5 +1,5 @@
 # Blockchain and Distributed Ledgers Questions & Answers 📒🔗
---- 
+---
 
 ## Bitcoin Fundamentals Quiz
 
@@ -29,7 +29,7 @@ We have a hash pointer, so any alteration to the blockchain — whether it invol
 
 ### Q: Which of these keys are required for veryfing a signature?
 - The secret key ❌
-- The public key ✅
+- **The public key** ✅
 - Both the secret key and the public key ❌
 - None. Keys are required only for signing; anyone can verify the signature without a key ❌
 
@@ -39,7 +39,7 @@ To verify a signature, you need the public key of the signer. The private (secre
 
 ### Q: If you generate numerous identities (public keys) for yourself and interact online using those different identities:
 
-- It is essential to have a good source of randomness. Otherwise adversaries might be able to deduce your secret key and take control of your identities ✅
+- **It is essential to have a good source of randomness. Otherwise adversaries might be able to deduce your secret key and take control of your identities** ✅
 - Adversaries may be able to link your identities because public keys generated on the same computer tend to look similar ❌
 - Adversaries may be able to de-anonymize you by analyzing your activity patterns ✅
 
@@ -51,16 +51,16 @@ Additionally, adversaries may de-anonymize you by analyzing your activity patter
 
 ### Q: Alice and Bob use ScroogeCoin. Alice owns ten coins, each under a different address (public key) and each of value 3.0. She would like to transfer coins of value 5.0 to Bob. Recall that the PayCoins transaction consumes (and destroys) some coins, and creates new coins of the same total value. Alice’s transfer will require, at a minimum:
 - One PayCoins transaction, one new coin created, and one signature ❌ 
-- One PayCoins transaction, two new coins created, and two signatures ✅
+- **One PayCoins transaction, two new coins created, and two signatures** ✅
 - Two PayCoins transaction, two new coins created, and four signatures ❌
 - Two PayCoins transactions, one new coin created, and two signatures ❌
 
 
 ### Q: Which of these factors make distributed consensus hard?
-- Nodes may crash ✅
-- Nodes may be taken over by malware ✅
+- **Nodes may crash** ✅
+- **Nodes may be taken over by malware** ✅
 - Encrypted messages may be intercepted and decrypted ❌
-- There is latency on the network ✅
+- **There is latency on the network** ✅
 
 #### Explanation: 
 Crashing nodes is one of the main problem, because the network cannot determine the status of a crashed node. 
@@ -231,7 +231,7 @@ Those properties define a general hash function while a _​cryptographic
 properties: (1) **collision‐resistance**, (2) **hiding**, (3)  **puzzle‐friendliness**: 
 1. **Collision-resistance**: A collision occurs when two distinct inputs produce the same output. A hash function ​H(.) ​is collision‐resistant if nobody can find a collision. Formally:
 
-    > ​A hash function ​H ​is said to be collision resistant if it is infeasible to find​​ two values, ​x ​and ​y​, such that ​x​≠​​y​, yet ​H(x)​=​H(y)​.
+    > A hash function ​H ​is said to be collision resistant if it is infeasible to find​​ two values, ​x ​and ​y​, such that ​x​≠​​y​, yet ​H(x)​=​H(y)​.
 
     _Nobody can find a collision_ but the _the collision actually exist_. The input space to the hash function contains all strings of all lengths yet the output space contains only strings of a specific fixed length. Because the input space is larger than the output space (indeed, the 
     input space is infinite, while the output space is finite) there must be input strings that map to the same output string.
